@@ -1,0 +1,7 @@
+config.tx_extbase {
+    command_bus {
+        middleware {
+            Ssch\T3Tactician\Middleware\LoggingMiddleware = Ssch\T3Tactician\Middleware\LoggingMiddleware
+        }
+    }
+}
