@@ -1,0 +1,66 @@
+{
+  "name": "ssch/t3-tactician",
+  "type": "typo3-cms-extension",
+  "description": "Wrapper for tactician",
+  "version": "2.0.0",
+  "license": "GPL-2.0+",
+  "homepage": "http://www.schreibersebastian.de",
+  "keywords": [
+    "tactician",
+    "commandbus"
+  ],
+  "authors": [
+    {
+      "name": "Sebastian Schreiber",
+      "email": "breakpoint@schreibersebastian.de",
+      "role": "Developer",
+      "homepage": "http://www.schreibersebastian.de"
+    }
+  ],
+  "require": {
+    "typo3/cms-core": "^8.7.13|| ^9.5.0",
+    "league/tactician": "^1.0"
+  },
+  "require-dev": {
+    "friendsofphp/php-cs-fixer": "^2.0",
+    "nimut/testing-framework": "^1.0 || ^2.0 || ^3.0 || ^4.0"
+  },
+  "replace": {
+    "t3_tactician": "self.version",
+    "typo3-ter/t3-tactician": "self.version"
+  },
+  "autoload": {
+    "psr-4": {
+      "Ssch\\T3Tactician\\": "Classes"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Ssch\\T3Tactician\\Tests\\": "Tests"
+    }
+  },
+  "config": {
+    "vendor-dir": ".Build/vendor",
+    "bin-dir": ".Build/bin",
+    "preferred-install": {
+      "typo3/cms": "source",
+      "typo3/cms-core": "source",
+      "*": "dist"
+    }
+  },
+  "scripts": {
+    "post-autoload-dump": [
+      "mkdir -p .Build/Web/typo3conf/ext/",
+      "[ -L .Build/Web/typo3conf/ext/t3_tactician ] || ln -snvf ../../../../. .Build/Web/typo3conf/ext/t3_tactician"
+    ]
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.0.x-dev"
+    },
+    "typo3/cms": {
+      "cms-package-dir": "{$vendor-dir}/typo3/cms",
+      "web-dir": ".Build/Web"
+    }
+  }
+}
