@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Ssch\T3Tactician\Command;
 
@@ -18,5 +18,4 @@ namespace Ssch\T3Tactician\Command;
 
 final class DummyCommand
 {
-
 }

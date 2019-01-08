@@ -1,6 +1,5 @@
 <?php
-declare(strict_types=1);
-
+declare(strict_types = 1);
 
 namespace Ssch\T3Tactician\MethodNameInflector;
 
@@ -21,14 +20,12 @@ use League\Tactician\Handler\MethodNameInflector\HandleInflector;
 
 final class MethodNameInflector implements MethodNameInflectorInterface
 {
-
     private $inflector;
 
     public function __construct(HandleInflector $inflector)
     {
         $this->inflector = $inflector;
     }
-
 
     /**
      * Return the method name to call on the command handler and return it.

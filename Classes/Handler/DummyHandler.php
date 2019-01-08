@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+declare(strict_types = 1);
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -16,13 +16,9 @@ declare(strict_types=1);
 
 namespace Ssch\T3Tactician\Handler;
 
-
 final class DummyHandler
 {
-
     public function handle($command)
     {
-
     }
-
 }

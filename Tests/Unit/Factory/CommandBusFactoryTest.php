@@ -22,10 +22,8 @@ use Ssch\T3Tactician\Middleware\MiddlewareHandlerResolver;
 
 class CommandBusFactoryTest extends UnitTestCase
 {
-
     protected $subject;
     private $middlewareHandlerResolverMock;
-
 
     protected function setUp()
     {
@@ -41,5 +39,4 @@ class CommandBusFactoryTest extends UnitTestCase
         $this->middlewareHandlerResolverMock->method('resolveMiddlewareHandler')->willReturn([]);
         $this->assertInstanceOf(CommandBus::class, $this->subject->create());
     }
-
 }

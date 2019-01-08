@@ -20,5 +20,4 @@ use League\Tactician\Handler\Locator\HandlerLocator;
 
 interface HandlerLocatorInterface extends HandlerLocator
 {
-
 }

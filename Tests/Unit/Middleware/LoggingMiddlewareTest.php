@@ -23,7 +23,6 @@ use TYPO3\CMS\Core\Log\LogManagerInterface;
 
 class LoggingMiddlewareTest extends UnitTestCase
 {
-
     protected $subject;
 
     private $loggerMock;
@@ -67,5 +66,4 @@ class LoggingMiddlewareTest extends UnitTestCase
         $this->loggerMock->expects($this->exactly(2))->method('info');
         $this->subject->execute($command, $nextClosure);
     }
-
 }

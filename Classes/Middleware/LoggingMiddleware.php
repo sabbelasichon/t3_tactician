@@ -1,6 +1,5 @@
 <?php
-declare(strict_types=1);
-
+declare(strict_types = 1);
 
 namespace Ssch\T3Tactician\Middleware;
 
@@ -22,7 +21,6 @@ use TYPO3\CMS\Core\Log\LogManagerInterface;
 
 final class LoggingMiddleware implements Middleware
 {
-
     private $logger;
 
     public function __construct(LogManagerInterface $logManager)
@@ -40,6 +38,4 @@ final class LoggingMiddleware implements Middleware
 
         return $returnValue;
     }
-
-
 }

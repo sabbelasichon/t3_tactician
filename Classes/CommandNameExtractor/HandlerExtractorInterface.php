@@ -20,5 +20,4 @@ use League\Tactician\Handler\CommandNameExtractor\CommandNameExtractor;
 
 interface HandlerExtractorInterface extends CommandNameExtractor
 {
-
 }

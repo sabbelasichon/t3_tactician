@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Ssch\T3Tactician\CommandNameExtractor;
 
@@ -21,14 +21,12 @@ use League\Tactician\Handler\CommandNameExtractor\ClassNameExtractor;
 
 final class HandlerExtractor implements HandlerExtractorInterface
 {
-
     private $extractor;
 
     public function __construct(ClassNameExtractor $extractor)
     {
         $this->extractor = $extractor;
     }
-
 
     /**
      * Extract the name from a command

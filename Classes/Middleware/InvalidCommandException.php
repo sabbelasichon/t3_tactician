@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+declare(strict_types = 1);
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -16,13 +16,11 @@ declare(strict_types=1);
 
 namespace Ssch\T3Tactician\Middleware;
 
-
 use League\Tactician\Exception\Exception;
 use TYPO3\CMS\Extbase\Error\Result;
 
 final class InvalidCommandException extends \Exception implements Exception
 {
-
     protected $command;
 
     protected $result;
@@ -30,8 +28,8 @@ final class InvalidCommandException extends \Exception implements Exception
     public static function onCommand($command, Result $result): self
     {
         $exception = new static(
-            'Validation failed for '.\get_class($command).
-            ' with '.\count($result->getErrors()).' violation(s).'
+            'Validation failed for ' . \get_class($command) .
+            ' with ' . \count($result->getErrors()) . ' violation(s).'
         );
         $exception->command = $command;
         $exception->result = $result;
@@ -48,5 +46,4 @@ final class InvalidCommandException extends \Exception implements Exception
     {
         return $this->result;
     }
-
 }

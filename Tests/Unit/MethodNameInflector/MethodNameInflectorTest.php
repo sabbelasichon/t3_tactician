@@ -23,10 +23,8 @@ use Ssch\T3Tactician\Tests\Unit\Fixtures\Handler\AddTaskHandler;
 
 class MethodNameInflectorTest extends UnitTestCase
 {
-
     protected $subject;
     protected $handleClassNameInflector;
-
 
     protected function setUp()
     {

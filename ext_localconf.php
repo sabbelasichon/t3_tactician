@@ -1,7 +1,6 @@
 <?php
 
 $boot = function () {
-
 };
 
 $boot();

@@ -20,14 +20,13 @@ use Nimut\TestingFramework\TestCase\UnitTestCase;
 use Ssch\T3Tactician\CommandNameExtractor\HandlerExtractorInterface;
 use Ssch\T3Tactician\HandlerLocator\HandlerLocatorInterface;
 use Ssch\T3Tactician\MethodNameInflector\MethodNameInflectorInterface;
+use Ssch\T3Tactician\Middleware\LoggingMiddleware;
 use Ssch\T3Tactician\Middleware\MiddlewareHandlerResolver;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
-use Ssch\T3Tactician\Middleware\LoggingMiddleware;
 
 class MiddlewareHandlerResolverTest extends UnitTestCase
 {
-
     protected $subject;
     protected $objectManager;
     protected $configurationManager;
@@ -92,6 +91,4 @@ class MiddlewareHandlerResolverTest extends UnitTestCase
         $middleware = $this->subject->resolveMiddlewareHandler();
         $this->assertCount(2, $middleware);
     }
-
-
 }

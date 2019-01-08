@@ -1,6 +1,5 @@
 <?php
-declare(strict_types=1);
-
+declare(strict_types = 1);
 
 namespace Ssch\T3Tactician\Tests\Unit\Fixtures\Handler;
 
@@ -19,10 +18,7 @@ namespace Ssch\T3Tactician\Tests\Unit\Fixtures\Handler;
 
 final class AddTaskHandler
 {
-
     public function handle($command)
     {
-        
     }
-    
 }

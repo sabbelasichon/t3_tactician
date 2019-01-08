@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+declare(strict_types = 1);
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -16,7 +16,6 @@ declare(strict_types=1);
 
 namespace Ssch\T3Tactician\Middleware;
 
-
 use League\Tactician\Handler\CommandHandlerMiddleware;
 use Ssch\T3Tactician\CommandNameExtractor\HandlerExtractorInterface;
 use Ssch\T3Tactician\HandlerLocator\HandlerLocatorInterface;
@@ -26,7 +25,6 @@ use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
 
 class MiddlewareHandlerResolver
 {
-
     private $objectManager;
 
     private $configurationManager;

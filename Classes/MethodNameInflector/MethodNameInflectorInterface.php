@@ -19,5 +19,4 @@ use League\Tactician\Handler\MethodNameInflector\MethodNameInflector as Tacticia
 
 interface MethodNameInflectorInterface extends TacticianMethoNameInflector
 {
-
 }

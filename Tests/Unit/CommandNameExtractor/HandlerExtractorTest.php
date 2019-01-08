@@ -22,10 +22,8 @@ use Ssch\T3Tactician\Tests\Unit\Fixtures\Command\AddTaskCommand;
 
 class HandlerExtractorTest extends UnitTestCase
 {
-
     protected $subject;
     protected $classNameExtractMock;
-
 
     protected function setUp()
     {
@@ -42,5 +40,4 @@ class HandlerExtractorTest extends UnitTestCase
         $this->classNameExtractMock->method('extract')->with($command)->willReturn(\get_class($command));
         $this->assertEquals(\get_class($command), $this->subject->extract($command));
     }
-
 }

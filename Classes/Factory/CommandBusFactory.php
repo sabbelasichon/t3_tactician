@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+declare(strict_types = 1);
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -22,7 +22,6 @@ use TYPO3\CMS\Core\SingletonInterface;
 
 final class CommandBusFactory implements SingletonInterface
 {
-
     private $middlewareHandlerResolver;
 
     public function __construct(MiddlewareHandlerResolver $middlewareHandlerResolver)

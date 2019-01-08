@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Ssch\T3Tactician\HandlerLocator;
 
@@ -22,7 +22,6 @@ use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
 
 final class HandlerLocator implements HandlerLocatorInterface
 {
-
     private $objectManager;
     private $configurationManager;
 
@@ -31,7 +30,6 @@ final class HandlerLocator implements HandlerLocatorInterface
         $this->objectManager = $objectManager;
         $this->configurationManager = $configurationManager;
     }
-
 
     /**
      * Retrieves the handler for a specified command
@@ -46,11 +44,11 @@ final class HandlerLocator implements HandlerLocatorInterface
     {
         $registeredHandlers = $this->getRegisteredHandlerClassNames();
 
-        if ( ! isset($registeredHandlers[$commandName])) {
+        if (! isset($registeredHandlers[$commandName])) {
             throw MissingHandlerException::forCommand($commandName);
         }
 
-        if ( ! class_exists($registeredHandlers[$commandName])) {
+        if (! class_exists($registeredHandlers[$commandName])) {
             throw MissingHandlerException::forCommand($commandName);
         }
 

@@ -16,8 +16,8 @@ namespace Ssch\T3Tactician\Tests\Unit\HandlerLocator;
  */
 
 use League\Tactician\Exception\MissingHandlerException;
-use Ssch\T3Tactician\HandlerLocator\HandlerLocator;
 use PHPUnit\Framework\TestCase;
+use Ssch\T3Tactician\HandlerLocator\HandlerLocator;
 use Ssch\T3Tactician\Tests\Unit\Fixtures\Command\AddTaskCommand;
 use Ssch\T3Tactician\Tests\Unit\Fixtures\Handler\AddTaskHandler;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
@@ -25,7 +25,6 @@ use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
 
 class HandlerLocatorTest extends TestCase
 {
-
     protected $subject;
 
     protected $objectManager;
