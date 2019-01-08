@@ -23,7 +23,7 @@ use Ssch\T3Tactician\MethodNameInflector\MethodNameInflectorInterface;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
 
-class MiddlewareHandlerResolver
+class MiddlewareHandlerResolver implements MiddlewareHandlerResolverInterface
 {
     private $objectManager;
 

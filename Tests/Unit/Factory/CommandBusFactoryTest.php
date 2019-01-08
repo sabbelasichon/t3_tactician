@@ -18,7 +18,7 @@ namespace Ssch\T3Tactician\Tests\Unit\Factory;
 use League\Tactician\CommandBus;
 use Nimut\TestingFramework\TestCase\UnitTestCase;
 use Ssch\T3Tactician\Factory\CommandBusFactory;
-use Ssch\T3Tactician\Middleware\MiddlewareHandlerResolver;
+use Ssch\T3Tactician\Middleware\MiddlewareHandlerResolverInterface;
 
 class CommandBusFactoryTest extends UnitTestCase
 {
@@ -27,7 +27,7 @@ class CommandBusFactoryTest extends UnitTestCase
 
     protected function setUp()
     {
-        $this->middlewareHandlerResolverMock = $this->getMockBuilder(MiddlewareHandlerResolver::class)->disableOriginalConstructor()->getMock();
+        $this->middlewareHandlerResolverMock = $this->getMockBuilder(MiddlewareHandlerResolverInterface::class)->disableOriginalConstructor()->getMock();
         $this->subject = new CommandBusFactory($this->middlewareHandlerResolverMock);
     }
 

@@ -17,14 +17,14 @@ declare(strict_types = 1);
 namespace Ssch\T3Tactician\Factory;
 
 use League\Tactician\CommandBus;
-use Ssch\T3Tactician\Middleware\MiddlewareHandlerResolver;
+use Ssch\T3Tactician\Middleware\MiddlewareHandlerResolverInterface;
 use TYPO3\CMS\Core\SingletonInterface;
 
 final class CommandBusFactory implements SingletonInterface
 {
     private $middlewareHandlerResolver;
 
-    public function __construct(MiddlewareHandlerResolver $middlewareHandlerResolver)
+    public function __construct(MiddlewareHandlerResolverInterface $middlewareHandlerResolver)
     {
         $this->middlewareHandlerResolver = $middlewareHandlerResolver;
     }
