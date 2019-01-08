@@ -15,11 +15,11 @@ namespace Ssch\T3Tactician\Tests\Unit\MethodNameInflector;
  * The TYPO3 project - inspiring people to share!
  */
 
-use League\Tactician\Handler\MethodNameInflector\HandleClassNameInflector;
+use League\Tactician\Handler\MethodNameInflector\HandleInflector;
 use Nimut\TestingFramework\TestCase\UnitTestCase;
 use Ssch\T3Tactician\MethodNameInflector\MethodNameInflector;
 use Ssch\T3Tactician\Tests\Unit\Fixtures\Command\AddTaskCommand;
-use Ssch\T3Tactician\Tests\Unit\Fixtures\Handler\AddTaskCommandHandler;
+use Ssch\T3Tactician\Tests\Unit\Fixtures\Handler\AddTaskHandler;
 
 class MethodNameInflectorTest extends UnitTestCase
 {
@@ -30,7 +30,7 @@ class MethodNameInflectorTest extends UnitTestCase
 
     protected function setUp()
     {
-        $this->handleClassNameInflector = $this->getMockBuilder(HandleClassNameInflector::class)->getMock();
+        $this->handleClassNameInflector = $this->getMockBuilder(HandleInflector::class)->getMock();
         $this->subject = new MethodNameInflector($this->handleClassNameInflector);
     }
 
@@ -40,8 +40,8 @@ class MethodNameInflectorTest extends UnitTestCase
     public function extractMethodsReturnsCorrectString()
     {
         $command = new AddTaskCommand();
-        $commandHandler = new AddTaskCommandHandler();
-        $this->handleClassNameInflector->method('inflect')->with($command, $commandHandler)->willReturn('handleAddTaskCommand');
-        $this->assertEquals('handleAddTaskCommand', $this->subject->inflect($command, $commandHandler));
+        $commandHandler = new AddTaskHandler();
+        $this->handleClassNameInflector->method('inflect')->with($command, $commandHandler)->willReturn('handle');
+        $this->assertEquals('handle', $this->subject->inflect($command, $commandHandler));
     }
 }

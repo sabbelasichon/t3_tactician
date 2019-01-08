@@ -3,5 +3,9 @@ config.tx_extbase {
         middleware {
             Ssch\T3Tactician\Middleware\LoggingMiddleware = Ssch\T3Tactician\Middleware\LoggingMiddleware
         }
+
+        commandHandler {
+            Ssch\T3Tactician\Tests\Unit\Fixtures\Command\AddTaskCommand = Ssch\T3Tactician\Tests\Unit\Fixtures\Handler\AddTaskHandler
+        }
     }
 }

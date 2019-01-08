@@ -18,7 +18,9 @@ namespace Ssch\T3Tactician\Tests\Unit\HandlerLocator;
 use League\Tactician\Exception\MissingHandlerException;
 use Ssch\T3Tactician\HandlerLocator\HandlerLocator;
 use PHPUnit\Framework\TestCase;
-use Ssch\T3Tactician\Tests\Unit\Fixtures\Handler\AddTaskCommandHandler;
+use Ssch\T3Tactician\Tests\Unit\Fixtures\Command\AddTaskCommand;
+use Ssch\T3Tactician\Tests\Unit\Fixtures\Handler\AddTaskHandler;
+use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
 
 class HandlerLocatorTest extends TestCase
@@ -28,16 +30,19 @@ class HandlerLocatorTest extends TestCase
 
     protected $objectManager;
 
+    protected $configurationManager;
+
     protected function setUp()
     {
         $this->objectManager = $this->getMockBuilder(ObjectManagerInterface::class)->getMock();
-        $this->subject = new HandlerLocator($this->objectManager);
+        $this->configurationManager = $this->getMockBuilder(ConfigurationManagerInterface::class)->getMock();
+        $this->subject = new HandlerLocator($this->objectManager, $this->configurationManager);
     }
 
     /**
      * @test
      */
-    public function notExistingCommandClassThrowsException()
+    public function noHandlerConfiguredForCommandThrowsException()
     {
         $this->expectException(MissingHandlerException::class);
         $this->subject->getHandlerForCommand('NotExistingClassNameForSure');
@@ -48,7 +53,15 @@ class HandlerLocatorTest extends TestCase
      */
     public function returnsNewCommandHandler()
     {
-        $this->objectManager->expects($this->once())->method('get')->willReturn(new AddTaskCommandHandler());
-        $this->assertInstanceOf(AddTaskCommandHandler::class, $this->subject->getHandlerForCommand(AddTaskCommandHandler::class));
+        $settings = [
+            'command_bus' => [
+                'commandHandler' => [
+                    AddTaskCommand::class => AddTaskHandler::class,
+                ],
+            ],
+        ];
+        $this->configurationManager->expects($this->once())->method('getConfiguration')->willReturn($settings);
+        $this->objectManager->expects($this->once())->method('get')->willReturn(new AddTaskHandler());
+        $this->assertInstanceOf(AddTaskHandler::class, $this->subject->getHandlerForCommand(AddTaskCommand::class));
     }
 }

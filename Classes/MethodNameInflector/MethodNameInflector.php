@@ -17,19 +17,14 @@ namespace Ssch\T3Tactician\MethodNameInflector;
  * The TYPO3 project - inspiring people to share!
  */
 
-use League\Tactician\Handler\MethodNameInflector\HandleClassNameInflector;
+use League\Tactician\Handler\MethodNameInflector\HandleInflector;
 
 final class MethodNameInflector implements MethodNameInflectorInterface
 {
 
     private $inflector;
 
-    /**
-     * MethodNameInflector constructor.
-     *
-     * @param $inflector
-     */
-    public function __construct(HandleClassNameInflector $inflector)
+    public function __construct(HandleInflector $inflector)
     {
         $this->inflector = $inflector;
     }

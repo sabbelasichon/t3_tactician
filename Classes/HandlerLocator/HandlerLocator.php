@@ -17,21 +17,19 @@ namespace Ssch\T3Tactician\HandlerLocator;
  */
 
 use League\Tactician\Exception\MissingHandlerException;
+use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
 
 final class HandlerLocator implements HandlerLocatorInterface
 {
 
     private $objectManager;
+    private $configurationManager;
 
-    /**
-     * ObjectManagerLocator constructor.
-     *
-     * @param $objectManager
-     */
-    public function __construct(ObjectManagerInterface $objectManager)
+    public function __construct(ObjectManagerInterface $objectManager, ConfigurationManagerInterface $configurationManager)
     {
         $this->objectManager = $objectManager;
+        $this->configurationManager = $configurationManager;
     }
 
 
@@ -46,10 +44,23 @@ final class HandlerLocator implements HandlerLocatorInterface
      */
     public function getHandlerForCommand($commandName)
     {
-        if ( ! class_exists($commandName)) {
+        $registeredHandlers = $this->getRegisteredHandlerClassNames();
+
+        if ( ! isset($registeredHandlers[$commandName])) {
             throw MissingHandlerException::forCommand($commandName);
         }
 
-        return $this->objectManager->get($commandName);
+        if ( ! class_exists($registeredHandlers[$commandName])) {
+            throw MissingHandlerException::forCommand($commandName);
+        }
+
+        return $this->objectManager->get($registeredHandlers[$commandName]);
+    }
+
+    private function getRegisteredHandlerClassNames(): array
+    {
+        $settings = $this->configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK);
+
+        return \is_array($settings['command_bus']['commandHandler']) ? $settings['command_bus']['commandHandler'] : [];
     }
 }
