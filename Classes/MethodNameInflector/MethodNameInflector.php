@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 
-namespace Ssch\T3Tactician\ClassNameInflector;
+namespace Ssch\T3Tactician\MethodNameInflector;
 
 /*
  * This file is part of the TYPO3 CMS project.

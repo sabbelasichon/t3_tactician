@@ -1,6 +1,8 @@
 <?php
 declare(strict_types=1);
 
+namespace Ssch\T3Tactician\HandlerLocator;
+
 /*
  * This file is part of the TYPO3 CMS project.
  *
@@ -13,8 +15,6 @@ declare(strict_types=1);
  *
  * The TYPO3 project - inspiring people to share!
  */
-
-namespace Ssch\T3Tactician\HandlerLocator;
 
 use League\Tactician\Exception\MissingHandlerException;
 use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;

@@ -1,6 +1,8 @@
 <?php
+declare(strict_types=1);
 
-namespace Ssch\T3Tactician\MethodNameInflector;
+
+namespace Ssch\T3Tactician\Tests\Unit\Fixtures\Command;
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -15,9 +17,7 @@ namespace Ssch\T3Tactician\MethodNameInflector;
  * The TYPO3 project - inspiring people to share!
  */
 
-use League\Tactician\Handler\MethodNameInflector\MethodNameInflector as TacticianMethoNameInflector;
-
-interface MethodNameInflectorInterface extends TacticianMethoNameInflector
+final class AddTaskCommand
 {
 
 }

@@ -18,13 +18,13 @@ namespace Ssch\T3Tactician\Middleware;
 
 
 use League\Tactician\Handler\CommandHandlerMiddleware;
-use Ssch\T3Tactician\ClassNameInflector\MethodNameInflectorInterface;
 use Ssch\T3Tactician\CommandNameExtractor\HandlerExtractorInterface;
 use Ssch\T3Tactician\HandlerLocator\HandlerLocatorInterface;
+use Ssch\T3Tactician\MethodNameInflector\MethodNameInflectorInterface;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
 
-final class MiddlewareHandlerResolver
+class MiddlewareHandlerResolver
 {
 
     private $objectManager;
@@ -48,7 +48,7 @@ final class MiddlewareHandlerResolver
         $middleware[] = new CommandHandlerMiddleware(
             $this->objectManager->get(HandlerExtractorInterface::class),
             $this->objectManager->get(HandlerLocatorInterface::class),
-            $this->objectManager->get(MethodNameInflectorInterface::class),
+            $this->objectManager->get(MethodNameInflectorInterface::class)
         );
 
         return $middleware;

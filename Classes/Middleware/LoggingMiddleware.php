@@ -25,7 +25,6 @@ final class LoggingMiddleware implements Middleware
 
     private $logger;
 
-
     public function __construct(LogManagerInterface $logManager)
     {
         $this->logger = $logManager->getLogger(__CLASS__);
