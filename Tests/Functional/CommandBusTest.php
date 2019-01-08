@@ -16,8 +16,8 @@ namespace Ssch\T3Tactician\Tests\Functional;
  */
 
 use Nimut\TestingFramework\TestCase\FunctionalTestCase;
+use Ssch\T3Tactician\Command\DummyCommand;
 use Ssch\T3Tactician\Factory\CommandBusFactory;
-use Ssch\T3Tactician\Tests\Unit\Fixtures\Command\AddTaskCommand;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 
@@ -41,6 +41,6 @@ class CommandBusTest extends FunctionalTestCase
      */
     public function correctHandlerIsCalled()
     {
-        $this->assertNull($this->subject->handle(new AddTaskCommand()));
+        $this->assertNull($this->subject->handle(new DummyCommand()));
     }
 }
