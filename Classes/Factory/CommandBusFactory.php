@@ -20,7 +20,7 @@ use League\Tactician\CommandBus;
 use Ssch\T3Tactician\Middleware\MiddlewareHandlerResolverInterface;
 use TYPO3\CMS\Core\SingletonInterface;
 
-final class CommandBusFactory implements SingletonInterface
+final class CommandBusFactory implements SingletonInterface, CommandBusFactoryInterface
 {
     private $middlewareHandlerResolver;
 

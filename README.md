@@ -19,14 +19,14 @@ Create a class and inject the command bus factory:
 
 namespace Vendor\MyExtension\Controller;
 
-use Ssch\T3Tactician\Factory\CommandBusFactory;
+use Ssch\T3Tactician\Factory\CommandBusFactoryInterface;
 use Ssch\T3Tactician\Command\DummyCommand;
 
 class YourNameController
 {
     private $commandBus;
     
-    public function __construct(CommandBusFactory $commandBus)
+    public function __construct(CommandBusFactoryInterface $commandBus)
     {
         $this->commandBus = $commandBus->create();
     }
