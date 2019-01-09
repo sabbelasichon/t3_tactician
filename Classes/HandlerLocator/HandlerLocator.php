@@ -24,9 +24,11 @@ final class HandlerLocator implements HandlerLocatorInterface
 {
     private $objectManager;
     private $configurationManager;
+    private $commandBusName;
 
-    public function __construct(ObjectManagerInterface $objectManager, ConfigurationManagerInterface $configurationManager)
+    public function __construct(string $commandBusName, ObjectManagerInterface $objectManager, ConfigurationManagerInterface $configurationManager)
     {
+        $this->commandBusName = $commandBusName;
         $this->objectManager = $objectManager;
         $this->configurationManager = $configurationManager;
     }
@@ -42,7 +44,7 @@ final class HandlerLocator implements HandlerLocatorInterface
      */
     public function getHandlerForCommand($commandName)
     {
-        $registeredHandlers = $this->getRegisteredHandlerClassNames();
+        $registeredHandlers = $this->getRegisteredHandlerClassNames($this->commandBusName);
 
         if (! isset($registeredHandlers[$commandName])) {
             throw MissingHandlerException::forCommand($commandName);
@@ -55,10 +57,10 @@ final class HandlerLocator implements HandlerLocatorInterface
         return $this->objectManager->get($registeredHandlers[$commandName]);
     }
 
-    private function getRegisteredHandlerClassNames(): array
+    private function getRegisteredHandlerClassNames(string $commandBusName): array
     {
         $settings = $this->configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK);
 
-        return \is_array($settings['command_bus']['commandHandler']) ? $settings['command_bus']['commandHandler'] : [];
+        return \is_array($settings['command_bus'][$commandBusName]['commandHandler']) ? $settings['command_bus'][$commandBusName]['commandHandler'] : [];
     }
 }

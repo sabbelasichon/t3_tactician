@@ -29,8 +29,8 @@ final class CommandBusFactory implements SingletonInterface
         $this->middlewareHandlerResolver = $middlewareHandlerResolver;
     }
 
-    public function create(): CommandBus
+    public function create(string $commandBusName = 'default'): CommandBus
     {
-        return new CommandBus($this->middlewareHandlerResolver->resolveMiddlewareHandler());
+        return new CommandBus($this->middlewareHandlerResolver->resolveMiddlewareHandler($commandBusName));
     }
 }

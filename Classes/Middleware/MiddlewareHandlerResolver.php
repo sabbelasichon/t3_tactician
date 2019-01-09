@@ -35,27 +35,27 @@ class MiddlewareHandlerResolver implements MiddlewareHandlerResolverInterface
         $this->configurationManager = $configurationManager;
     }
 
-    public function resolveMiddlewareHandler(): array
+    public function resolveMiddlewareHandler(string $commandBusName): array
     {
         $middleware = [];
-        foreach ($this->getRegisteredMiddlewareClassNames() as $registeredMiddlewareClassName) {
+        foreach ($this->getRegisteredMiddlewareClassNames($commandBusName) as $registeredMiddlewareClassName) {
             $middleware[] = $this->objectManager->get($registeredMiddlewareClassName);
         }
 
         // This is required, so put it at the end
         $middleware[] = new CommandHandlerMiddleware(
             $this->objectManager->get(HandlerExtractorInterface::class),
-            $this->objectManager->get(HandlerLocatorInterface::class),
+            $this->objectManager->get(HandlerLocatorInterface::class, $commandBusName),
             $this->objectManager->get(MethodNameInflectorInterface::class)
         );
 
         return $middleware;
     }
 
-    private function getRegisteredMiddlewareClassNames(): array
+    private function getRegisteredMiddlewareClassNames(string $commandBusName): array
     {
         $settings = $this->configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK);
 
-        return \is_array($settings['command_bus']['middleware']) ? $settings['command_bus']['middleware'] : [];
+        return \is_array($settings['command_bus'][$commandBusName]['middleware']) ? $settings['command_bus'][$commandBusName]['middleware'] : [];
     }
 }

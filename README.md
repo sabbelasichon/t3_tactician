@@ -45,8 +45,10 @@ So, in order to handle your commands with a specific handler you have to configu
 ```
 config.tx_extbase {
     command_bus {
-        commandHandler {
-            Vendor\MyExtension\Command\MyCommand = Vendor\MyExtension\Handler\MyHandler
+        default {
+            commandHandler {
+                Vendor\MyExtension\Command\MyCommand = Vendor\MyExtension\Handler\MyHandler
+            }
         }
     }
 }
@@ -60,8 +62,10 @@ To enable them, add them to the middlewares list in your bus configuration via T
 ```
 config.tx_extbase {
     command_bus {
-        middleware {
-            Ssch\T3Tactician\Middleware\LoggingMiddleware = Ssch\T3Tactician\Middleware\LoggingMiddleware
+        default {
+            middleware {
+                Ssch\T3Tactician\Middleware\LoggingMiddleware = Ssch\T3Tactician\Middleware\LoggingMiddleware
+            }
         }
     }
 }

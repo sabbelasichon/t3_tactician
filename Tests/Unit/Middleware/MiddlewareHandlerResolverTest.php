@@ -45,7 +45,10 @@ class MiddlewareHandlerResolverTest extends UnitTestCase
     {
         $settings = [
             'command_bus' => [
-                'middleware' => [],
+                'default' => [
+                    'middleware' => [
+                    ],
+                ],
             ],
         ];
         $this->configurationManager->expects($this->once())->method('getConfiguration')->willReturn($settings);
@@ -54,13 +57,13 @@ class MiddlewareHandlerResolverTest extends UnitTestCase
             $this->returnValueMap(
                 [
                     [HandlerExtractorInterface::class, $this->getMockBuilder(HandlerExtractorInterface::class)->getMock()],
-                    [HandlerLocatorInterface::class, $this->getMockBuilder(HandlerLocatorInterface::class)->getMock()],
+                    [HandlerLocatorInterface::class, 'default', $this->getMockBuilder(HandlerLocatorInterface::class)->getMock()],
                     [MethodNameInflectorInterface::class, $this->getMockBuilder(MethodNameInflector::class)->getMock()],
                 ]
             )
         );
 
-        $middleware = $this->subject->resolveMiddlewareHandler();
+        $middleware = $this->subject->resolveMiddlewareHandler('default');
         $this->assertCount(1, $middleware);
     }
 
@@ -71,8 +74,10 @@ class MiddlewareHandlerResolverTest extends UnitTestCase
     {
         $settings = [
             'command_bus' => [
-                'middleware' => [
-                    LoggingMiddleware::class => LoggingMiddleware::class,
+                'default' => [
+                    'middleware' => [
+                        LoggingMiddleware::class => LoggingMiddleware::class,
+                    ],
                 ],
             ],
         ];
@@ -82,13 +87,13 @@ class MiddlewareHandlerResolverTest extends UnitTestCase
             $this->returnValueMap(
                 [
                     [HandlerExtractorInterface::class, $this->getMockBuilder(HandlerExtractorInterface::class)->getMock()],
-                    [HandlerLocatorInterface::class, $this->getMockBuilder(HandlerLocatorInterface::class)->getMock()],
+                    [HandlerLocatorInterface::class, 'default', $this->getMockBuilder(HandlerLocatorInterface::class)->getMock()],
                     [MethodNameInflectorInterface::class, $this->getMockBuilder(MethodNameInflector::class)->getMock()],
                 ]
             )
         );
 
-        $middleware = $this->subject->resolveMiddlewareHandler();
+        $middleware = $this->subject->resolveMiddlewareHandler('default');
         $this->assertCount(2, $middleware);
     }
 }

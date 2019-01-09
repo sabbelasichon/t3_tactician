@@ -18,5 +18,5 @@ namespace Ssch\T3Tactician\Middleware;
 
 interface MiddlewareHandlerResolverInterface
 {
-    public function resolveMiddlewareHandler(): array;
+    public function resolveMiddlewareHandler(string $commandBusName): array;
 }

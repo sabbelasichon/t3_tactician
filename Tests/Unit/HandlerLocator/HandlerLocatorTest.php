@@ -35,7 +35,7 @@ class HandlerLocatorTest extends TestCase
     {
         $this->objectManager = $this->getMockBuilder(ObjectManagerInterface::class)->getMock();
         $this->configurationManager = $this->getMockBuilder(ConfigurationManagerInterface::class)->getMock();
-        $this->subject = new HandlerLocator($this->objectManager, $this->configurationManager);
+        $this->subject = new HandlerLocator('default', $this->objectManager, $this->configurationManager);
     }
 
     /**
@@ -54,8 +54,10 @@ class HandlerLocatorTest extends TestCase
     {
         $settings = [
             'command_bus' => [
-                'commandHandler' => [
-                    AddTaskCommand::class => AddTaskHandler::class,
+                'default' => [
+                    'commandHandler' => [
+                        AddTaskCommand::class => AddTaskHandler::class,
+                    ],
                 ],
             ],
         ];
