@@ -18,6 +18,7 @@ namespace Ssch\T3Tactician\Tests\Functional;
 use Nimut\TestingFramework\TestCase\FunctionalTestCase;
 use Ssch\T3Tactician\Command\DummyCommand;
 use Ssch\T3Tactician\Factory\CommandBusFactory;
+use Ssch\T3Tactician\Middleware\InvalidCommandException;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 
@@ -33,7 +34,7 @@ class CommandBusTest extends FunctionalTestCase
     {
         parent::setUp();
         $this->objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-        $this->subject = $this->objectManager->get(CommandBusFactory::class)->create();
+        $this->subject = $this->objectManager->get(CommandBusFactory::class)->create('testing');
     }
 
     /**
@@ -41,6 +42,18 @@ class CommandBusTest extends FunctionalTestCase
      */
     public function correctHandlerIsCalled()
     {
-        $this->assertNull($this->subject->handle(new DummyCommand()));
+        $command = new DummyCommand();
+        $command->title = 'Title';
+        $this->assertNull($this->subject->handle($command));
+    }
+
+    /**
+     * @test
+     */
+    public function validationErrorOccurredThrowsException()
+    {
+        $command = new DummyCommand();
+        $this->expectException(InvalidCommandException::class);
+        $this->subject->handle($command);
     }
 }

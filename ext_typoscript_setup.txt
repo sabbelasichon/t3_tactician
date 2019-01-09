@@ -2,7 +2,16 @@ config.tx_extbase {
     command_bus {
         default {
             middleware {
-                # Ssch\T3Tactician\Middleware\LoggingMiddleware = Ssch\T3Tactician\Middleware\LoggingMiddleware
+            }
+
+            commandHandler {
+            }
+        }
+
+        testing {
+            middleware {
+                Ssch\T3Tactician\Middleware\LoggingMiddleware = Ssch\T3Tactician\Middleware\LoggingMiddleware
+                Ssch\T3Tactician\Middleware\ValidatorMiddleware = Ssch\T3Tactician\Middleware\ValidatorMiddleware
             }
 
             commandHandler {

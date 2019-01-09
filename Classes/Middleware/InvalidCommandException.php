@@ -29,7 +29,7 @@ final class InvalidCommandException extends \Exception implements Exception
     {
         $exception = new static(
             'Validation failed for ' . \get_class($command) .
-            ' with ' . \count($result->getErrors()) . ' violation(s).'
+            ' with ' . \count($result->getFlattenedErrors()) . ' violation(s).'
         );
         $exception->command = $command;
         $exception->result = $result;

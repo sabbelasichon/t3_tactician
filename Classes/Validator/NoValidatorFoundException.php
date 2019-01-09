@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace Ssch\T3Tactician\Command;
+namespace Ssch\T3Tactician\Validator;
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -16,11 +16,12 @@ namespace Ssch\T3Tactician\Command;
  * The TYPO3 project - inspiring people to share!
  */
 
-final class DummyCommand
+use League\Tactician\Exception\Exception;
+
+final class NoValidatorFoundException extends \Exception implements Exception
 {
-    /**
-     * @var string
-     * @validate NotEmpty
-     */
-    public $title = '';
+    public static function noValidatorFound(string $targetClassName): self
+    {
+        return new static(sprintf('No validator found for %s', $targetClassName));
+    }
 }

@@ -1,7 +1,7 @@
 <?php
-declare(strict_types = 1);
 
-namespace Ssch\T3Tactician\Command;
+
+namespace Ssch\T3Tactician\Validator;
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -16,11 +16,16 @@ namespace Ssch\T3Tactician\Command;
  * The TYPO3 project - inspiring people to share!
  */
 
-final class DummyCommand
+use TYPO3\CMS\Extbase\Validation\Validator\ValidatorInterface;
+
+interface ValidatorResolverInterface
 {
+
     /**
-     * @var string
-     * @validate NotEmpty
+     * @param string $targetClassName
+     *
+     * @return ValidatorInterface
+     * @throws NoValidatorFoundException
      */
-    public $title = '';
+    public function getBaseValidatorConjunction(string $targetClassName): ValidatorInterface;
 }
