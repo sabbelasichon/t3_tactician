@@ -56,7 +56,7 @@ config.tx_extbase {
 
 ## Middleware
 
-The extension ships with a few pre-configured middlewares (i.e. LoggingMiddleware).
+The extension ships with a few pre-configured middlewares.
 To enable them, add them to the middlewares list in your bus configuration via TypoScript:
 
 ```
@@ -71,6 +71,17 @@ config.tx_extbase {
 }
 ```
 
+### ValidatorMiddleware
+This middleware uses Extbase validator to check the command object before passing it along.
+
+The validation rules can be added via annotations like in default Extbase practices.
+
+If the command fails, it will throw a Ssch\T3Tactician\Middleware\InvalidCommandException. 
+
+### LoggingMiddleware
+This middleware uses the TYPO3 Logging-API. This is useful especially during development.
+
+### Custom middleware
 You can also create your own middleware and add them to the configuration.
 The ordering in the configuration is important.
 
@@ -93,4 +104,39 @@ config.tx_extbase {
 }
 ```
 
-The class MyMethodNameInflector is an adapter and has to implement the MethodNameInflectorInterface.
+The class MethodNameInflectorInterface is an adapter for interface MethodNameInflector bundled with the tactician library.
+So if you would like to implement a custom MethodNameInflector you have to implement the MethodNameInflectorInterface of this extension.
+
+```php
+<?php
+
+namespace Vendor\MyExtension;
+
+use Ssch\T3Tactician\MethodNameInflector\MethodNameInflectorInterface;
+use League\Tactician\Handler\MethodNameInflector\InvokeInflector;
+
+class MyMethodNameInflector implements MethodNameInflectorInterface
+{
+    private $inflector;
+    
+    public function __construct(InvokeInflector $inflector)
+    {
+        $this->inflector = $inflector;
+    }
+    
+    /**
+    * @inheritdoc 
+    */
+    public function inflect($command, $commandHandler): string
+    {
+        return $this->inflector->inflect($command, $commandHandler);
+    }
+}
+``` 
+
+Now your command handlers have to implement the __invoke method.
+
+## Unit Testing
+``` bash
+$ .Build/bin/phpunit --colors -c .Build/vendor/nimut/testing-framework/res/Configuration/UnitTests.xml Tests/Unit/
+```
