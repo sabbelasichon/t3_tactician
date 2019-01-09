@@ -1,6 +1,5 @@
 <?php
-declare(strict_types=1);
-
+declare(strict_types = 1);
 
 namespace Ssch\T3Tactician\Factory;
 
@@ -21,7 +20,5 @@ use League\Tactician\CommandBus;
 
 interface CommandBusFactoryInterface
 {
-
     public function create(string $commandBusName = 'default'): CommandBus;
-
 }
