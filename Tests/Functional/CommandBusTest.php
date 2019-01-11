@@ -24,7 +24,7 @@ use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 class CommandBusTest extends FunctionalTestCase
 {
-    protected $testExtensionsToLoad = ['typo3conf/ext/t3_tactician'];
+    protected $testExtensionsToLoad = ['typo3conf/ext/t3_tactician', 'typo3conf/ext/t3_tactician/Tests/Functional/Fixtures/Extensions/t3_tactician_test'];
 
     protected $subject;
 

@@ -1,0 +1,14 @@
+config.tx_extbase {
+    command_bus {
+        testing {
+            middleware {
+                Ssch\T3Tactician\Middleware\LoggingMiddleware = Ssch\T3Tactician\Middleware\LoggingMiddleware
+                Ssch\T3Tactician\Middleware\ValidatorMiddleware = Ssch\T3Tactician\Middleware\ValidatorMiddleware
+            }
+
+            commandHandler {
+                Ssch\T3Tactician\Command\DummyCommand = Ssch\T3Tactician\Handler\DummyHandler
+            }
+        }
+    }
+}
