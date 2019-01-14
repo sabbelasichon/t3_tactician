@@ -46,7 +46,7 @@ class MiddlewareHandlerResolver implements MiddlewareHandlerResolverInterface
         $middleware[] = new CommandHandlerMiddleware(
             $this->objectManager->get(HandlerExtractorInterface::class),
             $this->objectManager->get(HandlerLocatorInterface::class, $commandBusName),
-            $this->objectManager->get(MethodNameInflectorInterface::class)
+            $this->objectManager->get(MethodNameInflectorInterface::class, $commandBusName)
         );
 
         return $middleware;

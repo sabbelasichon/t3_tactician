@@ -98,41 +98,13 @@ However, [if you prefer a different inflector](http://tactician.thephpleague.com
 
 ```
 config.tx_extbase {
-    objects {
-        Ssch\T3Tactician\MethodNameInflector\MethodNameInflectorInterface.className = Vendor\MyExtension\MyMethodNameInflector
-    }
+    command_bus {
+        default {
+            method_inflector = League\Tactician\Handler\MethodNameInflector\InvokeInflector
+        }
+    }    
 }
 ```
-
-The class MethodNameInflectorInterface is an adapter for interface MethodNameInflector bundled with the tactician library.
-So if you would like to implement a custom MethodNameInflector you have to implement the MethodNameInflectorInterface of this extension.
-
-```php
-<?php
-
-namespace Vendor\MyExtension;
-
-use Ssch\T3Tactician\MethodNameInflector\MethodNameInflectorInterface;
-use League\Tactician\Handler\MethodNameInflector\InvokeInflector;
-
-class MyMethodNameInflector implements MethodNameInflectorInterface
-{
-    private $inflector;
-    
-    public function __construct(InvokeInflector $inflector)
-    {
-        $this->inflector = $inflector;
-    }
-    
-    /**
-    * @inheritdoc 
-    */
-    public function inflect($command, $commandHandler): string
-    {
-        return $this->inflector->inflect($command, $commandHandler);
-    }
-}
-``` 
 
 Now your command handlers have to implement the __invoke method.
 

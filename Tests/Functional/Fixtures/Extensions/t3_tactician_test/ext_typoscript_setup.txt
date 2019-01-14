@@ -10,5 +10,12 @@ config.tx_extbase {
                 Ssch\T3Tactician\Command\DummyCommand = Ssch\T3Tactician\Handler\DummyHandler
             }
         }
+
+        testingMethodNameInflector {
+            commandHandler {
+                Ssch\T3Tactician\Command\FakeCommand = Ssch\T3Tactician\Handler\FakeHandler
+            }
+            method_inflector = League\Tactician\Handler\MethodNameInflector\InvokeInflector
+        }
     }
 }

@@ -1,6 +1,8 @@
 <?php
 declare(strict_types = 1);
 
+namespace Ssch\T3Tactician\Tests\Unit\Fixtures\Handler;
+
 /*
  * This file is part of the TYPO3 CMS project.
  *
@@ -14,13 +16,11 @@ declare(strict_types = 1);
  * The TYPO3 project - inspiring people to share!
  */
 
-namespace Ssch\T3Tactician\Handler;
+use Ssch\T3Tactician\Tests\Unit\Fixtures\Command\AnotherTaskCommand;
 
-use Ssch\T3Tactician\Command\DummyCommand;
-
-final class DummyHandler
+final class AnotherTaskHandler
 {
-    public function handle(DummyCommand $command)
+    public function __invoke(AnotherTaskCommand $anotherTaskCommand)
     {
     }
 }

@@ -2,7 +2,6 @@
   "name": "ssch/t3-tactician",
   "type": "typo3-cms-extension",
   "description": "Wrapper for tactician",
-  "version": "2.0.0",
   "license": "GPL-2.0+",
   "homepage": "http://www.schreibersebastian.de",
   "keywords": [
@@ -18,6 +17,7 @@
     }
   ],
   "require": {
+    "php":  ">=7.0",
     "typo3/cms-core": "^8.7.13 || ^9.5",
     "typo3/cms-extbase": "^8.7 || ^9.5",
     "league/tactician": "^1.0"

@@ -58,7 +58,7 @@ class MiddlewareHandlerResolverTest extends UnitTestCase
                 [
                     [HandlerExtractorInterface::class, $this->getMockBuilder(HandlerExtractorInterface::class)->getMock()],
                     [HandlerLocatorInterface::class, 'default', $this->getMockBuilder(HandlerLocatorInterface::class)->getMock()],
-                    [MethodNameInflectorInterface::class, $this->getMockBuilder(MethodNameInflector::class)->getMock()],
+                    [MethodNameInflectorInterface::class, 'default', $this->getMockBuilder(MethodNameInflector::class)->getMock()],
                 ]
             )
         );
@@ -88,7 +88,7 @@ class MiddlewareHandlerResolverTest extends UnitTestCase
                 [
                     [HandlerExtractorInterface::class, $this->getMockBuilder(HandlerExtractorInterface::class)->getMock()],
                     [HandlerLocatorInterface::class, 'default', $this->getMockBuilder(HandlerLocatorInterface::class)->getMock()],
-                    [MethodNameInflectorInterface::class, $this->getMockBuilder(MethodNameInflector::class)->getMock()],
+                    [MethodNameInflectorInterface::class, 'default', $this->getMockBuilder(MethodNameInflector::class)->getMock()],
                 ]
             )
         );

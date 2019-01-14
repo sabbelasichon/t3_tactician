@@ -17,14 +17,26 @@ namespace Ssch\T3Tactician\MethodNameInflector;
  */
 
 use League\Tactician\Handler\MethodNameInflector\HandleInflector;
+use League\Tactician\Handler\MethodNameInflector\MethodNameInflector as TacticianMethoNameInflector;
+use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
+use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
 
 final class MethodNameInflector implements MethodNameInflectorInterface
 {
+
+    /**
+     * @var TacticianMethoNameInflector
+     */
     private $inflector;
 
-    public function __construct(HandleInflector $inflector)
+    public function __construct($commandBusName, HandleInflector $defaultInflector, ObjectManagerInterface $objectManager, ConfigurationManagerInterface $configurationManager)
     {
-        $this->inflector = $inflector;
+        $inflectorClass = $this->getRegisteredMethodNameInflectorClassNames($commandBusName, $configurationManager);
+        if ($inflectorClass === '') {
+            $this->inflector = $defaultInflector;
+        } else {
+            $this->inflector = $objectManager->get($inflectorClass);
+        }
     }
 
     /**
@@ -38,5 +50,12 @@ final class MethodNameInflector implements MethodNameInflectorInterface
     public function inflect($command, $commandHandler): string
     {
         return $this->inflector->inflect($command, $commandHandler);
+    }
+
+    private function getRegisteredMethodNameInflectorClassNames(string $commandBusName, ConfigurationManagerInterface $configurationManager): string
+    {
+        $settings = $configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK);
+
+        return $settings['command_bus'][$commandBusName]['method_inflector'] ?: '';
     }
 }

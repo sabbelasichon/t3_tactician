@@ -1,6 +1,8 @@
 <?php
 declare(strict_types = 1);
 
+namespace Ssch\T3Tactician\Handler;
+
 /*
  * This file is part of the TYPO3 CMS project.
  *
@@ -14,13 +16,12 @@ declare(strict_types = 1);
  * The TYPO3 project - inspiring people to share!
  */
 
-namespace Ssch\T3Tactician\Handler;
 
-use Ssch\T3Tactician\Command\DummyCommand;
+use Ssch\T3Tactician\Command\FakeCommand;
 
-final class DummyHandler
+final class FakeHandler
 {
-    public function handle(DummyCommand $command)
+    public function __invoke(FakeCommand $command)
     {
     }
 }

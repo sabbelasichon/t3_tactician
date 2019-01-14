@@ -17,6 +17,7 @@ namespace Ssch\T3Tactician\Tests\Functional;
 
 use Nimut\TestingFramework\TestCase\FunctionalTestCase;
 use Ssch\T3Tactician\Command\DummyCommand;
+use Ssch\T3Tactician\Command\FakeCommand;
 use Ssch\T3Tactician\Factory\CommandBusFactory;
 use Ssch\T3Tactician\Middleware\InvalidCommandException;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -26,15 +27,12 @@ class CommandBusTest extends FunctionalTestCase
 {
     protected $testExtensionsToLoad = ['typo3conf/ext/t3_tactician', 'typo3conf/ext/t3_tactician/Tests/Functional/Fixtures/Extensions/t3_tactician_test'];
 
-    protected $subject;
-
     protected $objectManager;
 
     protected function setUp()
     {
         parent::setUp();
         $this->objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-        $this->subject = $this->objectManager->get(CommandBusFactory::class)->create('testing');
     }
 
     /**
@@ -42,9 +40,10 @@ class CommandBusTest extends FunctionalTestCase
      */
     public function correctHandlerIsCalled()
     {
+        $subject = $this->createCommandBus();
         $command = new DummyCommand();
         $command->title = 'Title';
-        $this->assertNull($this->subject->handle($command));
+        $this->assertNull($subject->handle($command));
     }
 
     /**
@@ -52,8 +51,24 @@ class CommandBusTest extends FunctionalTestCase
      */
     public function validationErrorOccurredThrowsException()
     {
+        $subject = $this->createCommandBus();
         $command = new DummyCommand();
         $this->expectException(InvalidCommandException::class);
-        $this->subject->handle($command);
+        $subject->handle($command);
+    }
+
+    /**
+     * @test
+     */
+    public function differentMethodNameInflector()
+    {
+        $subject = $this->createCommandBus('testingMethodNameInflector');
+        $command = new FakeCommand();
+        $subject->handle($command);
+    }
+
+    private function createCommandBus($name = 'testing')
+    {
+        return $this->objectManager->get(CommandBusFactory::class)->create($name);
     }
 }

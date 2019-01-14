@@ -16,9 +16,11 @@ namespace Ssch\T3Tactician\Tests\Unit\Fixtures\Handler;
  * The TYPO3 project - inspiring people to share!
  */
 
+use Ssch\T3Tactician\Tests\Unit\Fixtures\Command\AddTaskCommand;
+
 final class AddTaskHandler
 {
-    public function handle($command)
+    public function handle(AddTaskCommand $command)
     {
     }
 }

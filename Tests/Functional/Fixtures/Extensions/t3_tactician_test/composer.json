@@ -1,0 +1,13 @@
+{
+  "name": "ssch/t3-tactician-test",
+  "type": "typo3-cms-extension",
+  "description": "Test extensions for t3_tactician",
+  "license": "GPL-2.0+",
+  "require": {
+    "ssch/t3-tactician": "*"
+  },
+  "replace": {
+    "t3_tactician_test": "self.version",
+    "typo3-ter/t3-tactician-test": "self.version"
+  }
+}

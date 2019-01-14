@@ -44,7 +44,7 @@ final class HandlerLocator implements HandlerLocatorInterface
      */
     public function getHandlerForCommand($commandName)
     {
-        $registeredHandlers = $this->getRegisteredHandlerClassNames($this->commandBusName);
+        $registeredHandlers = $this->getRegisteredMehthodInflectorClassName($this->commandBusName);
 
         if (! isset($registeredHandlers[$commandName])) {
             throw MissingHandlerException::forCommand($commandName);
@@ -57,7 +57,7 @@ final class HandlerLocator implements HandlerLocatorInterface
         return $this->objectManager->get($registeredHandlers[$commandName]);
     }
 
-    private function getRegisteredHandlerClassNames(string $commandBusName): array
+    private function getRegisteredMehthodInflectorClassName(string $commandBusName): array
     {
         $settings = $this->configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK);
 
