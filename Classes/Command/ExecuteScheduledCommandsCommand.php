@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace Ssch\T3Tactician\Handler;
+namespace Ssch\T3Tactician\Command;
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -16,11 +16,23 @@ namespace Ssch\T3Tactician\Handler;
  * The TYPO3 project - inspiring people to share!
  */
 
-use Ssch\T3Tactician\Command\FakeCommand;
+use League\Tactician\CommandBus;
 
-final class FakeHandler
+final class ExecuteScheduledCommandsCommand
 {
-    public function __invoke(FakeCommand $command)
+
+    /**
+     * @var CommandBus
+     */
+    private $commandBus;
+
+    public function __construct(CommandBus $commandBus)
     {
+        $this->commandBus = $commandBus;
+    }
+
+    public function getCommandBus(): CommandBus
+    {
+        return $this->commandBus;
     }
 }

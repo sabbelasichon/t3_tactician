@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace Ssch\T3Tactician\Handler;
+namespace Ssch\T3Tactician\Command;
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -16,11 +16,20 @@ namespace Ssch\T3Tactician\Handler;
  * The TYPO3 project - inspiring people to share!
  */
 
-use Ssch\T3Tactician\Command\FakeCommand;
-
-final class FakeHandler
+abstract class AbstractScheduledCommand implements ScheduledCommandInterface
 {
-    public function __invoke(FakeCommand $command)
+    private $timestamp;
+
+    public function setTimestamp(int $timestamp)
     {
+        if ($timestamp < time()) {
+            throw new \LogicException('Scheduling commands in the past is not allowed');
+        }
+        $this->timestamp = $timestamp;
+    }
+
+    public function getTimestamp(): int
+    {
+        return $this->timestamp;
     }
 }
