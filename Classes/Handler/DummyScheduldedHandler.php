@@ -16,11 +16,11 @@ namespace Ssch\T3Tactician\Handler;
  * The TYPO3 project - inspiring people to share!
  */
 
-use Ssch\T3Tactician\Command\FakeCommand;
+use Ssch\T3Tactician\Command\DummyScheduledCommand;
 
-final class FakeHandler
+final class DummyScheduldedHandler
 {
-    public function __invoke(FakeCommand $command)
+    public function handle(DummyScheduledCommand $command)
     {
     }
 }

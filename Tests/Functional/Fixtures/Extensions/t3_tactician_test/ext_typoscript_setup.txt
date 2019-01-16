@@ -15,7 +15,18 @@ config.tx_extbase {
             commandHandler {
                 Ssch\T3Tactician\Command\FakeCommand = Ssch\T3Tactician\Handler\FakeHandler
             }
+
             method_inflector = League\Tactician\Handler\MethodNameInflector\InvokeInflector
+        }
+
+        testingScheduler {
+            middleware {
+                Ssch\T3Tactician\Middleware\SchedulerMiddleware = Ssch\T3Tactician\Middleware\SchedulerMiddleware
+            }
+
+            commandHandler {
+                Ssch\T3Tactician\Command\DummyScheduledCommand = Ssch\T3Tactician\Handler\DummyScheduldedHandler
+            }
         }
     }
 }

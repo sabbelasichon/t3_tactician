@@ -1,8 +1,6 @@
 <?php
 declare(strict_types = 1);
 
-namespace Ssch\T3Tactician\Handler;
-
 /*
  * This file is part of the TYPO3 CMS project.
  *
@@ -16,11 +14,12 @@ namespace Ssch\T3Tactician\Handler;
  * The TYPO3 project - inspiring people to share!
  */
 
-use Ssch\T3Tactician\Command\FakeCommand;
+namespace Ssch\T3Tactician\Integration;
 
-final class FakeHandler
+final class Clock implements ClockInterface
 {
-    public function __invoke(FakeCommand $command)
+    public function getCurrentTimestamp(): int
     {
+        return time();
     }
 }

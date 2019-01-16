@@ -17,14 +17,20 @@ namespace Ssch\T3Tactician\Tests\Functional;
 
 use Nimut\TestingFramework\TestCase\FunctionalTestCase;
 use Ssch\T3Tactician\Command\DummyCommand;
+use Ssch\T3Tactician\Command\DummyScheduledCommand;
 use Ssch\T3Tactician\Command\FakeCommand;
 use Ssch\T3Tactician\Factory\CommandBusFactory;
 use Ssch\T3Tactician\Middleware\InvalidCommandException;
+use Ssch\T3Tactician\Scheduler\Scheduler;
+use Ssch\T3Tactician\Scheduler\SchedulerInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 class CommandBusTest extends FunctionalTestCase
 {
+
+    protected $coreExtensionsToLoad = ['scheduler'];
+
     protected $testExtensionsToLoad = ['typo3conf/ext/t3_tactician', 'typo3conf/ext/t3_tactician/Tests/Functional/Fixtures/Extensions/t3_tactician_test'];
 
     protected $objectManager;
@@ -55,6 +61,19 @@ class CommandBusTest extends FunctionalTestCase
         $command = new DummyCommand();
         $this->expectException(InvalidCommandException::class);
         $subject->handle($command);
+    }
+
+    /**
+     * @test
+     */
+    public function scheduleCommandSuccessfully()
+    {
+        $command = new DummyScheduledCommand('dummy@domain.com', 'dummy');
+        $command->setTimestamp(time() + 1000);
+        $subject = $this->createCommandBus('testingScheduler');
+        $subject->handle($command);
+
+        $this->assertEquals(1, $this->getDatabaseConnection()->selectCount('*', 'tx_scheduler_task', sprintf('description = "%s"', Scheduler::TASK_DESCRIPTION_IDENTIFIER)));
     }
 
     /**

@@ -81,6 +81,52 @@ If the command fails, it will throw a Ssch\T3Tactician\Middleware\InvalidCommand
 ### LoggingMiddleware
 This middleware uses the TYPO3 Logging-API. This is useful especially during development.
 
+### SchedulerMiddleware
+This middleware allows you to create ScheduledCommands that will be executed at a specific time in the future.
+Make sure you put the SchedulerMiddleware in your CommandBus middleware chain:
+
+```
+config.tx_extbase {
+    command_bus {
+        default {
+            middleware {
+                Ssch\T3Tactician\Middleware\SchedulerMiddleware = Ssch\T3Tactician\Middleware\SchedulerMiddleware
+            }
+        }
+    }
+}
+```
+
+The command you want to schedule must either extend from AbstractScheduledCommand or implement the ScheduledCommandInterface.
+If you did so create your command and set your desired execution time: 
+
+```php
+<?php
+
+namespace Vendor\MyExtension\Command;
+
+use Ssch\T3Tactician\Command\AbstractScheduledCommand;
+
+class YourScheduledCommand extends AbstractScheduledCommand
+{
+    private $message;
+    
+    public function __construct($message)
+    {
+        $this->message = $message;
+    }
+    
+    public function getMessage() 
+    {
+        return $this->message;
+    }
+}
+```
+
+This command will be stored in the database table tx_scheduler_task.
+
+The real execution has to be executed via a extbase commandController task called "t3_tactician:executescheduledcommands:executescheduledcommands"  
+
 ### Custom middleware
 You can also create your own middleware and add them to the configuration.
 The ordering in the configuration is important.
