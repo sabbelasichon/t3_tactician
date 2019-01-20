@@ -20,6 +20,9 @@ use TYPO3\CMS\Extbase\Validation\Validator\ValidatorInterface;
 
 final class ValidatorResolver implements ValidatorResolverInterface
 {
+    /**
+     * @var \TYPO3\CMS\Extbase\Validation\ValidatorResolver
+     */
     private $validatorResolver;
 
     public function __construct(\TYPO3\CMS\Extbase\Validation\ValidatorResolver $validatorResolver)

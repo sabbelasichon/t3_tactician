@@ -16,11 +16,15 @@ namespace Ssch\T3Tactician\Command;
  * The TYPO3 project - inspiring people to share!
  */
 
+use League\Tactician\CommandBus;
 use Ssch\T3Tactician\Factory\CommandBusFactoryInterface;
 use TYPO3\CMS\Extbase\Mvc\Controller\CommandController;
 
 final class ExecuteScheduledCommandsCommandController extends CommandController
 {
+    /**
+     * @var CommandBus
+     */
     private $commandBus;
 
     public function __construct(CommandBusFactoryInterface $commandBusFactory)

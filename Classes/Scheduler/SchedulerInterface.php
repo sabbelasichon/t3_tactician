@@ -22,4 +22,6 @@ interface SchedulerInterface
     public function schedule(ScheduledCommandInterface $command, int $id = null): string;
 
     public function getCommands(): array;
+
+    public function removeCommand(ScheduledCommandInterface $command);
 }

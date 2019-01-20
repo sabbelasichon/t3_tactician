@@ -22,8 +22,19 @@ use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
 
 final class HandlerLocator implements HandlerLocatorInterface
 {
+    /**
+     * @var ObjectManagerInterface
+     */
     private $objectManager;
+
+    /**
+     * @var ConfigurationManagerInterface
+     */
     private $configurationManager;
+
+    /**
+     * @var string
+     */
     private $commandBusName;
 
     public function __construct(string $commandBusName, ObjectManagerInterface $objectManager, ConfigurationManagerInterface $configurationManager)
@@ -44,7 +55,7 @@ final class HandlerLocator implements HandlerLocatorInterface
      */
     public function getHandlerForCommand($commandName)
     {
-        $registeredHandlers = $this->getRegisteredMehthodInflectorClassName($this->commandBusName);
+        $registeredHandlers = $this->getRegisteredMethodInflectorClassName($this->commandBusName);
 
         if (! isset($registeredHandlers[$commandName])) {
             throw MissingHandlerException::forCommand($commandName);
@@ -57,7 +68,7 @@ final class HandlerLocator implements HandlerLocatorInterface
         return $this->objectManager->get($registeredHandlers[$commandName]);
     }
 
-    private function getRegisteredMehthodInflectorClassName(string $commandBusName): array
+    private function getRegisteredMethodInflectorClassName(string $commandBusName): array
     {
         $settings = $this->configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK);
 

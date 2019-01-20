@@ -17,10 +17,14 @@ namespace Ssch\T3Tactician\Middleware;
  */
 
 use League\Tactician\Middleware;
+use Psr\Log\LoggerInterface;
 use TYPO3\CMS\Core\Log\LogManagerInterface;
 
 final class LoggingMiddleware implements Middleware
 {
+    /**
+     * @var LoggerInterface
+     */
     private $logger;
 
     public function __construct(LogManagerInterface $logManager)

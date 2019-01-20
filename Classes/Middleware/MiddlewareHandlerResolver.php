@@ -25,8 +25,14 @@ use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
 
 class MiddlewareHandlerResolver implements MiddlewareHandlerResolverInterface
 {
+    /**
+     * @var ObjectManagerInterface
+     */
     private $objectManager;
 
+    /**
+     * @var ConfigurationManagerInterface
+     */
     private $configurationManager;
 
     public function __construct(ObjectManagerInterface $objectManager, ConfigurationManagerInterface $configurationManager)

@@ -27,8 +27,14 @@ final class Scheduler implements SchedulerInterface
 {
     const TASK_DESCRIPTION_IDENTIFIER = 'scheduler_tactician_commands';
 
+    /**
+     * @var TYPO3Scheduler
+     */
     private $scheduler;
 
+    /**
+     * @var ObjectManagerInterface
+     */
     private $objectManager;
 
     public function __construct(TYPO3Scheduler $scheduler, ObjectManagerInterface $objectManager)
@@ -60,7 +66,6 @@ final class Scheduler implements SchedulerInterface
         $commands = [];
         foreach ($tasks as $task) {
             $commands[] = $task->getCommand();
-            $this->scheduler->removeTask($task);
         }
 
         return $commands;
@@ -69,5 +74,17 @@ final class Scheduler implements SchedulerInterface
     private function fetchCommandTasks(): array
     {
         return $this->scheduler->fetchTasksWithCondition(sprintf('nextexecution <= %d AND description = "%s"', time(), self::TASK_DESCRIPTION_IDENTIFIER), true);
+    }
+
+    public function removeCommand(ScheduledCommandInterface $command)
+    {
+        /** @var CommandTask[] $tasks */
+        $tasks = $this->fetchCommandTasks();
+
+        foreach ($tasks as $task) {
+            if ($command === $task->getCommand()) {
+                $this->scheduler->removeTask($task);
+            }
+        }
     }
 }

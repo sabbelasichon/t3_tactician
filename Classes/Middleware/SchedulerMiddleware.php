@@ -24,8 +24,14 @@ use Ssch\T3Tactician\Scheduler\SchedulerInterface;
 
 final class SchedulerMiddleware implements Middleware
 {
+    /**
+     * @var SchedulerInterface
+     */
     private $scheduler;
 
+    /**
+     * @var ClockInterface
+     */
     private $clock;
 
     public function __construct(SchedulerInterface $scheduler, ClockInterface $clock)
@@ -44,6 +50,8 @@ final class SchedulerMiddleware implements Middleware
             $commands = $this->scheduler->getCommands();
             foreach ($commands as $scheduledCommand) {
                 $command->getCommandBus()->handle($scheduledCommand);
+                // Only remove command if no exception occured
+                $this->scheduler->removeCommand($scheduledCommand);
             }
         } else {
             return $next($command);
