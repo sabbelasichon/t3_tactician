@@ -22,6 +22,9 @@ use Ssch\T3Tactician\Validator\ValidatorResolverInterface;
 
 final class ValidatorMiddleware implements Middleware
 {
+    /**
+     * @var ValidatorResolverInterface
+     */
     private $validatorResolver;
 
     public function __construct(ValidatorResolverInterface $validatorResolver)

@@ -22,6 +22,9 @@ use TYPO3\CMS\Core\SingletonInterface;
 
 final class CommandBusFactory implements SingletonInterface, CommandBusFactoryInterface
 {
+    /**
+     * @var MiddlewareHandlerResolverInterface
+     */
     private $middlewareHandlerResolver;
 
     public function __construct(MiddlewareHandlerResolverInterface $middlewareHandlerResolver)

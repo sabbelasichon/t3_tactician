@@ -30,11 +30,6 @@ final class DummyScheduledCommand extends AbstractScheduledCommand
     private $username;
 
     /**
-     * @var DummyCommand
-     */
-    private $subCommand;
-
-    /**
      * DummyScheduledCommand constructor.
      *
      * @param string $email

@@ -17,20 +17,31 @@ namespace Ssch\T3Tactician\Tests\Unit\Middleware;
 
 use League\Tactician\CommandBus;
 use Nimut\TestingFramework\TestCase\UnitTestCase;
-use Ssch\T3Tactician\Command\DummyCommand;
+use PHPUnit\Framework\MockObject\MockObject;
+use Ssch\T3Tactician\Command\DummyScheduledCommand;
 use Ssch\T3Tactician\Command\ExecuteScheduledCommandsCommand;
 use Ssch\T3Tactician\Command\ScheduledCommandInterface;
 use Ssch\T3Tactician\Integration\ClockInterface;
 use Ssch\T3Tactician\Middleware\SchedulerMiddleware;
 use Ssch\T3Tactician\Scheduler\SchedulerInterface;
 use Ssch\T3Tactician\Tests\Unit\Fixtures\Command\AddTaskCommand;
+use function count;
 
 class SchedulerMiddlewareTest extends UnitTestCase
 {
+    /**
+     * @var SchedulerMiddleware
+     */
     protected $subject;
 
+    /**
+     * @var MockObject|SchedulerInterface
+     */
     protected $scheduler;
 
+    /**
+     * @var ClockInterface
+     */
     protected $clock;
 
     protected function setUp()
@@ -62,12 +73,12 @@ class SchedulerMiddlewareTest extends UnitTestCase
         $command = new ExecuteScheduledCommandsCommand($commandBus);
         $this->scheduler->expects($this->never())->method('schedule');
         $commands = [
-            new DummyCommand(),
-            new DummyCommand(),
-            new DummyCommand(),
+            new DummyScheduledCommand('email@domain.com', 'username'),
+            new DummyScheduledCommand('email@domain.com', 'username'),
+            new DummyScheduledCommand('email@domain.com', 'username'),
         ];
         $this->scheduler->expects($this->once())->method('getCommands')->willReturn($commands);
-        $commandBus->expects($this->exactly(\count($commands)))->method('handle');
+        $commandBus->expects($this->exactly(count($commands)))->method('handle');
         $this->subject->execute($command, function () {
         });
     }

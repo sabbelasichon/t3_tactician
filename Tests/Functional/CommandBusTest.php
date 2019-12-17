@@ -22,17 +22,24 @@ use Ssch\T3Tactician\Command\FakeCommand;
 use Ssch\T3Tactician\Factory\CommandBusFactory;
 use Ssch\T3Tactician\Middleware\InvalidCommandException;
 use Ssch\T3Tactician\Scheduler\Scheduler;
-use Ssch\T3Tactician\Scheduler\SchedulerInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 class CommandBusTest extends FunctionalTestCase
 {
-
+    /**
+     * @var array
+     */
     protected $coreExtensionsToLoad = ['scheduler'];
 
+    /**
+     * @var array
+     */
     protected $testExtensionsToLoad = ['typo3conf/ext/t3_tactician', 'typo3conf/ext/t3_tactician/Tests/Functional/Fixtures/Extensions/t3_tactician_test'];
 
+    /**
+     * @var object|ObjectManager
+     */
     protected $objectManager;
 
     protected function setUp()

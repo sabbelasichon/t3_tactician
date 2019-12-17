@@ -16,14 +16,19 @@ namespace Ssch\T3Tactician\Command;
  * The TYPO3 project - inspiring people to share!
  */
 
+use LogicException;
+
 abstract class AbstractScheduledCommand implements ScheduledCommandInterface
 {
+    /**
+     * @var int
+     */
     private $timestamp;
 
     public function setTimestamp(int $timestamp)
     {
         if ($timestamp < time()) {
-            throw new \LogicException('Scheduling commands in the past is not allowed');
+            throw new LogicException('Scheduling commands in the past is not allowed');
         }
         $this->timestamp = $timestamp;
     }
