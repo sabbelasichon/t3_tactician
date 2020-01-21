@@ -16,7 +16,9 @@ namespace Ssch\T3Tactician\Tests\Unit\Middleware;
  */
 
 use League\Tactician\Handler\MethodNameInflector\MethodNameInflector;
+use League\Tactician\Middleware;
 use Nimut\TestingFramework\TestCase\UnitTestCase;
+use Ssch\T3Tactician\CommandBusConfigurationInterface;
 use Ssch\T3Tactician\CommandNameExtractor\HandlerExtractorInterface;
 use Ssch\T3Tactician\HandlerLocator\HandlerLocatorInterface;
 use Ssch\T3Tactician\MethodNameInflector\MethodNameInflectorInterface;
@@ -30,15 +32,27 @@ use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
  */
 class MiddlewareHandlerResolverTest extends UnitTestCase
 {
+    /**
+     * @var MiddlewareHandlerResolver
+     */
     protected $subject;
-    protected $objectManager;
-    protected $configurationManager;
+
+    /**
+     * @var ObjectManagerInterface
+     */
+    private $objectManager;
+
+    /**
+     * @var CommandBusConfigurationInterface
+     */
+    private $commandBusConfiguration;
 
     protected function setUp()
     {
-        $this->objectManager = $this->getMockBuilder(ObjectManagerInterface::class)->getMock();
-        $this->configurationManager = $this->getMockBuilder(ConfigurationManagerInterface::class)->getMock();
-        $this->subject = new MiddlewareHandlerResolver($this->objectManager, $this->configurationManager);
+        $this->objectManager = $this->prophesize(ObjectManagerInterface::class);
+        $this->commandBusConfiguration = $this->prophesize(CommandBusConfigurationInterface::class);
+        $this->commandBusConfiguration->toString()->willReturn('default');
+        $this->subject = new MiddlewareHandlerResolver($this->objectManager->reveal());
     }
 
     /**
@@ -46,27 +60,13 @@ class MiddlewareHandlerResolverTest extends UnitTestCase
      */
     public function onlyDefaultMiddlewareIsReturned()
     {
-        $settings = [
-            'command_bus' => [
-                'default' => [
-                    'middleware' => [
-                    ],
-                ],
-            ],
-        ];
-        $this->configurationManager->expects($this->once())->method('getConfiguration')->willReturn($settings);
+        $this->commandBusConfiguration->middlewares()->willReturn([]);
 
-        $this->objectManager->method('get')->will(
-            $this->returnValueMap(
-                [
-                    [HandlerExtractorInterface::class, $this->getMockBuilder(HandlerExtractorInterface::class)->getMock()],
-                    [HandlerLocatorInterface::class, 'default', $this->getMockBuilder(HandlerLocatorInterface::class)->getMock()],
-                    [MethodNameInflectorInterface::class, 'default', $this->getMockBuilder(MethodNameInflector::class)->getMock()],
-                ]
-            )
-        );
+        $this->objectManager->get(HandlerExtractorInterface::class)->willReturn($this->prophesize(HandlerExtractorInterface::class)->reveal());
+        $this->objectManager->get(HandlerLocatorInterface::class, $this->commandBusConfiguration)->willReturn($this->prophesize(HandlerLocatorInterface::class)->reveal());
+        $this->objectManager->get(MethodNameInflectorInterface::class, $this->commandBusConfiguration)->willReturn($this->prophesize(MethodNameInflector::class)->reveal());
 
-        $middleware = $this->subject->resolveMiddlewareHandler('default');
+        $middleware = $this->subject->resolveMiddlewareHandler($this->commandBusConfiguration->reveal());
         $this->assertCount(1, $middleware);
     }
 
@@ -75,28 +75,18 @@ class MiddlewareHandlerResolverTest extends UnitTestCase
      */
     public function additionalMiddlewareIsReturned()
     {
-        $settings = [
-            'command_bus' => [
-                'default' => [
-                    'middleware' => [
-                        LoggingMiddleware::class => LoggingMiddleware::class,
-                    ],
-                ],
-            ],
+        $middleware = [
+            LoggingMiddleware::class
         ];
-        $this->configurationManager->expects($this->once())->method('getConfiguration')->willReturn($settings);
+        $this->commandBusConfiguration->middlewares()->willReturn($middleware);
 
-        $this->objectManager->method('get')->will(
-            $this->returnValueMap(
-                [
-                    [HandlerExtractorInterface::class, $this->getMockBuilder(HandlerExtractorInterface::class)->getMock()],
-                    [HandlerLocatorInterface::class, 'default', $this->getMockBuilder(HandlerLocatorInterface::class)->getMock()],
-                    [MethodNameInflectorInterface::class, 'default', $this->getMockBuilder(MethodNameInflector::class)->getMock()],
-                ]
-            )
-        );
+        $this->objectManager->get(LoggingMiddleware::class)->willReturn($this->prophesize(Middleware::class)->reveal());
 
-        $middleware = $this->subject->resolveMiddlewareHandler('default');
+        $this->objectManager->get(HandlerExtractorInterface::class)->willReturn($this->prophesize(HandlerExtractorInterface::class)->reveal());
+        $this->objectManager->get(HandlerLocatorInterface::class, $this->commandBusConfiguration)->willReturn($this->prophesize(HandlerLocatorInterface::class)->reveal());
+        $this->objectManager->get(MethodNameInflectorInterface::class, $this->commandBusConfiguration)->willReturn($this->prophesize(MethodNameInflector::class)->reveal());
+
+        $middleware = $this->subject->resolveMiddlewareHandler($this->commandBusConfiguration->reveal());
         $this->assertCount(2, $middleware);
     }
 }

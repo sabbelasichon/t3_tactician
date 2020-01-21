@@ -16,7 +16,10 @@ namespace Ssch\T3Tactician\Tests\Unit\HandlerLocator;
  */
 
 use League\Tactician\Exception\MissingHandlerException;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Ssch\T3Tactician\CommandBusConfiguration;
+use Ssch\T3Tactician\CommandBusConfigurationInterface;
 use Ssch\T3Tactician\HandlerLocator\HandlerLocator;
 use Ssch\T3Tactician\Tests\Unit\Fixtures\Command\AddTaskCommand;
 use Ssch\T3Tactician\Tests\Unit\Fixtures\Handler\AddTaskHandler;
@@ -28,17 +31,26 @@ use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
  */
 class HandlerLocatorTest extends TestCase
 {
+    /**
+     * @var HandlerLocator
+     */
     protected $subject;
 
+    /**
+     * @var ObjectManagerInterface
+     */
     protected $objectManager;
 
-    protected $configurationManager;
+    /**
+     * @var CommandBusConfiguration
+     */
+    private $commandBusConfiguration;
 
     protected function setUp()
     {
-        $this->objectManager = $this->getMockBuilder(ObjectManagerInterface::class)->getMock();
-        $this->configurationManager = $this->getMockBuilder(ConfigurationManagerInterface::class)->getMock();
-        $this->subject = new HandlerLocator('default', $this->objectManager, $this->configurationManager);
+        $this->objectManager = $this->prophesize(ObjectManagerInterface::class);
+        $this->commandBusConfiguration = $this->prophesize(CommandBusConfigurationInterface::class);
+        $this->subject = new HandlerLocator($this->commandBusConfiguration->reveal(), $this->objectManager->reveal());
     }
 
     /**
@@ -47,6 +59,7 @@ class HandlerLocatorTest extends TestCase
     public function noHandlerConfiguredForCommandThrowsException()
     {
         $this->expectException(MissingHandlerException::class);
+        $this->commandBusConfiguration->commandHandlers()->willReturn([]);
         $this->subject->getHandlerForCommand('NotExistingClassNameForSure');
     }
 
@@ -55,17 +68,12 @@ class HandlerLocatorTest extends TestCase
      */
     public function returnsNewCommandHandler()
     {
-        $settings = [
-            'command_bus' => [
-                'default' => [
-                    'commandHandler' => [
-                        AddTaskCommand::class => AddTaskHandler::class,
-                    ],
-                ],
-            ],
+        $commandHandlers = [
+            AddTaskCommand::class => AddTaskHandler::class,
         ];
-        $this->configurationManager->expects($this->once())->method('getConfiguration')->willReturn($settings);
-        $this->objectManager->expects($this->once())->method('get')->willReturn(new AddTaskHandler());
+
+        $this->commandBusConfiguration->commandHandlers()->willReturn($commandHandlers);
+        $this->objectManager->get(AddTaskHandler::class)->willReturn(new AddTaskHandler());
         $this->assertInstanceOf(AddTaskHandler::class, $this->subject->getHandlerForCommand(AddTaskCommand::class));
     }
 }

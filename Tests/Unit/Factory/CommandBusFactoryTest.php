@@ -17,21 +17,42 @@ namespace Ssch\T3Tactician\Tests\Unit\Factory;
 
 use League\Tactician\CommandBus;
 use Nimut\TestingFramework\TestCase\UnitTestCase;
+use Ssch\T3Tactician\CommandBusConfigurationInterface;
 use Ssch\T3Tactician\Factory\CommandBusFactory;
 use Ssch\T3Tactician\Middleware\MiddlewareHandlerResolverInterface;
+use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
 
 /**
  * @covers \Ssch\T3Tactician\Factory\CommandBusFactory
  */
 class CommandBusFactoryTest extends UnitTestCase
 {
+    /**
+     * @var CommandBusFactory
+     */
     protected $subject;
+
+    /**
+     * @var MiddlewareHandlerResolverInterface
+     */
     private $middlewareHandlerResolverMock;
+    /**
+     * @var ObjectManagerInterface
+     */
+    private $objectManager;
+
+    /**
+     * @var CommandBusConfigurationInterface
+     */
+    private $commandBusConfiguration;
 
     protected function setUp()
     {
-        $this->middlewareHandlerResolverMock = $this->getMockBuilder(MiddlewareHandlerResolverInterface::class)->disableOriginalConstructor()->getMock();
-        $this->subject = new CommandBusFactory($this->middlewareHandlerResolverMock);
+        $this->middlewareHandlerResolverMock = $this->prophesize(MiddlewareHandlerResolverInterface::class);
+        $this->objectManager = $this->prophesize(ObjectManagerInterface::class);
+        $this->commandBusConfiguration = $this->prophesize(CommandBusConfigurationInterface::class);
+        $this->objectManager->get(CommandBusConfigurationInterface::class, 'default')->willReturn($this->commandBusConfiguration->reveal());
+        $this->subject = new CommandBusFactory($this->middlewareHandlerResolverMock->reveal(), $this->objectManager->reveal());
     }
 
     /**
@@ -39,7 +60,7 @@ class CommandBusFactoryTest extends UnitTestCase
      */
     public function returnsCommandBusInstance()
     {
-        $this->middlewareHandlerResolverMock->method('resolveMiddlewareHandler')->willReturn([]);
+        $this->middlewareHandlerResolverMock->resolveMiddlewareHandler($this->commandBusConfiguration)->willReturn([]);
         $this->assertInstanceOf(CommandBus::class, $this->subject->create());
     }
 }

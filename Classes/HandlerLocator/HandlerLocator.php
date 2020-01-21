@@ -17,6 +17,8 @@ namespace Ssch\T3Tactician\HandlerLocator;
  */
 
 use League\Tactician\Exception\MissingHandlerException;
+use Ssch\T3Tactician\CommandBusConfiguration;
+use Ssch\T3Tactician\CommandBusConfigurationInterface;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
 
@@ -28,20 +30,14 @@ final class HandlerLocator implements HandlerLocatorInterface
     private $objectManager;
 
     /**
-     * @var ConfigurationManagerInterface
+     * @var CommandBusConfiguration
      */
-    private $configurationManager;
+    private $commandBusConfiguration;
 
-    /**
-     * @var string
-     */
-    private $commandBusName;
-
-    public function __construct(string $commandBusName, ObjectManagerInterface $objectManager, ConfigurationManagerInterface $configurationManager)
+    public function __construct(CommandBusConfigurationInterface $commandBusConfiguration, ObjectManagerInterface $objectManager)
     {
-        $this->commandBusName = $commandBusName;
         $this->objectManager = $objectManager;
-        $this->configurationManager = $configurationManager;
+        $this->commandBusConfiguration = $commandBusConfiguration;
     }
 
     /**
@@ -55,7 +51,7 @@ final class HandlerLocator implements HandlerLocatorInterface
      */
     public function getHandlerForCommand($commandName)
     {
-        $registeredHandlers = $this->getRegisteredMethodInflectorClassName($this->commandBusName);
+        $registeredHandlers = $this->commandBusConfiguration->commandHandlers();
 
         if (! isset($registeredHandlers[$commandName])) {
             throw MissingHandlerException::forCommand($commandName);
@@ -66,12 +62,5 @@ final class HandlerLocator implements HandlerLocatorInterface
         }
 
         return $this->objectManager->get($registeredHandlers[$commandName]);
-    }
-
-    private function getRegisteredMethodInflectorClassName(string $commandBusName): array
-    {
-        $settings = $this->configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK);
-
-        return \is_array($settings['command_bus'][$commandBusName]['commandHandler']) ? $settings['command_bus'][$commandBusName]['commandHandler'] : [];
     }
 }

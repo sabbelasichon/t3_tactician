@@ -17,6 +17,8 @@ declare(strict_types = 1);
 namespace Ssch\T3Tactician\Middleware;
 
 use League\Tactician\Handler\CommandHandlerMiddleware;
+use Ssch\T3Tactician\CommandBusConfiguration;
+use Ssch\T3Tactician\CommandBusConfigurationInterface;
 use Ssch\T3Tactician\CommandNameExtractor\HandlerExtractorInterface;
 use Ssch\T3Tactician\HandlerLocator\HandlerLocatorInterface;
 use Ssch\T3Tactician\MethodNameInflector\MethodNameInflectorInterface;
@@ -30,38 +32,25 @@ class MiddlewareHandlerResolver implements MiddlewareHandlerResolverInterface
      */
     private $objectManager;
 
-    /**
-     * @var ConfigurationManagerInterface
-     */
-    private $configurationManager;
-
-    public function __construct(ObjectManagerInterface $objectManager, ConfigurationManagerInterface $configurationManager)
+    public function __construct(ObjectManagerInterface $objectManager)
     {
         $this->objectManager = $objectManager;
-        $this->configurationManager = $configurationManager;
     }
 
-    public function resolveMiddlewareHandler(string $commandBusName): array
+    public function resolveMiddlewareHandler(CommandBusConfigurationInterface $commandBusConfiguration): array
     {
         $middleware = [];
-        foreach ($this->getRegisteredMiddlewareClassNames($commandBusName) as $registeredMiddlewareClassName) {
-            $middleware[] = $this->objectManager->get($registeredMiddlewareClassName);
+        foreach ($commandBusConfiguration->middlewares() as $middlewareClass) {
+            $middleware[] = $this->objectManager->get($middlewareClass);
         }
 
         // This is required, so put it at the end
         $middleware[] = new CommandHandlerMiddleware(
             $this->objectManager->get(HandlerExtractorInterface::class),
-            $this->objectManager->get(HandlerLocatorInterface::class, $commandBusName),
-            $this->objectManager->get(MethodNameInflectorInterface::class, $commandBusName)
+            $this->objectManager->get(HandlerLocatorInterface::class, $commandBusConfiguration),
+            $this->objectManager->get(MethodNameInflectorInterface::class, $commandBusConfiguration)
         );
 
         return $middleware;
-    }
-
-    private function getRegisteredMiddlewareClassNames(string $commandBusName): array
-    {
-        $settings = $this->configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK);
-
-        return \is_array($settings['command_bus'][$commandBusName]['middleware']) ? $settings['command_bus'][$commandBusName]['middleware'] : [];
     }
 }

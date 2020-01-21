@@ -1,7 +1,8 @@
 <?php
+declare(strict_types=1);
 
 
-namespace Ssch\T3Tactician\Middleware;
+namespace Ssch\T3Tactician;
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -16,10 +17,11 @@ namespace Ssch\T3Tactician\Middleware;
  * The TYPO3 project - inspiring people to share!
  */
 
-use Ssch\T3Tactician\CommandBusConfiguration;
-use Ssch\T3Tactician\CommandBusConfigurationInterface;
-
-interface MiddlewareHandlerResolverInterface
+final class CommandAlreadyAssignedToHandlerException extends \LogicException
 {
-    public function resolveMiddlewareHandler(CommandBusConfigurationInterface $commandBusConfiguration): array;
+
+    public static function commandAlreadyAssignedToHandler(string $command, string $handler): CommandAlreadyAssignedToHandlerException
+    {
+        return new self(sprintf('The command %s is already assigned to %s', $command, $handler));
+    }
 }
