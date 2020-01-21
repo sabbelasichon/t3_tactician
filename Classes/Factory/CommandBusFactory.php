@@ -17,8 +17,11 @@ declare(strict_types = 1);
 namespace Ssch\T3Tactician\Factory;
 
 use League\Tactician\CommandBus;
+use Ssch\T3Tactician\CommandBusConfiguration;
+use Ssch\T3Tactician\CommandBusConfigurationInterface;
 use Ssch\T3Tactician\Middleware\MiddlewareHandlerResolverInterface;
 use TYPO3\CMS\Core\SingletonInterface;
+use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
 
 final class CommandBusFactory implements SingletonInterface, CommandBusFactoryInterface
 {
@@ -26,14 +29,20 @@ final class CommandBusFactory implements SingletonInterface, CommandBusFactoryIn
      * @var MiddlewareHandlerResolverInterface
      */
     private $middlewareHandlerResolver;
+    /**
+     * @var ObjectManagerInterface
+     */
+    private $objectManager;
 
-    public function __construct(MiddlewareHandlerResolverInterface $middlewareHandlerResolver)
+    public function __construct(MiddlewareHandlerResolverInterface $middlewareHandlerResolver, ObjectManagerInterface $objectManager)
     {
         $this->middlewareHandlerResolver = $middlewareHandlerResolver;
+        $this->objectManager = $objectManager;
     }
 
     public function create(string $commandBusName = 'default'): CommandBus
     {
-        return new CommandBus($this->middlewareHandlerResolver->resolveMiddlewareHandler($commandBusName));
+        $commandBusConfiguration = $this->objectManager->get(CommandBusConfigurationInterface::class, $commandBusName);
+        return new CommandBus($this->middlewareHandlerResolver->resolveMiddlewareHandler($commandBusConfiguration));
     }
 }

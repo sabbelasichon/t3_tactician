@@ -41,35 +41,31 @@ class YourNameController
 ```
 
 ## Configuring Command Handlers
-So, in order to handle your commands with a specific handler you have to configure it via TypoScript the following way:
+So, in order to handle your commands with a specific handler you have to configure it via a CommandBus.php file in the Configuration folder the following way:
 
-```
-config.tx_extbase {
-    command_bus {
-        default {
-            commandHandler {
-                Vendor\MyExtension\Command\MyCommand = Vendor\MyExtension\Handler\MyHandler
-            }
-        }
-    }
-}
+```php
+return [
+    'default' => [
+        'commandHandler' => [
+            DummyCommand::class => DummyHandler::class
+        ],
+    ]
+];
 ```
 
 ## Middleware
 
 The extension ships with a few pre-configured middlewares.
-To enable them, add them to the middlewares list in your bus configuration via TypoScript:
+To enable them, add them to the middlewares list in your bus configuration via CommandBus.php:
 
-```
-config.tx_extbase {
-    command_bus {
-        default {
-            middleware {
-                Ssch\T3Tactician\Middleware\LoggingMiddleware = Ssch\T3Tactician\Middleware\LoggingMiddleware
-            }
-        }
-    }
-}
+```php
+return [
+    'default' => [
+        'middleware' => [
+            LoggingMiddleware::class
+        ],
+    ]
+];
 ```
 
 ### ValidatorMiddleware
@@ -86,16 +82,14 @@ This middleware uses the TYPO3 Logging-API. This is useful especially during dev
 This middleware allows you to create ScheduledCommands that will be executed at a specific time in the future.
 Make sure you put the SchedulerMiddleware in your CommandBus middleware chain:
 
-```
-config.tx_extbase {
-    command_bus {
-        default {
-            middleware {
-                Ssch\T3Tactician\Middleware\SchedulerMiddleware = Ssch\T3Tactician\Middleware\SchedulerMiddleware
-            }
-        }
-    }
-}
+```php
+return [
+    'default' => [
+        'middleware' => [
+            SchedulerMiddleware::class
+        ],
+    ]
+];
 ```
 
 The command you want to schedule must either extend from AbstractScheduledCommand or implement the ScheduledCommandInterface.
@@ -141,16 +135,16 @@ If you really need to customize this, feel free to contact me. Actually you can.
 
 By default, the extension uses `HandleInflector` from Tactician core. That is to say, it expects your Command Handlers to have a `handle()` method that receives the command to execute.
 
-However, [if you prefer a different inflector](http://tactician.thephpleague.com/tweaking-tactician/), you can override this via TypoScript configuration:
+However, [if you prefer a different inflector](http://tactician.thephpleague.com/tweaking-tactician/), you can override this via CommandBus.php configuration:
 
-```
-config.tx_extbase {
-    command_bus {
-        default {
-            method_inflector = League\Tactician\Handler\MethodNameInflector\InvokeInflector
-        }
-    }
-}
+```php
+return [
+    'default' => [
+        'inflector' => [
+            \League\Tactician\Handler\MethodNameInflector\InvokeInflector::class
+        ],
+    ]
+];
 ```
 
 Now your command handlers have to implement the __invoke method.

@@ -25,13 +25,20 @@ use Ssch\T3Tactician\Tests\Unit\Fixtures\Command\AddTaskCommand;
  */
 class HandlerExtractorTest extends UnitTestCase
 {
+    /**
+     * @var HandlerExtractor
+     */
     protected $subject;
-    protected $classNameExtractMock;
+
+    /**
+     * @var ClassNameExtractor
+     */
+    protected $classNameExtractor;
 
     protected function setUp()
     {
-        $this->classNameExtractMock = $this->getMockBuilder(ClassNameExtractor::class)->getMock();
-        $this->subject = new HandlerExtractor($this->classNameExtractMock);
+        $this->classNameExtractor = $this->prophesize(ClassNameExtractor::class);
+        $this->subject = new HandlerExtractor($this->classNameExtractor->reveal());
     }
 
     /**
@@ -40,7 +47,7 @@ class HandlerExtractorTest extends UnitTestCase
     public function extractMethodsReturnsCorrectString()
     {
         $command = new AddTaskCommand();
-        $this->classNameExtractMock->method('extract')->with($command)->willReturn(\get_class($command));
+        $this->classNameExtractor->extract($command)->willReturn(\get_class($command));
         $this->assertEquals(\get_class($command), $this->subject->extract($command));
     }
 }

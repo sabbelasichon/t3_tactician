@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Ssch\T3Tactician\Middleware;
+namespace Ssch\T3Tactician;
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -16,10 +16,13 @@ namespace Ssch\T3Tactician\Middleware;
  * The TYPO3 project - inspiring people to share!
  */
 
-use Ssch\T3Tactician\CommandBusConfiguration;
-use Ssch\T3Tactician\CommandBusConfigurationInterface;
-
-interface MiddlewareHandlerResolverInterface
+interface CommandBusConfigurationInterface
 {
-    public function resolveMiddlewareHandler(CommandBusConfigurationInterface $commandBusConfiguration): array;
+    public function toString(): string;
+
+    public function middlewares(): array;
+
+    public function commandHandlers(): array;
+
+    public function inflector(): string;
 }
