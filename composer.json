@@ -17,7 +17,7 @@
     }
   ],
   "require": {
-    "php":  ">=7.0",
+    "php": ">=7.0",
     "typo3/cms-core": "^8.7.13 || ^9.5",
     "typo3/cms-extbase": "^8.7 || ^9.5",
     "league/tactician": "^1.0",
@@ -28,7 +28,6 @@
     "nimut/testing-framework": "^1.0 || ^2.0 || ^3.0 || ^4.0"
   },
   "replace": {
-    "t3_tactician": "self.version",
     "typo3-ter/t3-tactician": "self.version"
   },
   "autoload": {
