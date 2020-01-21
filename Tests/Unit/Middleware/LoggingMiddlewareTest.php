@@ -21,6 +21,9 @@ use Ssch\T3Tactician\Middleware\LoggingMiddleware;
 use Ssch\T3Tactician\Tests\Unit\Fixtures\Command\AddTaskCommand;
 use TYPO3\CMS\Core\Log\LogManagerInterface;
 
+/**
+ * @covers \Ssch\T3Tactician\Middleware\LoggingMiddleware
+ */
 class LoggingMiddlewareTest extends UnitTestCase
 {
     protected $subject;

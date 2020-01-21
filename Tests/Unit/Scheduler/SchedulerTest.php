@@ -21,6 +21,9 @@ use Ssch\T3Tactician\Scheduler\Scheduler;
 use Ssch\T3Tactician\Scheduler\Task\CommandTask;
 use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
 
+/**
+ * @covers \Ssch\T3Tactician\Scheduler\Scheduler;
+ */
 class SchedulerTest extends UnitTestCase
 {
     const TASK_UID = 1;

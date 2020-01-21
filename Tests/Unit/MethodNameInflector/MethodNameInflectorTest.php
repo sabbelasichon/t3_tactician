@@ -26,6 +26,9 @@ use Ssch\T3Tactician\Tests\Unit\Fixtures\Handler\AnotherTaskHandler;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
 
+/**
+ * @covers \Ssch\T3Tactician\MethodNameInflector\MethodNameInflector
+ */
 class MethodNameInflectorTest extends UnitTestCase
 {
     protected $defaultMethodNameInflector;

@@ -21,6 +21,9 @@ use Ssch\T3Tactician\Validator\NoValidatorFoundException;
 use Ssch\T3Tactician\Validator\ValidatorResolver;
 use TYPO3\CMS\Extbase\Validation\Validator\ValidatorInterface;
 
+/**
+ * @covers \Ssch\T3Tactician\Validator\ValidatorResolver
+ */
 class ValidatorResolverTest extends UnitTestCase
 {
     protected $subject;

@@ -20,6 +20,9 @@ use Nimut\TestingFramework\TestCase\UnitTestCase;
 use Ssch\T3Tactician\CommandNameExtractor\HandlerExtractor;
 use Ssch\T3Tactician\Tests\Unit\Fixtures\Command\AddTaskCommand;
 
+/**
+ * @covers \Ssch\T3Tactician\CommandNameExtractor\HandlerExtractor
+ */
 class HandlerExtractorTest extends UnitTestCase
 {
     protected $subject;

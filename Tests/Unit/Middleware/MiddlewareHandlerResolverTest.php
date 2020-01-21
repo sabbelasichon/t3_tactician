@@ -25,6 +25,9 @@ use Ssch\T3Tactician\Middleware\MiddlewareHandlerResolver;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
 
+/**
+ * @covers \Ssch\T3Tactician\Middleware\MiddlewareHandlerResolver
+ */
 class MiddlewareHandlerResolverTest extends UnitTestCase
 {
     protected $subject;

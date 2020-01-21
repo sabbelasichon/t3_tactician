@@ -1,5 +1,6 @@
 # TYPO3 Tactician
-[![Build Status](https://travis-ci.org/sabbelasichon/t3_tactician.png)](https://travis-ci.org/sabbelasichon/t3_tactician)
+[![Build Status](https://img.shields.io/travis/sabbelasichon/t3_tactician/master.svg?style=flat-square)](https://travis-ci.org/sabbelasichon/t3_tactician)
+[![Coverage Status](https://img.shields.io/coveralls/sabbelasichon/t3_tactician/master.svg?style=flat-square)](https://coveralls.io/github/sabbelasichon/t3_tactician?branch=master)
 
 TYPO3 Extension for the Tactician library
 [https://github.com/thephpleague/tactician/](https://github.com/thephpleague/tactician/)
@@ -25,12 +26,12 @@ use Ssch\T3Tactician\Command\DummyCommand;
 class YourNameController
 {
     private $commandBus;
-    
+
     public function __construct(CommandBusFactoryInterface $commandBus)
     {
         $this->commandBus = $commandBus->create();
     }
-    
+
     public function doSomethingAction()
     {
         $command = new DummyCommand();
@@ -76,7 +77,7 @@ This middleware uses Extbase validator to check the command object before passin
 
 The validation rules can be added via annotations like in default Extbase practices.
 
-If the command fails, it will throw a Ssch\T3Tactician\Middleware\InvalidCommandException. 
+If the command fails, it will throw a Ssch\T3Tactician\Middleware\InvalidCommandException.
 
 ### LoggingMiddleware
 This middleware uses the TYPO3 Logging-API. This is useful especially during development.
@@ -98,7 +99,7 @@ config.tx_extbase {
 ```
 
 The command you want to schedule must either extend from AbstractScheduledCommand or implement the ScheduledCommandInterface.
-If you did so create your command and set your desired execution time: 
+If you did so create your command and set your desired execution time:
 
 ```php
 <?php
@@ -110,13 +111,13 @@ use Ssch\T3Tactician\Command\AbstractScheduledCommand;
 class YourScheduledCommand extends AbstractScheduledCommand
 {
     private $message;
-    
+
     public function __construct($message)
     {
         $this->message = $message;
     }
-    
-    public function getMessage() 
+
+    public function getMessage()
     {
         return $this->message;
     }
@@ -125,7 +126,7 @@ class YourScheduledCommand extends AbstractScheduledCommand
 
 This command will be stored in the database table tx_scheduler_task.
 
-The real execution has to be executed via a extbase commandController task called "t3_tactician:executescheduledcommands:executescheduledcommands"  
+The real execution has to be executed via a extbase commandController task called "t3_tactician:executescheduledcommands:executescheduledcommands"
 
 ### Custom middleware
 You can also create your own middleware and add them to the configuration.
@@ -134,7 +135,7 @@ The ordering in the configuration is important.
 The very last middleware per default is the Command Handler Middleware bundled in Tactician.
 This is the plugin that actually matches your command to a handler and executes it.
 
-If you really need to customize this, feel free to contact me. Actually you can. But this is not part of the documentation. 
+If you really need to customize this, feel free to contact me. Actually you can. But this is not part of the documentation.
 
 ## Customizing the MethodNameInflector
 
@@ -148,7 +149,7 @@ config.tx_extbase {
         default {
             method_inflector = League\Tactician\Handler\MethodNameInflector\InvokeInflector
         }
-    }    
+    }
 }
 ```
 

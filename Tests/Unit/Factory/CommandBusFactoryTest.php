@@ -20,6 +20,9 @@ use Nimut\TestingFramework\TestCase\UnitTestCase;
 use Ssch\T3Tactician\Factory\CommandBusFactory;
 use Ssch\T3Tactician\Middleware\MiddlewareHandlerResolverInterface;
 
+/**
+ * @covers \Ssch\T3Tactician\Factory\CommandBusFactory
+ */
 class CommandBusFactoryTest extends UnitTestCase
 {
     protected $subject;

@@ -23,6 +23,9 @@ use Ssch\T3Tactician\Tests\Unit\Fixtures\Handler\AddTaskHandler;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
 
+/**
+ * @covers \Ssch\T3Tactician\HandlerLocator\HandlerLocator
+ */
 class HandlerLocatorTest extends TestCase
 {
     protected $subject;

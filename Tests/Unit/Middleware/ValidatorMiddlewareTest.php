@@ -25,6 +25,9 @@ use TYPO3\CMS\Extbase\Error\Error;
 use TYPO3\CMS\Extbase\Error\Result;
 use TYPO3\CMS\Extbase\Validation\Validator\ValidatorInterface;
 
+/**
+ * @covers \Ssch\T3Tactician\Middleware\ValidatorMiddleware
+ */
 class ValidatorMiddlewareTest extends UnitTestCase
 {
     protected $subject;

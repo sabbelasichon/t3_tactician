@@ -27,6 +27,9 @@ use Ssch\T3Tactician\Scheduler\SchedulerInterface;
 use Ssch\T3Tactician\Tests\Unit\Fixtures\Command\AddTaskCommand;
 use function count;
 
+/**
+ * @covers \Ssch\T3Tactician\Middleware\SchedulerMiddleware
+ */
 class SchedulerMiddlewareTest extends UnitTestCase
 {
     /**
