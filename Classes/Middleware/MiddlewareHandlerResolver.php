@@ -17,12 +17,10 @@ declare(strict_types = 1);
 namespace Ssch\T3Tactician\Middleware;
 
 use League\Tactician\Handler\CommandHandlerMiddleware;
-use Ssch\T3Tactician\CommandBusConfiguration;
 use Ssch\T3Tactician\CommandBusConfigurationInterface;
 use Ssch\T3Tactician\CommandNameExtractor\HandlerExtractorInterface;
 use Ssch\T3Tactician\HandlerLocator\HandlerLocatorInterface;
 use Ssch\T3Tactician\MethodNameInflector\MethodNameInflectorInterface;
-use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
 
 class MiddlewareHandlerResolver implements MiddlewareHandlerResolverInterface

@@ -19,7 +19,6 @@ namespace Ssch\T3Tactician\HandlerLocator;
 use League\Tactician\Exception\MissingHandlerException;
 use Ssch\T3Tactician\CommandBusConfiguration;
 use Ssch\T3Tactician\CommandBusConfigurationInterface;
-use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
 
 final class HandlerLocator implements HandlerLocatorInterface

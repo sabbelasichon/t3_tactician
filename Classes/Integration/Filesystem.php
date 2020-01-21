@@ -1,6 +1,5 @@
 <?php
-declare(strict_types=1);
-
+declare(strict_types = 1);
 
 namespace Ssch\T3Tactician\Integration;
 
@@ -19,7 +18,6 @@ namespace Ssch\T3Tactician\Integration;
 
 final class Filesystem implements FilesystemInterface
 {
-
     public function isFile(string $file): bool
     {
         return is_file($file);

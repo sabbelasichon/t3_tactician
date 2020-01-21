@@ -1,6 +1,5 @@
 <?php
-declare(strict_types=1);
-
+declare(strict_types = 1);
 
 namespace Ssch\T3Tactician;
 
@@ -69,7 +68,7 @@ final class CommandBusConfiguration implements CommandBusConfigurationInterface
     private function initialize(string $name)
     {
         foreach ($this->packageManager->getActivePackages() as $package) {
-            $commandBusConfigurationFile = $package->getPackagePath().'Configuration/CommandBus.php';
+            $commandBusConfigurationFile = $package->getPackagePath() . 'Configuration/CommandBus.php';
             if ($this->filesystem->isFile($commandBusConfigurationFile)) {
                 $commands = $this->filesystem->require($commandBusConfigurationFile);
                 if (is_array($commands) && array_key_exists($name, $commands)) {

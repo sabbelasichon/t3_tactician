@@ -17,7 +17,6 @@ declare(strict_types = 1);
 namespace Ssch\T3Tactician\Factory;
 
 use League\Tactician\CommandBus;
-use Ssch\T3Tactician\CommandBusConfiguration;
 use Ssch\T3Tactician\CommandBusConfigurationInterface;
 use Ssch\T3Tactician\Middleware\MiddlewareHandlerResolverInterface;
 use TYPO3\CMS\Core\SingletonInterface;

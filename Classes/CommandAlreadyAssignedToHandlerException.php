@@ -1,6 +1,5 @@
 <?php
-declare(strict_types=1);
-
+declare(strict_types = 1);
 
 namespace Ssch\T3Tactician;
 
@@ -19,7 +18,6 @@ namespace Ssch\T3Tactician;
 
 final class CommandAlreadyAssignedToHandlerException extends \LogicException
 {
-
     public static function commandAlreadyAssignedToHandler(string $command, string $handler): CommandAlreadyAssignedToHandlerException
     {
         return new self(sprintf('The command %s is already assigned to %s', $command, $handler));

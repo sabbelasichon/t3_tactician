@@ -24,7 +24,6 @@ use Ssch\T3Tactician\HandlerLocator\HandlerLocatorInterface;
 use Ssch\T3Tactician\MethodNameInflector\MethodNameInflectorInterface;
 use Ssch\T3Tactician\Middleware\LoggingMiddleware;
 use Ssch\T3Tactician\Middleware\MiddlewareHandlerResolver;
-use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
 
 /**

@@ -24,7 +24,6 @@ use Ssch\T3Tactician\Tests\Unit\Fixtures\Command\AddTaskCommand;
 use Ssch\T3Tactician\Tests\Unit\Fixtures\Command\AnotherTaskCommand;
 use Ssch\T3Tactician\Tests\Unit\Fixtures\Handler\AddTaskHandler;
 use Ssch\T3Tactician\Tests\Unit\Fixtures\Handler\AnotherTaskHandler;
-use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
 
 /**

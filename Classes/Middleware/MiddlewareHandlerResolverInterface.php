@@ -16,7 +16,6 @@ namespace Ssch\T3Tactician\Middleware;
  * The TYPO3 project - inspiring people to share!
  */
 
-use Ssch\T3Tactician\CommandBusConfiguration;
 use Ssch\T3Tactician\CommandBusConfigurationInterface;
 
 interface MiddlewareHandlerResolverInterface
