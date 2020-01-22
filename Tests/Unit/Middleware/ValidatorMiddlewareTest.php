@@ -16,9 +16,10 @@ namespace Ssch\T3Tactician\Tests\Unit\Middleware;
  */
 
 use Nimut\TestingFramework\TestCase\UnitTestCase;
-use Ssch\T3Tactician\Command\DummyCommand;
+use PHPUnit\Framework\MockObject\MockObject;
 use Ssch\T3Tactician\Middleware\InvalidCommandException;
 use Ssch\T3Tactician\Middleware\ValidatorMiddleware;
+use Ssch\T3Tactician\Tests\Unit\Fixtures\Command\AddTaskCommand;
 use Ssch\T3Tactician\Validator\NoValidatorFoundException;
 use Ssch\T3Tactician\Validator\ValidatorResolverInterface;
 use TYPO3\CMS\Extbase\Error\Error;
@@ -30,8 +31,14 @@ use TYPO3\CMS\Extbase\Validation\Validator\ValidatorInterface;
  */
 class ValidatorMiddlewareTest extends UnitTestCase
 {
+    /**
+     * @var ValidatorMiddleware
+     */
     protected $subject;
 
+    /**
+     * @var MockObject|ValidatorResolverInterface
+     */
     protected $validatorResolverMock;
 
     protected function setUp()
@@ -59,13 +66,13 @@ class ValidatorMiddlewareTest extends UnitTestCase
      */
     public function noValidatorFoundSoCallNext()
     {
-        $this->validatorResolverMock->method('getBaseValidatorConjunction')->willThrowException(NoValidatorFoundException::noValidatorFound(DummyCommand::class));
+        $this->validatorResolverMock->method('getBaseValidatorConjunction')->willThrowException(NoValidatorFoundException::noValidatorFound(AddTaskCommand::class));
         $this->assertNextIsCalled();
     }
 
     private function assertNextIsCalled()
     {
-        $command = new DummyCommand();
+        $command = new AddTaskCommand();
         $nextClosure = function ($command) {
             $this->assertInternalType('object', $command);
 
@@ -93,7 +100,7 @@ class ValidatorMiddlewareTest extends UnitTestCase
         $validatorMock->method('validate')->willReturn($errorResultMock);
         $this->validatorResolverMock->method('getBaseValidatorConjunction')->willReturn($validatorMock);
 
-        $command = new DummyCommand();
+        $command = new AddTaskCommand();
         $nextClosure = function ($command) {
             $this->assertInternalType('object', $command);
 

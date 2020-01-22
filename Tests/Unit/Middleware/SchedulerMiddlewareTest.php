@@ -18,13 +18,13 @@ namespace Ssch\T3Tactician\Tests\Unit\Middleware;
 use League\Tactician\CommandBus;
 use Nimut\TestingFramework\TestCase\UnitTestCase;
 use PHPUnit\Framework\MockObject\MockObject;
-use Ssch\T3Tactician\Command\DummyScheduledCommand;
 use Ssch\T3Tactician\Command\ExecuteScheduledCommandsCommand;
 use Ssch\T3Tactician\Command\ScheduledCommandInterface;
 use Ssch\T3Tactician\Integration\ClockInterface;
 use Ssch\T3Tactician\Middleware\SchedulerMiddleware;
 use Ssch\T3Tactician\Scheduler\SchedulerInterface;
 use Ssch\T3Tactician\Tests\Unit\Fixtures\Command\AddTaskCommand;
+use Ssch\T3Tactician\Tests\Unit\Fixtures\Command\DummyScheduledCommand;
 use function count;
 
 /**

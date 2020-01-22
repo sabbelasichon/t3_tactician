@@ -16,12 +16,11 @@ namespace Ssch\T3Tactician\Tests\Functional;
  */
 
 use Nimut\TestingFramework\TestCase\FunctionalTestCase;
-use Ssch\T3Tactician\Command\DummyCommand;
-use Ssch\T3Tactician\Command\DummyScheduledCommand;
-use Ssch\T3Tactician\Command\FakeCommand;
 use Ssch\T3Tactician\Factory\CommandBusFactory;
 use Ssch\T3Tactician\Middleware\InvalidCommandException;
 use Ssch\T3Tactician\Scheduler\Scheduler;
+use Ssch\T3Tactician\Tests\Unit\Fixtures\Command\AddTaskCommand;
+use Ssch\T3Tactician\Tests\Unit\Fixtures\Command\DummyScheduledCommand;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 
@@ -54,7 +53,7 @@ class CommandBusTest extends FunctionalTestCase
     public function correctHandlerIsCalled()
     {
         $subject = $this->createCommandBus();
-        $command = new DummyCommand();
+        $command = new AddTaskCommand();
         $command->title = 'Title';
         $this->assertNull($subject->handle($command));
     }
@@ -65,7 +64,7 @@ class CommandBusTest extends FunctionalTestCase
     public function validationErrorOccurredThrowsException()
     {
         $subject = $this->createCommandBus();
-        $command = new DummyCommand();
+        $command = new AddTaskCommand();
         $this->expectException(InvalidCommandException::class);
         $subject->handle($command);
     }
@@ -89,7 +88,7 @@ class CommandBusTest extends FunctionalTestCase
     public function differentMethodNameInflector()
     {
         $subject = $this->createCommandBus('testingMethodNameInflector');
-        $command = new FakeCommand();
+        $command = new AddTaskCommand();
         $subject->handle($command);
     }
 

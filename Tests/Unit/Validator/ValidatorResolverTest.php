@@ -16,7 +16,7 @@ namespace Ssch\T3Tactician\Tests\Unit\Validator;
  */
 
 use Nimut\TestingFramework\TestCase\UnitTestCase;
-use Ssch\T3Tactician\Command\DummyCommand;
+use Ssch\T3Tactician\Tests\Unit\Fixtures\Command\AddTaskCommand;
 use Ssch\T3Tactician\Validator\NoValidatorFoundException;
 use Ssch\T3Tactician\Validator\ValidatorResolver;
 use TYPO3\CMS\Extbase\Validation\Validator\ValidatorInterface;
@@ -44,7 +44,7 @@ class ValidatorResolverTest extends UnitTestCase
     {
         $this->expectException(NoValidatorFoundException::class);
         $this->validatorResolverMock->method('getBaseValidatorConjunction')->willReturn(null);
-        $this->subject->getBaseValidatorConjunction(DummyCommand::class);
+        $this->subject->getBaseValidatorConjunction(AddTaskCommand::class);
     }
 
     /**
@@ -54,6 +54,6 @@ class ValidatorResolverTest extends UnitTestCase
     {
         $validatorMock = $this->getMockBuilder(ValidatorInterface::class)->getMock();
         $this->validatorResolverMock->method('getBaseValidatorConjunction')->willReturn($validatorMock);
-        $this->assertInstanceOf(ValidatorInterface::class, $this->subject->getBaseValidatorConjunction(DummyCommand::class));
+        $this->assertInstanceOf(ValidatorInterface::class, $this->subject->getBaseValidatorConjunction(AddTaskCommand::class));
     }
 }

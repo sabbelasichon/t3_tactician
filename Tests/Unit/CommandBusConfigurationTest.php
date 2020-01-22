@@ -16,12 +16,12 @@ namespace Ssch\T3Tactician\Tests\Unit;
  */
 
 use Nimut\TestingFramework\TestCase\UnitTestCase;
-use Ssch\T3Tactician\Command\FakeCommand;
 use Ssch\T3Tactician\CommandAlreadyAssignedToHandlerException;
 use Ssch\T3Tactician\CommandBusConfiguration;
-use Ssch\T3Tactician\Handler\FakeHandler;
 use Ssch\T3Tactician\Integration\FilesystemInterface;
 use Ssch\T3Tactician\Middleware\LoggingMiddleware;
+use Ssch\T3Tactician\Tests\Unit\Fixtures\Command\AddTaskCommand;
+use Ssch\T3Tactician\Tests\Unit\Fixtures\Handler\AddTaskHandler;
 use TYPO3\CMS\Core\Package\PackageInterface;
 use TYPO3\CMS\Core\Package\PackageManager;
 
@@ -61,7 +61,7 @@ class CommandBusConfigurationTest extends UnitTestCase
         $commandBusConfiguration = [
             '_default' => [
                 'commandHandler' => [
-                    FakeCommand::class => FakeHandler::class,
+                    AddTaskCommand::class => AddTaskHandler::class,
                 ],
                 'middleware' => [
                     LoggingMiddleware::class
@@ -101,7 +101,7 @@ class CommandBusConfigurationTest extends UnitTestCase
         $commandBusConfiguration = [
             '_default' => [
                 'commandHandler' => [
-                    FakeCommand::class => FakeHandler::class,
+                    AddTaskCommand::class => AddTaskHandler::class,
                 ],
                 'middleware' => [
 

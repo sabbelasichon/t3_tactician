@@ -25,7 +25,7 @@ config.tx_extbase {
             }
 
             commandHandler {
-                Ssch\T3Tactician\Command\DummyScheduledCommand = Ssch\T3Tactician\Handler\DummyScheduldedHandler
+                Ssch\T3Tactician\Tests\Unit\Fixtures\Command\DummyScheduledCommand = Ssch\T3Tactician\Handler\DummyScheduldedHandler
             }
         }
     }

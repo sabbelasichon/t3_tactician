@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace Ssch\T3Tactician\Command;
+namespace Ssch\T3Tactician\Tests\Unit\Fixtures\Command;
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -15,6 +15,8 @@ namespace Ssch\T3Tactician\Command;
  *
  * The TYPO3 project - inspiring people to share!
  */
+
+use Ssch\T3Tactician\Command\AbstractScheduledCommand;
 
 final class DummyScheduledCommand extends AbstractScheduledCommand
 {

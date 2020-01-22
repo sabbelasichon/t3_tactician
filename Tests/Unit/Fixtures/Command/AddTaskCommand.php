@@ -18,4 +18,9 @@ namespace Ssch\T3Tactician\Tests\Unit\Fixtures\Command;
 
 final class AddTaskCommand
 {
+    /**
+     * @var string
+     * @validate NotEmpty
+     */
+    public $title = '';
 }
