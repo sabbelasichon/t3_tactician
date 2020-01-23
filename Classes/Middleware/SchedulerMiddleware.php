@@ -50,7 +50,7 @@ final class SchedulerMiddleware implements Middleware
             $commands = $this->scheduler->getCommands();
             foreach ($commands as $scheduledCommand) {
                 $command->getCommandBus()->handle($scheduledCommand);
-                // Only remove command if no exception occured
+                // Only remove command if no exception occurred
                 $this->scheduler->removeCommand($scheduledCommand);
             }
         } else {

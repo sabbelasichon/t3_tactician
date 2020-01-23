@@ -16,6 +16,8 @@ namespace Ssch\T3Tactician\Tests\Unit\Validator;
  */
 
 use Nimut\TestingFramework\TestCase\UnitTestCase;
+use Prophecy\Argument;
+use Prophecy\Prophecy\ObjectProphecy;
 use Ssch\T3Tactician\Tests\Unit\Fixtures\Command\AddTaskCommand;
 use Ssch\T3Tactician\Validator\NoValidatorFoundException;
 use Ssch\T3Tactician\Validator\ValidatorResolver;
@@ -26,14 +28,20 @@ use TYPO3\CMS\Extbase\Validation\Validator\ValidatorInterface;
  */
 class ValidatorResolverTest extends UnitTestCase
 {
+    /**
+     * @var ValidatorResolver
+     */
     protected $subject;
 
-    protected $validatorResolverMock;
+    /**
+     * @var ObjectProphecy|\TYPO3\CMS\Extbase\Validation\ValidatorResolver
+     */
+    protected $validatorResolver;
 
     protected function setUp()
     {
-        $this->validatorResolverMock = $this->getMockBuilder(\TYPO3\CMS\Extbase\Validation\ValidatorResolver::class)->disableOriginalConstructor()->getMock();
-        $this->subject = new ValidatorResolver($this->validatorResolverMock);
+        $this->validatorResolver = $this->prophesize(\TYPO3\CMS\Extbase\Validation\ValidatorResolver::class);
+        $this->subject = new ValidatorResolver($this->validatorResolver->reveal());
     }
 
     /**
@@ -43,7 +51,7 @@ class ValidatorResolverTest extends UnitTestCase
     public function noValidatorFoundThrowsException()
     {
         $this->expectException(NoValidatorFoundException::class);
-        $this->validatorResolverMock->method('getBaseValidatorConjunction')->willReturn(null);
+        $this->validatorResolver->getBaseValidatorConjunction(Argument::any())->willReturn(null);
         $this->subject->getBaseValidatorConjunction(AddTaskCommand::class);
     }
 
@@ -52,8 +60,8 @@ class ValidatorResolverTest extends UnitTestCase
      */
     public function returnCorrectValidator()
     {
-        $validatorMock = $this->getMockBuilder(ValidatorInterface::class)->getMock();
-        $this->validatorResolverMock->method('getBaseValidatorConjunction')->willReturn($validatorMock);
+        $validator = $this->prophesize(ValidatorInterface::class);
+        $this->validatorResolver->getBaseValidatorConjunction(Argument::any())->willReturn($validator->reveal());
         $this->assertInstanceOf(ValidatorInterface::class, $this->subject->getBaseValidatorConjunction(AddTaskCommand::class));
     }
 }

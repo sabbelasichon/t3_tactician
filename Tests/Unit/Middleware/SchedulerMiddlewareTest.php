@@ -18,6 +18,8 @@ namespace Ssch\T3Tactician\Tests\Unit\Middleware;
 use League\Tactician\CommandBus;
 use Nimut\TestingFramework\TestCase\UnitTestCase;
 use PHPUnit\Framework\MockObject\MockObject;
+use Prophecy\Argument;
+use Prophecy\Prophecy\ObjectProphecy;
 use Ssch\T3Tactician\Command\ExecuteScheduledCommandsCommand;
 use Ssch\T3Tactician\Command\ScheduledCommandInterface;
 use Ssch\T3Tactician\Integration\ClockInterface;
@@ -38,7 +40,7 @@ class SchedulerMiddlewareTest extends UnitTestCase
     protected $subject;
 
     /**
-     * @var MockObject|SchedulerInterface
+     * @var ObjectProphecy|SchedulerInterface
      */
     protected $scheduler;
 
@@ -49,9 +51,9 @@ class SchedulerMiddlewareTest extends UnitTestCase
 
     protected function setUp()
     {
-        $this->scheduler = $this->getMockBuilder(SchedulerInterface::class)->getMock();
-        $this->clock = $this->getMockBuilder(ClockInterface::class)->getMock();
-        $this->subject = new SchedulerMiddleware($this->scheduler, $this->clock);
+        $this->scheduler = $this->prophesize(SchedulerInterface::class);
+        $this->clock = $this->prophesize(ClockInterface::class);
+        $this->subject = new SchedulerMiddleware($this->scheduler->reveal(), $this->clock->reveal());
     }
 
     /**
@@ -59,11 +61,12 @@ class SchedulerMiddlewareTest extends UnitTestCase
      */
     public function scheduleCommand()
     {
-        $command = $this->getMockBuilder(ScheduledCommandInterface::class)->getMock();
-        $command->method('getTimestamp')->willReturn(time());
-        $this->scheduler->expects($this->once())->method('schedule')->with($command);
-        $this->clock->method('getCurrentTimestamp')->willReturn(time() - 1000);
-        $this->subject->execute($command, function () {
+        $command = $this->prophesize(ScheduledCommandInterface::class);
+        $timestamp = time();
+        $command->getTimestamp()->willReturn($timestamp);
+        $this->scheduler->schedule($command)->shouldBeCalledOnce();
+        $this->clock->getCurrentTimestamp()->willReturn($timestamp - 1000);
+        $this->subject->execute($command->reveal(), static function () {
         });
     }
 
@@ -72,18 +75,23 @@ class SchedulerMiddlewareTest extends UnitTestCase
      */
     public function executeCommands()
     {
-        $commandBus = $this->getMockBuilder(CommandBus::class)->disableOriginalConstructor()->getMock();
-        $command = new ExecuteScheduledCommandsCommand($commandBus);
-        $this->scheduler->expects($this->never())->method('schedule');
+        $commandBus = $this->prophesize(CommandBus::class);
+        $command = new ExecuteScheduledCommandsCommand($commandBus->reveal());
+        $this->scheduler->schedule(new DummyScheduledCommand('email@domain.com', 'username'))->shouldNotBeCalled();
+
         $commands = [
             new DummyScheduledCommand('email@domain.com', 'username'),
             new DummyScheduledCommand('email@domain.com', 'username'),
             new DummyScheduledCommand('email@domain.com', 'username'),
         ];
-        $this->scheduler->expects($this->once())->method('getCommands')->willReturn($commands);
-        $commandBus->expects($this->exactly(count($commands)))->method('handle');
-        $this->subject->execute($command, function () {
+
+        $this->scheduler->getCommands()->shouldBeCalledOnce()->willReturn($commands);
+
+        $this->subject->execute($command, static function () {
         });
+
+        $commandBus->handle(Argument::type(ScheduledCommandInterface::class))->shouldHaveBeenCalledTimes(count($commands));
+        $this->scheduler->removeCommand(Argument::any())->shouldHaveBeenCalledTimes(count($commands));
     }
 
     /**

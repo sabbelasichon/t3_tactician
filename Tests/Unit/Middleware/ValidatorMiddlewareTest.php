@@ -17,6 +17,8 @@ namespace Ssch\T3Tactician\Tests\Unit\Middleware;
 
 use Nimut\TestingFramework\TestCase\UnitTestCase;
 use PHPUnit\Framework\MockObject\MockObject;
+use Prophecy\Argument;
+use Prophecy\Prophecy\ObjectProphecy;
 use Ssch\T3Tactician\Middleware\InvalidCommandException;
 use Ssch\T3Tactician\Middleware\ValidatorMiddleware;
 use Ssch\T3Tactician\Tests\Unit\Fixtures\Command\AddTaskCommand;
@@ -37,14 +39,14 @@ class ValidatorMiddlewareTest extends UnitTestCase
     protected $subject;
 
     /**
-     * @var MockObject|ValidatorResolverInterface
+     * @var ObjectProphecy|ValidatorResolverInterface
      */
-    protected $validatorResolverMock;
+    protected $validatorResolver;
 
     protected function setUp()
     {
-        $this->validatorResolverMock = $this->getMockBuilder(ValidatorResolverInterface::class)->getMock();
-        $this->subject = new ValidatorMiddleware($this->validatorResolverMock);
+        $this->validatorResolver = $this->prophesize(ValidatorResolverInterface::class);
+        $this->subject = new ValidatorMiddleware($this->validatorResolver->reveal());
     }
 
     /**
@@ -52,21 +54,23 @@ class ValidatorMiddlewareTest extends UnitTestCase
      */
     public function validationIsSuccessfulCallNext()
     {
-        $validatorMock = $this->getMockBuilder(ValidatorInterface::class)->getMock();
-        $errorResultMock = $this->getMockBuilder(Result::class)->getMock();
-        $errorResultMock->method('getFlattenedErrors')->willReturn([]);
-        $validatorMock->method('validate')->willReturn($errorResultMock);
-        $this->validatorResolverMock->method('getBaseValidatorConjunction')->willReturn($validatorMock);
+        $validator = $this->prophesize(ValidatorInterface::class);
+        $errorResult = $this->prophesize(Result::class);
+        $errorResult->getFlattenedErrors()->willReturn([]);
+        $validator->validate(Argument::any())->willReturn($errorResult);
+
+        $this->validatorResolver->getBaseValidatorConjunction(Argument::any())->willReturn($validator->reveal());
 
         $this->assertNextIsCalled();
     }
 
     /**
      * @test
+     * @throws NoValidatorFoundException
      */
     public function noValidatorFoundSoCallNext()
     {
-        $this->validatorResolverMock->method('getBaseValidatorConjunction')->willThrowException(NoValidatorFoundException::noValidatorFound(AddTaskCommand::class));
+        $this->validatorResolver->getBaseValidatorConjunction(Argument::any())->willThrow(NoValidatorFoundException::noValidatorFound(AddTaskCommand::class));
         $this->assertNextIsCalled();
     }
 
@@ -86,19 +90,21 @@ class ValidatorMiddlewareTest extends UnitTestCase
 
     /**
      * @test
+     * @throws NoValidatorFoundException
+     * @throws InvalidCommandException
      */
     public function onValidationErrorThrowsException()
     {
         $this->expectException(InvalidCommandException::class);
 
-        $validatorMock = $this->getMockBuilder(ValidatorInterface::class)->getMock();
-        $errorResultMock = $this->getMockBuilder(Result::class)->getMock();
+        $validator = $this->prophesize(ValidatorInterface::class);
+        $errorResult = $this->prophesize(Result::class);
         $errors = [
             new Error('Some error message', 1547051759)
         ];
-        $errorResultMock->method('getFlattenedErrors')->willReturn($errors);
-        $validatorMock->method('validate')->willReturn($errorResultMock);
-        $this->validatorResolverMock->method('getBaseValidatorConjunction')->willReturn($validatorMock);
+        $errorResult->getFlattenedErrors()->willReturn($errors);
+        $validator->validate(Argument::any())->willReturn($errorResult);
+        $this->validatorResolver->getBaseValidatorConjunction(Argument::any())->willReturn($validator->reveal());
 
         $command = new AddTaskCommand();
         $nextClosure = function ($command) {
