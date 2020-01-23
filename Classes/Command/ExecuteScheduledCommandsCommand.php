@@ -18,6 +18,9 @@ namespace Ssch\T3Tactician\Command;
 
 use League\Tactician\CommandBus;
 
+/**
+ * @codeCoverageIgnore
+ */
 final class ExecuteScheduledCommandsCommand
 {
 

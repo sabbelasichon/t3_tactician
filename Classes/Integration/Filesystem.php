@@ -16,6 +16,9 @@ namespace Ssch\T3Tactician\Integration;
  * The TYPO3 project - inspiring people to share!
  */
 
+/**
+ * @codeCoverageIgnore
+ */
 final class Filesystem implements FilesystemInterface
 {
     public function isFile(string $file): bool

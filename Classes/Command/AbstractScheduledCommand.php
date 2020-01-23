@@ -18,6 +18,9 @@ namespace Ssch\T3Tactician\Command;
 
 use LogicException;
 
+/**
+ * @codeCoverageIgnore
+ */
 abstract class AbstractScheduledCommand implements ScheduledCommandInterface
 {
     /**

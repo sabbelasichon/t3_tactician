@@ -22,7 +22,7 @@ use Ssch\T3Tactician\Scheduler\Task\CommandTask;
 use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
 
 /**
- * @covers \Ssch\T3Tactician\Scheduler\Scheduler;
+ * @covers \Ssch\T3Tactician\Scheduler\Scheduler
  */
 class SchedulerTest extends UnitTestCase
 {

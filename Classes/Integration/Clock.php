@@ -16,6 +16,9 @@ declare(strict_types = 1);
 
 namespace Ssch\T3Tactician\Integration;
 
+/**
+ * @codeCoverageIgnore
+ */
 final class Clock implements ClockInterface
 {
     public function getCurrentTimestamp(): int

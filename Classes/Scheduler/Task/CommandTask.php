@@ -19,6 +19,9 @@ namespace Ssch\T3Tactician\Scheduler\Task;
 use Ssch\T3Tactician\Command\ScheduledCommandInterface;
 use TYPO3\CMS\Scheduler\Task\AbstractTask;
 
+/**
+ * @codeCoverageIgnore
+ */
 class CommandTask extends AbstractTask
 {
     /**

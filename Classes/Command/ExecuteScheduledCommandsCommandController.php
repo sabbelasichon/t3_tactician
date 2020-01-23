@@ -20,6 +20,9 @@ use League\Tactician\CommandBus;
 use Ssch\T3Tactician\Factory\CommandBusFactoryInterface;
 use TYPO3\CMS\Extbase\Mvc\Controller\CommandController;
 
+/**
+ * @codeCoverageIgnore
+ */
 final class ExecuteScheduledCommandsCommandController extends CommandController
 {
     /**
