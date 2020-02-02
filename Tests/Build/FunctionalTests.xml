@@ -18,4 +18,9 @@
             <directory>../Functional/</directory>
         </testsuite>
     </testsuites>
+    <filter>
+        <whitelist>
+            <directory>../../Classes/</directory>
+        </whitelist>
+    </filter>
 </phpunit>
