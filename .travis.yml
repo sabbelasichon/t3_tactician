@@ -1,22 +1,20 @@
 language: php
 
-php:
-  - 7.0
-  - 7.1
-  - 7.2
-  - 7.3
-
-env:
-  - TYPO3_VERSION="^8.7.0"
-  - TYPO3_VERSION="^9.5.0"
-
 matrix:
   fast_finish: true
-  exclude:
+  include:
+    - php: 7.2
+      env: TYPO3_VERSION=^9.5.0 COVERAGE=1
+    - php: 7.3
+      env: TYPO3_VERSION=^9.5.0 COVERAGE=0
+    - php: 7.4
+      env: TYPO3_VERSION=^9.5.0 COVERAGE=0
     - php: 7.0
-      env: TYPO3_VERSION="^9.5.0"
+      env: TYPO3_VERSION=^8.7.0 COVERAGE=0
     - php: 7.1
-      env: TYPO3_VERSION="^9.5.0"
+      env: TYPO3_VERSION=^8.7.0 COVERAGE=0
+    - php: 7.2
+      env: TYPO3_VERSION=^8.7.0 COVERAGE=0
 
 sudo: false
 
@@ -32,44 +30,48 @@ cache:
   directories:
     - $HOME/.composer/cache
 
-notifications:
-  email:
-    - breakpoint@schreibersebastian.de
-
 before_install:
   - composer self-update
   - composer --version
-  - phpenv config-rm xdebug.ini || return 0
 
 before_script:
-  - composer require typo3/minimal=$TYPO3_VERSION
+  - composer require typo3/minimal:${TYPO3_VERSION}
+  - if [[ "$COVERAGE" == "1" ]]; then composer require "phpunit/phpcov ^5"; fi
+  - mkdir cov
   # Restore composer.json
   - git checkout composer.json
-  - export TYPO3_PATH_WEB=$PWD/.Build/Web
-  - mv phpunit.xml.dist phpunit.xml
 
 script:
   - >
-    echo;
-    echo "Running unit tests";
-    .Build/bin/phpunit --colors -c phpunit.xml
-
+    if [[ "$COVERAGE" == "0" ]]; then
+      echo;
+      echo "Running unit tests";
+      .Build/bin/phpunit --colors -c Tests/Build/UnitTests.xml Tests/Unit/
+    fi
   - >
-    echo;
-    echo "Test coverage";
-    phpdbg -qrr -d memory_limit=-1 .Build/bin/phpunit -c phpunit.xml --coverage-clover coverage.xml;
-    wget https://github.com/php-coveralls/php-coveralls/releases/download/v2.1.0/php-coveralls.phar;
-    php php-coveralls.phar --verbose
-
+    if [[ "$COVERAGE" == "1" ]]; then
+      echo;
+      echo "Running unit tests";
+      .Build/bin/phpunit --coverage-php cov/coverage-unit.cov --colors -c Tests/Build/UnitTests.xml Tests/Unit/
+    fi
   - >
     echo;
     echo "Running php lint";
     find . -name \*.php ! -path "./.Build/*" | parallel --gnu php -d display_errors=stderr -l {} > /dev/null \;
-
   - >
-    echo;
-    export typo3DatabaseName="typo3";
-    export typo3DatabaseHost="localhost";
-    export typo3DatabaseUsername="root";
-    export typo3DatabasePassword="";
-    find 'Tests/Functional' -wholename '*Test.php' | parallel --gnu 'echo; echo "Running functional test suite {}"; .Build/bin/phpunit --colors  -c .Build/vendor/nimut/testing-framework/res/Configuration/FunctionalTests.xml {}'
+    if [[ "$COVERAGE" == "1" ]]; then
+      echo;
+      export typo3DatabaseName="typo3";
+      export typo3DatabaseHost="127.0.0.1";
+      export typo3DatabaseUsername="root";
+      export typo3DatabasePassword="";
+      .Build/bin/phpunit --coverage-php cov/coverage-functional.cov --colors -c Tests/Build/FunctionalTests.xml Tests/Functional/
+    fi
+
+after_script:
+  - >
+    if [[ "$COVERAGE" == "1" ]]; then
+      echo;
+      .Build/bin/phpcov merge cov --clover build/logs/clover.xml
+      travis_retry php .Build/bin/php-coveralls -v
+    fi

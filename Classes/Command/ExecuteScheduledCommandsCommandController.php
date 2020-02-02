@@ -37,7 +37,7 @@ final class ExecuteScheduledCommandsCommandController extends CommandController
 
     public function executeScheduledCommandsCommand()
     {
-        $executeScheduledCommandsCommand = $this->objectManager->get(ExecuteScheduledCommandsCommand::class, $this->commandBus);
+        $executeScheduledCommandsCommand = new ExecuteScheduledCommandsCommand($this->commandBus);
         $this->commandBus->handle($executeScheduledCommandsCommand);
     }
 }
