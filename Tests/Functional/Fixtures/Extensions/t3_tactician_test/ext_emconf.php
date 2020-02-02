@@ -12,6 +12,11 @@ $EM_CONF[$_EXTKEY] = [
     'createDirs' => '',
     'clearCacheOnLoad' => 0,
     'version' => '1.0.0',
+    'autoload' => [
+        'psr-4' => [
+            'Ssch\\T3TacticianTest\\' => 'Classes',
+        ],
+    ],
     'constraints' => [
         'depends' => [
             'typo3' => '8.7.0-9.5.99',

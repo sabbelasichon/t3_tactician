@@ -17,7 +17,6 @@ namespace Ssch\T3Tactician\Tests\Unit\Middleware;
 
 use League\Tactician\CommandBus;
 use Nimut\TestingFramework\TestCase\UnitTestCase;
-use PHPUnit\Framework\MockObject\MockObject;
 use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
 use Ssch\T3Tactician\Command\ExecuteScheduledCommandsCommand;

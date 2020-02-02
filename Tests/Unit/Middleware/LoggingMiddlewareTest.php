@@ -34,7 +34,7 @@ class LoggingMiddlewareTest extends UnitTestCase
     protected $subject;
 
     /**
-     * @var ObjectProphecy|LoggerInterface
+     * @var LoggerInterface|ObjectProphecy
      */
     private $logger;
 

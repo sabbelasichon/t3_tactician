@@ -20,6 +20,7 @@ use Ssch\T3Tactician\Factory\CommandBusFactory;
 use Ssch\T3Tactician\Middleware\InvalidCommandException;
 use Ssch\T3Tactician\Scheduler\Scheduler;
 use Ssch\T3Tactician\Tests\Unit\Fixtures\Command\AddTaskCommand;
+use Ssch\T3Tactician\Tests\Unit\Fixtures\Command\AnotherTaskCommand;
 use Ssch\T3Tactician\Tests\Unit\Fixtures\Command\DummyScheduledCommand;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
@@ -52,10 +53,10 @@ class CommandBusTest extends FunctionalTestCase
      */
     public function correctHandlerIsCalled()
     {
-        $subject = $this->createCommandBus();
+        $commandBus = $this->createCommandBus();
         $command = new AddTaskCommand();
         $command->title = 'Title';
-        $this->assertNull($subject->handle($command));
+        $this->assertNull($commandBus->handle($command));
     }
 
     /**
@@ -63,10 +64,10 @@ class CommandBusTest extends FunctionalTestCase
      */
     public function validationErrorOccurredThrowsException()
     {
-        $subject = $this->createCommandBus();
+        $commandBus = $this->createCommandBus();
         $command = new AddTaskCommand();
         $this->expectException(InvalidCommandException::class);
-        $subject->handle($command);
+        $commandBus->handle($command);
     }
 
     /**
@@ -76,8 +77,8 @@ class CommandBusTest extends FunctionalTestCase
     {
         $command = new DummyScheduledCommand('dummy@domain.com', 'dummy');
         $command->setTimestamp(time() + 1000);
-        $subject = $this->createCommandBus('testingScheduler');
-        $subject->handle($command);
+        $commandBus = $this->createCommandBus('testingScheduler');
+        $commandBus->handle($command);
 
         $this->assertEquals(1, $this->getDatabaseConnection()->selectCount('*', 'tx_scheduler_task', sprintf('description = "%s"', Scheduler::TASK_DESCRIPTION_IDENTIFIER)));
     }
@@ -87,9 +88,8 @@ class CommandBusTest extends FunctionalTestCase
      */
     public function differentMethodNameInflector()
     {
-        $subject = $this->createCommandBus('testingMethodNameInflector');
-        $command = new AddTaskCommand();
-        $subject->handle($command);
+        $commandBus = $this->createCommandBus('testingMethodNameInflector');
+        $commandBus->handle(new AnotherTaskCommand());
     }
 
     private function createCommandBus($name = 'testing')

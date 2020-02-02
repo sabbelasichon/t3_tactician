@@ -6,6 +6,9 @@
   "require": {
     "ssch/t3-tactician": "*"
   },
+  "autoload": {
+    "Ssch\\T3TacticianTest\\": "Classes"
+  },
   "replace": {
     "t3_tactician_test": "self.version",
     "typo3-ter/t3-tactician-test": "self.version"
