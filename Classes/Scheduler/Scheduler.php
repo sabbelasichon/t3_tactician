@@ -17,6 +17,7 @@ namespace Ssch\T3Tactician\Scheduler;
  */
 
 use Ssch\T3Tactician\Command\ScheduledCommandInterface;
+use Ssch\T3Tactician\Integration\ClockInterface;
 use Ssch\T3Tactician\Scheduler\Task\CommandTask;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
@@ -33,20 +34,20 @@ final class Scheduler implements SchedulerInterface
     private $scheduler;
 
     /**
-     * @var ObjectManagerInterface
+     * @var ClockInterface
      */
-    private $objectManager;
+    private $clock;
 
-    public function __construct(TYPO3Scheduler $scheduler, ObjectManagerInterface $objectManager)
+    public function __construct(TYPO3Scheduler $scheduler, ClockInterface $clock)
     {
         $this->scheduler = $scheduler;
-        $this->objectManager = $objectManager;
+        $this->clock = $clock;
     }
 
     public function schedule(ScheduledCommandInterface $command, int $id = null): string
     {
         /** @var CommandTask $task */
-        $task = $this->objectManager->get(CommandTask::class, $command);
+        $task = new CommandTask($command);
         $task->setTaskGroup(0);
         $execution = GeneralUtility::makeInstance(Execution::class);
         $execution->setStart($command->getTimestamp());
@@ -73,7 +74,7 @@ final class Scheduler implements SchedulerInterface
 
     private function fetchCommandTasks(): array
     {
-        return $this->scheduler->fetchTasksWithCondition(sprintf('nextexecution <= %d AND description = "%s"', time(), self::TASK_DESCRIPTION_IDENTIFIER), true);
+        return $this->scheduler->fetchTasksWithCondition(sprintf('nextexecution <= %d AND description = "%s"', $this->clock->getCurrentTimestamp(), self::TASK_DESCRIPTION_IDENTIFIER), true);
     }
 
     public function removeCommand(ScheduledCommandInterface $command)
