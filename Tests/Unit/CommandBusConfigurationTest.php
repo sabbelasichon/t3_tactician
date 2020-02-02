@@ -27,6 +27,7 @@ use TYPO3\CMS\Core\Package\PackageManager;
 
 /**
  * @covers \Ssch\T3Tactician\CommandBusConfiguration
+ * @covers \Ssch\T3Tactician\CommandAlreadyAssignedToHandlerException
  */
 class CommandBusConfigurationTest extends UnitTestCase
 {
