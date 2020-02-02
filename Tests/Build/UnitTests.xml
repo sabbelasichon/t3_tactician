@@ -10,7 +10,6 @@
          stopOnFailure="false"
          stopOnIncomplete="false"
          stopOnSkipped="false"
-         strict="false"
          verbose="false">
     <testsuites>
         <testsuite name="t3_tactician tests">
