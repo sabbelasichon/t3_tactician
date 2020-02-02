@@ -34,6 +34,7 @@ before_script:
   - composer require typo3/minimal:${TYPO3_VERSION}
   - if [[ "$COVERAGE" == "1" ]]; then composer require "phpunit/phpcov ^5"; fi
   - mkdir cov
+  - mkdir -p build/logs
   # Restore composer.json
   - git checkout composer.json
 
@@ -64,7 +65,7 @@ script:
       .Build/bin/phpunit --coverage-php cov/coverage-functional.cov --colors -c Tests/Build/FunctionalTests.xml Tests/Functional/
     fi
 
-after_script:
+after_success:
   - >
     if [[ "$COVERAGE" == "1" ]]; then
       echo;
