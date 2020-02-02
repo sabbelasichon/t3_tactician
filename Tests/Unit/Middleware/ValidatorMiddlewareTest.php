@@ -29,6 +29,8 @@ use TYPO3\CMS\Extbase\Validation\Validator\ValidatorInterface;
 
 /**
  * @covers \Ssch\T3Tactician\Middleware\ValidatorMiddleware
+ * @covers \Ssch\T3Tactician\Validator\NoValidatorFoundException
+ * @covers \Ssch\T3Tactician\Middleware\InvalidCommandException
  */
 class ValidatorMiddlewareTest extends UnitTestCase
 {

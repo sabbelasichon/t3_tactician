@@ -64,6 +64,16 @@ class HandlerLocatorTest extends TestCase
     /**
      * @test
      */
+    public function notExistingHandlerClassForCommandThrowsException()
+    {
+        $this->expectException(MissingHandlerException::class);
+        $this->commandBusConfiguration->commandHandlers()->willReturn(['NotExistingClassNameForSure' => 'Handler']);
+        $this->subject->getHandlerForCommand('NotExistingClassNameForSure');
+    }
+
+    /**
+     * @test
+     */
     public function returnsNewCommandHandler()
     {
         $commandHandlers = [
