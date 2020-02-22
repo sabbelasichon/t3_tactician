@@ -14,9 +14,7 @@ return [
         'commandHandler' => [
             \Ssch\T3Tactician\Tests\Unit\Fixtures\Command\AnotherTaskCommand::class => \Ssch\T3Tactician\Tests\Unit\Fixtures\Handler\AnotherTaskHandler::class,
         ],
-        'inflector' => [
-            \League\Tactician\Handler\MethodNameInflector\InvokeInflector::class
-        ]
+        'inflector' => \League\Tactician\Handler\MethodNameInflector\InvokeInflector::class
     ],
     'testingScheduler' => [
         'commandHandler' => [
