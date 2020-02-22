@@ -15,10 +15,13 @@ namespace Ssch\T3Tactician\Tests\Unit;
  * The TYPO3 project - inspiring people to share!
  */
 
+use League\Tactician\Handler\MethodNameInflector\HandleInflector;
+use League\Tactician\Handler\MethodNameInflector\InvokeInflector;
 use Nimut\TestingFramework\TestCase\UnitTestCase;
 use Ssch\T3Tactician\CommandAlreadyAssignedToHandlerException;
 use Ssch\T3Tactician\CommandBusConfiguration;
 use Ssch\T3Tactician\Integration\FilesystemInterface;
+use Ssch\T3Tactician\MethodNameInflector\MethodNameInflector;
 use Ssch\T3Tactician\Middleware\LoggingMiddleware;
 use Ssch\T3Tactician\Tests\Unit\Fixtures\Command\AddTaskCommand;
 use Ssch\T3Tactician\Tests\Unit\Fixtures\Handler\AddTaskHandler;
@@ -67,9 +70,7 @@ class CommandBusConfigurationTest extends UnitTestCase
                 'middleware' => [
                     LoggingMiddleware::class
                 ],
-                'method_inflector' => [
-
-                ]
+                'inflector' => InvokeInflector::class
             ],
         ];
 
@@ -81,6 +82,7 @@ class CommandBusConfigurationTest extends UnitTestCase
         $this->assertSame('_default', $subject->toString());
         $this->assertSame($commandBusConfiguration['_default']['commandHandler'], $subject->commandHandlers());
         $this->assertSame($commandBusConfiguration['_default']['middleware'], $subject->middlewares());
+        $this->assertSame($commandBusConfiguration['_default']['inflector'], $subject->inflector());
     }
 
     /**

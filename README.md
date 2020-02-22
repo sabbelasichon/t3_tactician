@@ -140,9 +140,7 @@ However, [if you prefer a different inflector](http://tactician.thephpleague.com
 ```php
 return [
     'default' => [
-        'inflector' => [
-            \League\Tactician\Handler\MethodNameInflector\InvokeInflector::class
-        ],
+        'inflector' => \League\Tactician\Handler\MethodNameInflector\InvokeInflector::class
     ]
 ];
 ```

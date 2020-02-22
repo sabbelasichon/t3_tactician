@@ -75,7 +75,7 @@ final class CommandBusConfiguration implements CommandBusConfigurationInterface
                     $commandBusConfiguration = $commands[$name];
                     $this->addCommandHandlers($commandBusConfiguration);
                     $this->addMiddleware($commandBusConfiguration);
-                    $this->addInflectors($commandBusConfiguration);
+                    $this->addInflector($commandBusConfiguration);
                 }
             }
         }
@@ -103,13 +103,9 @@ final class CommandBusConfiguration implements CommandBusConfigurationInterface
         }
     }
 
-    private function addInflectors($commandBusConfiguration)
+    private function addInflector($commandBusConfiguration)
     {
-        if (is_array($commandBusConfiguration['inflector'])) {
-            foreach ($commandBusConfiguration['inflector'] as $inflector) {
-                $this->inflector = $inflector;
-            }
-        }
+        $this->inflector = $commandBusConfiguration['inflector'] ?? HandleInflector::class;
     }
 
     private function hasCommandHandler(string $command): bool
