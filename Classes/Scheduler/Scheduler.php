@@ -20,7 +20,6 @@ use Ssch\T3Tactician\Command\ScheduledCommandInterface;
 use Ssch\T3Tactician\Integration\ClockInterface;
 use Ssch\T3Tactician\Scheduler\Task\CommandTask;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
 use TYPO3\CMS\Scheduler\Execution;
 use TYPO3\CMS\Scheduler\Scheduler as TYPO3Scheduler;
 
@@ -61,15 +60,9 @@ final class Scheduler implements SchedulerInterface
 
     public function getCommands(): array
     {
-        /** @var CommandTask[] $tasks */
-        $tasks = $this->fetchCommandTasks();
-
-        $commands = [];
-        foreach ($tasks as $task) {
-            $commands[] = $task->getCommand();
-        }
-
-        return $commands;
+        return array_map(static function (CommandTask $commandTask) {
+            return $commandTask->getCommand();
+        }, $this->fetchCommandTasks());
     }
 
     private function fetchCommandTasks(): array
