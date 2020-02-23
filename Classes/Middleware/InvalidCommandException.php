@@ -18,32 +18,15 @@ namespace Ssch\T3Tactician\Middleware;
 
 use League\Tactician\Exception\Exception;
 use TYPO3\CMS\Extbase\Error\Result;
+use function count;
 
 final class InvalidCommandException extends \Exception implements Exception
 {
-    protected $command;
-
-    protected $result;
-
     public static function onCommand($command, Result $result): self
     {
-        $exception = new static(
+        return new static(
             'Validation failed for ' . \get_class($command) .
-            ' with ' . \count($result->getFlattenedErrors()) . ' violation(s).'
+            ' with ' . count($result->getFlattenedErrors()) . ' violation(s).'
         );
-        $exception->command = $command;
-        $exception->result = $result;
-
-        return $exception;
-    }
-
-    public function getCommand()
-    {
-        return $this->command;
-    }
-
-    public function getResult(): Result
-    {
-        return $this->result;
     }
 }
