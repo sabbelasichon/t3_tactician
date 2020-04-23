@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace Ssch\T3Tactician;
+namespace Ssch\T3Tactician\CommandBus;
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -16,12 +16,14 @@ namespace Ssch\T3Tactician;
  * The TYPO3 project - inspiring people to share!
  */
 
-use LogicException;
-
-final class CommandAlreadyAssignedToHandlerException extends LogicException
+interface CommandBusInterface
 {
-    public static function commandAlreadyAssignedToHandler(string $command, string $handler): CommandAlreadyAssignedToHandlerException
-    {
-        return new self(sprintf('The command %s is already assigned to %s', $command, $handler));
-    }
+    /**
+     * Executes the given command and optionally returns a value
+     *
+     * @param object $command
+     *
+     * @return mixed
+     */
+    public function handle($command);
 }

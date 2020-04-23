@@ -15,8 +15,8 @@ namespace Ssch\T3Tactician\Tests\Unit\Factory;
  * The TYPO3 project - inspiring people to share!
  */
 
-use League\Tactician\CommandBus;
 use Nimut\TestingFramework\TestCase\UnitTestCase;
+use Ssch\T3Tactician\CommandBus\CommandBusInterface;
 use Ssch\T3Tactician\CommandBusConfigurationInterface;
 use Ssch\T3Tactician\Factory\CommandBusFactory;
 use Ssch\T3Tactician\Middleware\MiddlewareHandlerResolverInterface;
@@ -36,31 +36,27 @@ class CommandBusFactoryTest extends UnitTestCase
      * @var MiddlewareHandlerResolverInterface
      */
     private $middlewareHandlerResolverMock;
-    /**
-     * @var ObjectManagerInterface
-     */
-    private $objectManager;
 
     /**
      * @var CommandBusConfigurationInterface
      */
     private $commandBusConfiguration;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->middlewareHandlerResolverMock = $this->prophesize(MiddlewareHandlerResolverInterface::class);
-        $this->objectManager = $this->prophesize(ObjectManagerInterface::class);
+        $objectManager = $this->prophesize(ObjectManagerInterface::class);
         $this->commandBusConfiguration = $this->prophesize(CommandBusConfigurationInterface::class);
-        $this->objectManager->get(CommandBusConfigurationInterface::class, 'default')->willReturn($this->commandBusConfiguration->reveal());
-        $this->subject = new CommandBusFactory($this->middlewareHandlerResolverMock->reveal(), $this->objectManager->reveal());
+        $objectManager->get(CommandBusConfigurationInterface::class, 'default')->willReturn($this->commandBusConfiguration->reveal());
+        $this->subject = new CommandBusFactory($this->middlewareHandlerResolverMock->reveal(), $objectManager->reveal());
     }
 
     /**
      * @test
      */
-    public function returnsCommandBusInstance()
+    public function returnsCommandBusInstance(): void
     {
         $this->middlewareHandlerResolverMock->resolveMiddlewareHandler($this->commandBusConfiguration)->willReturn([]);
-        $this->assertInstanceOf(CommandBus::class, $this->subject->create());
+        $this->assertInstanceOf(CommandBusInterface::class, $this->subject->create());
     }
 }

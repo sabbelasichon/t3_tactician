@@ -16,9 +16,9 @@ namespace Ssch\T3Tactician\Factory;
  * The TYPO3 project - inspiring people to share!
  */
 
-use League\Tactician\CommandBus;
+use Ssch\T3Tactician\CommandBus\CommandBusInterface;
 
 interface CommandBusFactoryInterface
 {
-    public function create(string $commandBusName = 'default'): CommandBus;
+    public function create(string $commandBusName = 'default'): CommandBusInterface;
 }

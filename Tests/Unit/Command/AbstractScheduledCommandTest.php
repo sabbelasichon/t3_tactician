@@ -3,8 +3,8 @@
 namespace Ssch\T3Tactician\Tests\Unit\Command;
 
 use LogicException;
-use Ssch\T3Tactician\Tests\Unit\Fixtures\Command\DummyScheduledCommand;
 use Nimut\TestingFramework\TestCase\UnitTestCase;
+use Ssch\T3Tactician\Tests\Unit\Fixtures\Command\DummyScheduledCommand;
 
 class AbstractScheduledCommandTest extends UnitTestCase
 {

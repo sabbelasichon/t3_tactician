@@ -65,7 +65,7 @@ final class CommandBusConfiguration implements CommandBusConfigurationInterface
         }
     }
 
-    private function initialize(string $name)
+    private function initialize(string $name): void
     {
         foreach ($this->packageManager->getActivePackages() as $package) {
             $commandBusConfigurationFile = $package->getPackagePath() . 'Configuration/CommandBus.php';
@@ -81,7 +81,7 @@ final class CommandBusConfiguration implements CommandBusConfigurationInterface
         }
     }
 
-    private function addCommandHandlers($commandBusConfiguration)
+    private function addCommandHandlers($commandBusConfiguration): void
     {
         if (is_array($commandBusConfiguration['commandHandler'])) {
             foreach ($commandBusConfiguration['commandHandler'] as $command => $handler) {
@@ -94,7 +94,7 @@ final class CommandBusConfiguration implements CommandBusConfigurationInterface
         }
     }
 
-    private function addMiddleware($commandBusConfiguration)
+    private function addMiddleware($commandBusConfiguration): void
     {
         if (is_array($commandBusConfiguration['middleware'])) {
             foreach ($commandBusConfiguration['middleware'] as $middleware) {
@@ -103,7 +103,7 @@ final class CommandBusConfiguration implements CommandBusConfigurationInterface
         }
     }
 
-    private function addInflector($commandBusConfiguration)
+    private function addInflector($commandBusConfiguration): void
     {
         $this->inflector = $commandBusConfiguration['inflector'] ?? HandleInflector::class;
     }
