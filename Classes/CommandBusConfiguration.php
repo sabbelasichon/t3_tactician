@@ -24,11 +24,6 @@ use TYPO3\CMS\Core\Package\PackageManager;
 final class CommandBusConfiguration implements CommandBusConfigurationInterface
 {
     /**
-     * @var string
-     */
-    private $name;
-
-    /**
      * @var array
      */
     private $middlewares = [];
@@ -44,24 +39,17 @@ final class CommandBusConfiguration implements CommandBusConfigurationInterface
     private $packageManager;
 
     /**
-     * @var FilesystemInterface
-     */
-    private $filesystem;
-
-    /**
      * @var string
      */
     private $inflector;
 
-    public function __construct(string $name, PackageManager $packageManager, FilesystemInterface $filesystem)
+    public function __construct(private string $name, PackageManager $packageManager, private FilesystemInterface $filesystem)
     {
         $this->packageManager = $packageManager;
-        $this->filesystem = $filesystem;
-        $this->name = $name;
 
         try {
             $this->initialize($name);
-        } catch (Exception $e) {
+        } catch (Exception $exception) {
         }
     }
 

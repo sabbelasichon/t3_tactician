@@ -31,8 +31,6 @@ final class Filesystem implements FilesystemInterface
      */
     public function require(string $file)
     {
-        $include = require $file;
-
-        return $include;
+        return require $file;
     }
 }
