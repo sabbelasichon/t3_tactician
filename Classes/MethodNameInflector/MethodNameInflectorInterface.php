@@ -15,8 +15,8 @@ namespace Ssch\T3Tactician\MethodNameInflector;
  * The TYPO3 project - inspiring people to share!
  */
 
-use League\Tactician\Handler\MethodNameInflector\MethodNameInflector as TacticianMethoNameInflector;
+use League\Tactician\Handler\MethodNameInflector\MethodNameInflector;
 
-interface MethodNameInflectorInterface extends TacticianMethoNameInflector
+interface MethodNameInflectorInterface extends MethodNameInflector
 {
 }

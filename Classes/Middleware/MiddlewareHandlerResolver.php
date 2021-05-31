@@ -23,7 +23,7 @@ use Ssch\T3Tactician\HandlerLocator\HandlerLocatorInterface;
 use Ssch\T3Tactician\MethodNameInflector\MethodNameInflectorInterface;
 use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
 
-class MiddlewareHandlerResolver implements MiddlewareHandlerResolverInterface
+final class MiddlewareHandlerResolver implements MiddlewareHandlerResolverInterface
 {
     /**
      * @var ObjectManagerInterface

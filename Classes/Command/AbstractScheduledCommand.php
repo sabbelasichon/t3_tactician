@@ -20,10 +20,7 @@ use LogicException;
 
 abstract class AbstractScheduledCommand implements ScheduledCommandInterface
 {
-    /**
-     * @var int
-     */
-    private $timestamp;
+    private ?int $timestamp = null;
 
     public function setTimestamp(int $timestamp)
     {

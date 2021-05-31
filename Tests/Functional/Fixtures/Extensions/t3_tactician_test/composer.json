@@ -9,6 +9,11 @@
   "autoload": {
     "Ssch\\T3TacticianTest\\": "Classes"
   },
+  "extra": {
+    "typo3/cms": {
+      "extension-key": "t3_tactician_test"
+    }
+  },
   "replace": {
     "t3_tactician_test": "self.version",
     "typo3-ter/t3-tactician-test": "self.version"

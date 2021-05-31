@@ -22,25 +22,13 @@ final class DummyScheduledCommand extends AbstractScheduledCommand
 {
 
     /**
-     * @var string
-     */
-    private $email;
-
-    /**
-     * @var string
-     */
-    private $username;
-
-    /**
      * DummyScheduledCommand constructor.
      *
      * @param string $email
      * @param string $username
      */
-    public function __construct(string $email, string $username)
+    public function __construct(private string $email, private string $username)
     {
-        $this->email = $email;
-        $this->username = $username;
     }
 
     /**
