@@ -1,11 +1,16 @@
 <?php
+
 declare(strict_types=1);
 
+/*
+ * This file is part of the "t3_tactician" Extension for TYPO3 CMS.
+ *
+ * For the full copyright and license information, please read the
+ * LICENSE.txt file that was distributed with this source code.
+ */
 
 namespace Ssch\T3Tactician\DependencyInjection\Compiler;
 
-
-use Ssch\T3Tactician\Contract\ValidatorResolverInterface;
 use Ssch\T3Tactician\Middleware\ValidatorMiddleware;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -19,10 +24,13 @@ final class ValidatorMiddlewarePass implements CompilerPassInterface
 
     public function process(ContainerBuilder $container)
     {
-        if(false === $container->hasDefinition(ValidatorResolver::class)) {
+        if ($container->hasDefinition(ValidatorResolver::class) === false) {
             return;
         }
 
-        $container->setDefinition(self::SERVICE_ID, new Definition(ValidatorMiddleware::class, [new Reference(ValidatorResolver::class)]));
+        $container->setDefinition(
+            self::SERVICE_ID,
+            new Definition(ValidatorMiddleware::class, [new Reference(ValidatorResolver::class)])
+        );
     }
 }

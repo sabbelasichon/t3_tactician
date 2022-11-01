@@ -8,6 +8,11 @@ use League\Tactician\Handler\MethodNameInflector\HandleInflector;
 use League\Tactician\Handler\MethodNameInflector\InvokeInflector;
 use League\Tactician\Plugins\LockingMiddleware;
 use League\Tactician\Plugins\NamedCommand\NamedCommandExtractor;
+use Ssch\T3Tactician\DependencyInjection\Compiler\CommandHandlerPass;
+use Ssch\T3Tactician\DependencyInjection\Compiler\ValidatorMiddlewarePass;
+use Ssch\T3Tactician\DependencyInjection\HandlerMapping\ClassNameMapping;
+use Ssch\T3Tactician\DependencyInjection\HandlerMapping\CompositeMapping;
+use Ssch\T3Tactician\DependencyInjection\HandlerMapping\TypeHintMapping;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
@@ -28,4 +33,7 @@ return static function (ContainerConfigurator $containerConfigurator, ContainerB
     $services->set(InvokeInflector::class);
     $services->set(ClassNameExtractor::class);
     $services->set(NamedCommandExtractor::class);
+
+    $containerBuilder->addCompilerPass(new ValidatorMiddlewarePass());
+    $containerBuilder->addCompilerPass(new CommandHandlerPass(new CompositeMapping(new TypeHintMapping(), new ClassNameMapping())));
 };

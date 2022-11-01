@@ -30,8 +30,9 @@ use TYPO3\CMS\Extbase\Validation\ValidatorResolver;
 
 final class ValidatorMiddleware implements Middleware
 {
-    public function __construct(private ValidatorResolver $validatorResolver)
-    {
+    public function __construct(
+        private ValidatorResolver $validatorResolver
+    ) {
     }
 
     /**

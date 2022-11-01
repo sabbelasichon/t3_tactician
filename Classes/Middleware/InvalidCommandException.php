@@ -18,6 +18,7 @@ use TYPO3\CMS\Extbase\Error\Result;
 final class InvalidCommandException extends \RuntimeException implements Exception
 {
     private object $command;
+
     private Result $result;
 
     public static function onCommand(object $command, Result $result): self

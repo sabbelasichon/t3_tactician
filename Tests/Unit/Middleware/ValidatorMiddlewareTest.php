@@ -1,9 +1,15 @@
 <?php
+
 declare(strict_types=1);
 
+/*
+ * This file is part of the "t3_tactician" Extension for TYPO3 CMS.
+ *
+ * For the full copyright and license information, please read the
+ * LICENSE.txt file that was distributed with this source code.
+ */
 
 namespace Ssch\T3Tactician\Tests\Unit\Middleware;
-
 
 use Nimut\TestingFramework\TestCase\UnitTestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
@@ -31,15 +37,16 @@ final class ValidatorMiddlewareTest extends UnitTestCase
         $this->subject = new ValidatorMiddleware($this->validatorResolver->reveal());
     }
 
-    public function test_execute_with_errors(): void
+    public function testExecuteWithErrors(): void
     {
         // Arrange
         $result = new Result();
-        $result->addError(new Error('error', 1667333210));
+        $result->addError(new Error('error', 1_667_333_210));
 
         $command = new FakeCommand();
         $notEmptyValidator = $this->prophesize(NotEmptyValidator::class);
-        $notEmptyValidator->validate($command)->willReturn($result);
+        $notEmptyValidator->validate($command)
+            ->willReturn($result);
         $this->validatorResolver->getBaseValidatorConjunction(FakeCommand::class)->willReturn($notEmptyValidator);
 
         // Act
@@ -53,17 +60,16 @@ final class ValidatorMiddlewareTest extends UnitTestCase
         }
     }
 
-    public function test_execute_without_errors(): void
+    public function testExecuteWithoutErrors(): void
     {
         $result = new Result();
         $command = new FakeCommand();
         $notEmptyValidator = $this->prophesize(NotEmptyValidator::class);
-        $notEmptyValidator->validate($command)->willReturn($result);
+        $notEmptyValidator->validate($command)
+            ->willReturn($result);
         $this->validatorResolver->getBaseValidatorConjunction(FakeCommand::class)->willReturn($notEmptyValidator);
 
-        $next = function () {
-            return 'executed';
-        };
+        $next = fn () => 'executed';
 
         $actual = $this->subject->execute($command, $next);
         self::assertSame('executed', $actual);

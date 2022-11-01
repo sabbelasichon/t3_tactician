@@ -59,8 +59,8 @@ CODE_SAMPLE;
     );
 
     $ecsConfig->ruleWithConfiguration(NoSuperfluousPhpdocTagsFixer::class, [
-            'allow_mixed' => true,
-        ],);
+        'allow_mixed' => true,
+    ],);
 
     $ecsConfig->sets([SetList::PSR_12, SetList::SYMPLIFY, SetList::COMMON, SetList::CLEAN_CODE]);
 };
