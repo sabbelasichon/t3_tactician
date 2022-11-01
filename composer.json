@@ -17,15 +17,14 @@
     }
   ],
   "require": {
-    "php": ">=7.2",
-    "typo3/cms-core": "^8.7.13 || ^9.5 || ^10.4",
-    "typo3/cms-extbase": "^8.7 || ^9.5 || ^10.4",
+    "php": "^8.0",
+    "typo3/cms-core": "^11.5 || ^12.0",
+    "typo3/cms-extbase": "^11.5 || ^12.0",
     "league/tactician": "^1.0",
-    "typo3/cms-scheduler": "^8.7 || ^9.5 || ^10.4"
+    "typo3/cms-scheduler": "^11.5 || ^12.0"
   },
   "require-dev": {
-    "friendsofphp/php-cs-fixer": "^2.0",
-    "nimut/testing-framework": "^5.0",
+    "typo3/testing-framework": "^6.0",
     "php-coveralls/php-coveralls": "^2.2"
   },
   "replace": {
@@ -48,6 +47,10 @@
       "typo3/cms": "source",
       "typo3/cms-core": "source",
       "*": "dist"
+    },
+    "allow-plugins": {
+      "typo3/class-alias-loader": true,
+      "typo3/cms-composer-installers": true
     }
   },
   "scripts": {
@@ -58,7 +61,7 @@
   },
   "extra": {
     "branch-alias": {
-      "dev-master": "1.0.x-dev"
+      "dev-master": "2.0.x-dev"
     },
     "typo3/cms": {
       "extension-key": "t3_tactician",
