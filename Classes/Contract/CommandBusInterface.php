@@ -9,7 +9,7 @@ declare(strict_types=1);
  * LICENSE.txt file that was distributed with this source code.
  */
 
-namespace Ssch\T3Tactician\HandlerLocator;
+namespace Ssch\T3Tactician\Contract;
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -24,8 +24,14 @@ namespace Ssch\T3Tactician\HandlerLocator;
  * The TYPO3 project - inspiring people to share!
  */
 
-use League\Tactician\Handler\Locator\HandlerLocator;
-
-interface HandlerLocatorInterface extends HandlerLocator
+interface CommandBusInterface
 {
+    /**
+     * Executes the given command and optionally returns a value
+     *
+     * @param object $command
+     *
+     * @return mixed
+     */
+    public function handle($command);
 }

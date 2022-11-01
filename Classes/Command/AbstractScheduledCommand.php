@@ -25,6 +25,7 @@ namespace Ssch\T3Tactician\Command;
  */
 
 use LogicException;
+use Ssch\T3Tactician\Contract\ScheduledCommandInterface;
 
 abstract class AbstractScheduledCommand implements ScheduledCommandInterface
 {

@@ -25,8 +25,8 @@ namespace Ssch\T3Tactician\Tests\Unit\Scheduler;
  */
 
 use Nimut\TestingFramework\TestCase\UnitTestCase;
-use Ssch\T3Tactician\Command\ScheduledCommandInterface;
-use Ssch\T3Tactician\Integration\ClockInterface;
+use Ssch\T3Tactician\Contract\ClockInterface;
+use Ssch\T3Tactician\Contract\ScheduledCommandInterface;
 use Ssch\T3Tactician\Scheduler\Scheduler;
 use Ssch\T3Tactician\Scheduler\Task\CommandTask;
 
@@ -41,7 +41,7 @@ class SchedulerTest extends UnitTestCase
 
     private \TYPO3\CMS\Scheduler\Scheduler $scheduler;
 
-    private \Ssch\T3Tactician\Integration\ClockInterface $clock;
+    private \Ssch\T3Tactician\Contract\ClockInterface $clock;
 
     protected function setUp()
     {

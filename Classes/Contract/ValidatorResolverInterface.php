@@ -9,7 +9,7 @@ declare(strict_types=1);
  * LICENSE.txt file that was distributed with this source code.
  */
 
-namespace Ssch\T3Tactician\CommandBus;
+namespace Ssch\T3Tactician\Contract;
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -24,14 +24,9 @@ namespace Ssch\T3Tactician\CommandBus;
  * The TYPO3 project - inspiring people to share!
  */
 
-interface CommandBusInterface
+use TYPO3\CMS\Extbase\Validation\Validator\ValidatorInterface;
+
+interface ValidatorResolverInterface
 {
-    /**
-     * Executes the given command and optionally returns a value
-     *
-     * @param object $command
-     *
-     * @return mixed
-     */
-    public function handle($command);
+    public function getBaseValidatorConjunction(string $targetClassName): ValidatorInterface;
 }

@@ -20,8 +20,7 @@ Create a class and inject the command bus factory:
 
 namespace Vendor\MyExtension\Controller;
 
-use Ssch\T3Tactician\Factory\CommandBusFactoryInterface;
-use Ssch\T3Tactician\Command\DummyCommand;
+use Ssch\T3Tactician\Command\DummyCommand;use Ssch\T3Tactician\Contract\CommandBusFactoryInterface;
 
 class YourNameController
 {

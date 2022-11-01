@@ -25,6 +25,7 @@ namespace Ssch\T3Tactician\CommandNameExtractor;
  */
 
 use League\Tactician\Handler\CommandNameExtractor\ClassNameExtractor;
+use Ssch\T3Tactician\Contract\HandlerExtractorInterface;
 
 final class HandlerExtractor implements HandlerExtractorInterface
 {

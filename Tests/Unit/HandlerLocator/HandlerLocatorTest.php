@@ -26,8 +26,7 @@ namespace Ssch\T3Tactician\Tests\Unit\HandlerLocator;
 
 use League\Tactician\Exception\MissingHandlerException;
 use PHPUnit\Framework\TestCase;
-use Ssch\T3Tactician\CommandBusConfiguration;
-use Ssch\T3Tactician\CommandBusConfigurationInterface;
+use Ssch\T3Tactician\Contract\CommandBusConfigurationInterface;
 use Ssch\T3Tactician\HandlerLocator\HandlerLocator;
 use Ssch\T3Tactician\Tests\Unit\Fixtures\Command\AddTaskCommand;
 use Ssch\T3Tactician\Tests\Unit\Fixtures\Handler\AddTaskHandler;

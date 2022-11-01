@@ -24,18 +24,18 @@ namespace Ssch\T3Tactician\Command;
  * The TYPO3 project - inspiring people to share!
  */
 
-use League\Tactician\CommandBus;
+use Ssch\T3Tactician\Contract\CommandBusInterface;
 
 /**
  * @codeCoverageIgnore
  */
 final class ExecuteScheduledCommandsCommand
 {
-    public function __construct(private CommandBus $commandBus)
+    public function __construct(private CommandBusInterface $commandBus)
     {
     }
 
-    public function getCommandBus(): CommandBus
+    public function getCommandBus(): CommandBusInterface
     {
         return $this->commandBus;
     }

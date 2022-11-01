@@ -24,18 +24,18 @@ namespace Ssch\T3Tactician\Tests\Unit\Middleware;
  * The TYPO3 project - inspiring people to share!
  */
 
-use function count;
 use League\Tactician\CommandBus;
 use Nimut\TestingFramework\TestCase\UnitTestCase;
 use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
 use Ssch\T3Tactician\Command\ExecuteScheduledCommandsCommand;
-use Ssch\T3Tactician\Command\ScheduledCommandInterface;
-use Ssch\T3Tactician\Integration\ClockInterface;
+use Ssch\T3Tactician\Contract\ClockInterface;
+use Ssch\T3Tactician\Contract\ScheduledCommandInterface;
+use Ssch\T3Tactician\Contract\SchedulerInterface;
 use Ssch\T3Tactician\Middleware\SchedulerMiddleware;
-use Ssch\T3Tactician\Scheduler\SchedulerInterface;
 use Ssch\T3Tactician\Tests\Unit\Fixtures\Command\AddTaskCommand;
 use Ssch\T3Tactician\Tests\Unit\Fixtures\Command\DummyScheduledCommand;
+use function count;
 
 class SchedulerMiddlewareTest extends UnitTestCase
 {
@@ -45,12 +45,12 @@ class SchedulerMiddlewareTest extends UnitTestCase
     protected $subject;
 
     /**
-     * @var ObjectProphecy|SchedulerInterface
+     * @var ObjectProphecy|\Ssch\T3Tactician\Contract\SchedulerInterface
      */
     protected $scheduler;
 
     /**
-     * @var ClockInterface
+     * @var \Ssch\T3Tactician\Contract\ClockInterface
      */
     protected $clock;
 

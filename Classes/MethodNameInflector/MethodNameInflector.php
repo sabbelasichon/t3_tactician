@@ -25,7 +25,8 @@ namespace Ssch\T3Tactician\MethodNameInflector;
  */
 
 use League\Tactician\Handler\MethodNameInflector\MethodNameInflector as TacticianMethoNameInflector;
-use Ssch\T3Tactician\CommandBusConfigurationInterface;
+use Ssch\T3Tactician\Contract\CommandBusConfigurationInterface;
+use Ssch\T3Tactician\Contract\MethodNameInflectorInterface;
 use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
 
 final class MethodNameInflector implements MethodNameInflectorInterface

@@ -12,10 +12,11 @@ declare(strict_types=1);
 namespace Ssch\T3Tactician\Factory;
 
 use League\Tactician\CommandBus;
-use Ssch\T3Tactician\CommandBus\CommandBusInterface;
 use Ssch\T3Tactician\CommandBus\TacticianCommandBus;
-use Ssch\T3Tactician\CommandBusConfigurationInterface;
-use Ssch\T3Tactician\Middleware\MiddlewareHandlerResolverInterface;
+use Ssch\T3Tactician\Contract\CommandBusConfigurationInterface;
+use Ssch\T3Tactician\Contract\CommandBusFactoryInterface;
+use Ssch\T3Tactician\Contract\CommandBusInterface;
+use Ssch\T3Tactician\Contract\MiddlewareHandlerResolverInterface;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
 

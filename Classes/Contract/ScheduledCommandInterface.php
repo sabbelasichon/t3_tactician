@@ -9,7 +9,7 @@ declare(strict_types=1);
  * LICENSE.txt file that was distributed with this source code.
  */
 
-namespace Ssch\T3Tactician\Integration;
+namespace Ssch\T3Tactician\Contract;
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -24,12 +24,9 @@ namespace Ssch\T3Tactician\Integration;
  * The TYPO3 project - inspiring people to share!
  */
 
-interface FilesystemInterface
+interface ScheduledCommandInterface
 {
-    public function isFile(string $file): bool;
+    public function setTimestamp(int $timestamp);
 
-    /**
-     * @return mixed
-     */
-    public function require(string $file);
+    public function getTimestamp(): int;
 }

@@ -24,6 +24,8 @@ namespace Ssch\T3Tactician\Integration;
  * The TYPO3 project - inspiring people to share!
  */
 
+use Ssch\T3Tactician\Contract\FilesystemInterface;
+
 /**
  * @codeCoverageIgnore
  */

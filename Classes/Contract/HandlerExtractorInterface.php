@@ -9,7 +9,7 @@ declare(strict_types=1);
  * LICENSE.txt file that was distributed with this source code.
  */
 
-namespace Ssch\T3Tactician;
+namespace Ssch\T3Tactician\Contract;
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -24,13 +24,8 @@ namespace Ssch\T3Tactician;
  * The TYPO3 project - inspiring people to share!
  */
 
-interface CommandBusConfigurationInterface
+use League\Tactician\Handler\CommandNameExtractor\CommandNameExtractor;
+
+interface HandlerExtractorInterface extends CommandNameExtractor
 {
-    public function toString(): string;
-
-    public function middlewares(): array;
-
-    public function commandHandlers(): array;
-
-    public function inflector(): string;
 }

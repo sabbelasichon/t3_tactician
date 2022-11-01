@@ -9,7 +9,7 @@ declare(strict_types=1);
  * LICENSE.txt file that was distributed with this source code.
  */
 
-namespace Ssch\T3Tactician\Command;
+namespace Ssch\T3Tactician\Contract;
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -24,9 +24,11 @@ namespace Ssch\T3Tactician\Command;
  * The TYPO3 project - inspiring people to share!
  */
 
-interface ScheduledCommandInterface
+interface SchedulerInterface
 {
-    public function setTimestamp(int $timestamp);
+    public function schedule(ScheduledCommandInterface $command, int $id = null): string;
 
-    public function getTimestamp(): int;
+    public function getCommands(): array;
+
+    public function removeCommand(ScheduledCommandInterface $command);
 }

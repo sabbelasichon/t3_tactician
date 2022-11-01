@@ -11,6 +11,8 @@ declare(strict_types=1);
 
 namespace Ssch\T3Tactician\Integration;
 
+use Ssch\T3Tactician\Contract\ClockInterface;
+
 /**
  * @codeCoverageIgnore
  */

@@ -24,8 +24,9 @@ namespace Ssch\T3Tactician\Scheduler;
  * The TYPO3 project - inspiring people to share!
  */
 
-use Ssch\T3Tactician\Command\ScheduledCommandInterface;
-use Ssch\T3Tactician\Integration\ClockInterface;
+use Ssch\T3Tactician\Contract\ClockInterface;
+use Ssch\T3Tactician\Contract\ScheduledCommandInterface;
+use Ssch\T3Tactician\Contract\SchedulerInterface;
 use Ssch\T3Tactician\Scheduler\Task\CommandTask;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Scheduler\Execution;

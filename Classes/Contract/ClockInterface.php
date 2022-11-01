@@ -9,7 +9,7 @@ declare(strict_types=1);
  * LICENSE.txt file that was distributed with this source code.
  */
 
-namespace Ssch\T3Tactician\Middleware;
+namespace Ssch\T3Tactician\Contract;
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -24,9 +24,7 @@ namespace Ssch\T3Tactician\Middleware;
  * The TYPO3 project - inspiring people to share!
  */
 
-use Ssch\T3Tactician\CommandBusConfigurationInterface;
-
-interface MiddlewareHandlerResolverInterface
+interface ClockInterface
 {
-    public function resolveMiddlewareHandler(CommandBusConfigurationInterface $commandBusConfiguration): array;
+    public function getCurrentTimestamp(): int;
 }

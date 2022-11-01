@@ -9,7 +9,7 @@ declare(strict_types=1);
  * LICENSE.txt file that was distributed with this source code.
  */
 
-namespace Ssch\T3Tactician\Command;
+namespace Ssch\T3Tactician\Console;
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -24,19 +24,22 @@ namespace Ssch\T3Tactician\Command;
  * The TYPO3 project - inspiring people to share!
  */
 
-use League\Tactician\CommandBus;
-use Ssch\T3Tactician\Factory\CommandBusFactoryInterface;
+use Ssch\T3Tactician\Command\ExecuteScheduledCommandsCommand;
+use Ssch\T3Tactician\Contract\CommandBusFactoryInterface;
+use Ssch\T3Tactician\Contract\CommandBusInterface;
+use Symfony\Component\Console\Command\Command;
 use TYPO3\CMS\Extbase\Mvc\Controller\CommandController;
 
 /**
  * @codeCoverageIgnore
  */
-final class ExecuteScheduledCommandsCommandController extends CommandController
+final class ExecuteScheduledCommandsCommandController extends Command
 {
-    private \League\Tactician\CommandBus $commandBus;
+    private CommandBusInterface $commandBus;
 
     public function __construct(CommandBusFactoryInterface $commandBusFactory)
     {
+        parent::__construct();
         $this->commandBus = $commandBusFactory->create();
     }
 

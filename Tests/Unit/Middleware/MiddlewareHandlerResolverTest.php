@@ -27,10 +27,10 @@ namespace Ssch\T3Tactician\Tests\Unit\Middleware;
 use League\Tactician\Handler\MethodNameInflector\MethodNameInflector;
 use League\Tactician\Middleware;
 use Nimut\TestingFramework\TestCase\UnitTestCase;
-use Ssch\T3Tactician\CommandBusConfigurationInterface;
-use Ssch\T3Tactician\CommandNameExtractor\HandlerExtractorInterface;
-use Ssch\T3Tactician\HandlerLocator\HandlerLocatorInterface;
-use Ssch\T3Tactician\MethodNameInflector\MethodNameInflectorInterface;
+use Ssch\T3Tactician\Contract\CommandBusConfigurationInterface;
+use Ssch\T3Tactician\Contract\HandlerExtractorInterface;
+use Ssch\T3Tactician\Contract\HandlerLocatorInterface;
+use Ssch\T3Tactician\Contract\MethodNameInflectorInterface;
 use Ssch\T3Tactician\Middleware\LoggingMiddleware;
 use Ssch\T3Tactician\Middleware\MiddlewareHandlerResolver;
 use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
@@ -44,7 +44,7 @@ class MiddlewareHandlerResolverTest extends UnitTestCase
 
     private \TYPO3\CMS\Extbase\Object\ObjectManagerInterface $objectManager;
 
-    private \Ssch\T3Tactician\CommandBusConfigurationInterface $commandBusConfiguration;
+    private \Ssch\T3Tactician\Contract\CommandBusConfigurationInterface $commandBusConfiguration;
 
     protected function setUp()
     {

@@ -25,8 +25,8 @@ namespace Ssch\T3Tactician\Middleware;
  */
 
 use League\Tactician\Middleware;
+use Ssch\T3Tactician\Contract\ValidatorResolverInterface;
 use Ssch\T3Tactician\Validator\NoValidatorFoundException;
-use Ssch\T3Tactician\Validator\ValidatorResolverInterface;
 
 final class ValidatorMiddleware implements Middleware
 {

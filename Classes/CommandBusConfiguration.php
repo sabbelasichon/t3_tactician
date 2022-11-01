@@ -25,7 +25,8 @@ namespace Ssch\T3Tactician;
  */
 
 use League\Tactician\Handler\MethodNameInflector\HandleInflector;
-use Ssch\T3Tactician\Integration\FilesystemInterface;
+use Ssch\T3Tactician\Contract\CommandBusConfigurationInterface;
+use Ssch\T3Tactician\Contract\FilesystemInterface;
 use TYPO3\CMS\Core\Exception;
 use TYPO3\CMS\Core\Package\PackageManager;
 

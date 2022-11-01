@@ -9,7 +9,7 @@ declare(strict_types=1);
  * LICENSE.txt file that was distributed with this source code.
  */
 
-namespace Ssch\T3Tactician\Validator;
+namespace Ssch\T3Tactician\Contract;
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -24,9 +24,13 @@ namespace Ssch\T3Tactician\Validator;
  * The TYPO3 project - inspiring people to share!
  */
 
-use TYPO3\CMS\Extbase\Validation\Validator\ValidatorInterface;
-
-interface ValidatorResolverInterface
+interface CommandBusConfigurationInterface
 {
-    public function getBaseValidatorConjunction(string $targetClassName): ValidatorInterface;
+    public function toString(): string;
+
+    public function middlewares(): array;
+
+    public function commandHandlers(): array;
+
+    public function inflector(): string;
 }

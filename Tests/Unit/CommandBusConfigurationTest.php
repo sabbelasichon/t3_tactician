@@ -28,7 +28,7 @@ use League\Tactician\Handler\MethodNameInflector\InvokeInflector;
 use Nimut\TestingFramework\TestCase\UnitTestCase;
 use Ssch\T3Tactician\CommandAlreadyAssignedToHandlerException;
 use Ssch\T3Tactician\CommandBusConfiguration;
-use Ssch\T3Tactician\Integration\FilesystemInterface;
+use Ssch\T3Tactician\Contract\FilesystemInterface;
 use Ssch\T3Tactician\Middleware\LoggingMiddleware;
 use Ssch\T3Tactician\Tests\Unit\Fixtures\Command\AddTaskCommand;
 use Ssch\T3Tactician\Tests\Unit\Fixtures\Handler\AddTaskHandler;
@@ -37,7 +37,7 @@ use TYPO3\CMS\Core\Package\PackageManager;
 
 class CommandBusConfigurationTest extends UnitTestCase
 {
-    private \Ssch\T3Tactician\Integration\FilesystemInterface $filesystem;
+    private \Ssch\T3Tactician\Contract\FilesystemInterface $filesystem;
 
     private \TYPO3\CMS\Core\Package\PackageManager $packageManager;
 

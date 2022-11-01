@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 namespace Ssch\T3Tactician\Scheduler\Task;
 
-use Ssch\T3Tactician\Command\ScheduledCommandInterface;
+use Ssch\T3Tactician\Contract\ScheduledCommandInterface;
 use TYPO3\CMS\Scheduler\Task\AbstractTask;
 
 /**

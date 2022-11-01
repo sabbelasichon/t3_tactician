@@ -24,6 +24,7 @@ namespace Ssch\T3Tactician\Validator;
  * The TYPO3 project - inspiring people to share!
  */
 
+use Ssch\T3Tactician\Contract\ValidatorResolverInterface;
 use TYPO3\CMS\Extbase\Validation\Validator\ValidatorInterface;
 
 final class ValidatorResolver implements ValidatorResolverInterface

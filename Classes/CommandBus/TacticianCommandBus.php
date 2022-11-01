@@ -25,6 +25,7 @@ namespace Ssch\T3Tactician\CommandBus;
  */
 
 use League\Tactician\CommandBus;
+use Ssch\T3Tactician\Contract\CommandBusInterface;
 
 final class TacticianCommandBus implements CommandBusInterface
 {

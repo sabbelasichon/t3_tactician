@@ -9,7 +9,7 @@ declare(strict_types=1);
  * LICENSE.txt file that was distributed with this source code.
  */
 
-namespace Ssch\T3Tactician\Integration;
+namespace Ssch\T3Tactician\Contract;
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -24,7 +24,8 @@ namespace Ssch\T3Tactician\Integration;
  * The TYPO3 project - inspiring people to share!
  */
 
-interface ClockInterface
+use League\Tactician\Handler\MethodNameInflector\MethodNameInflector as TacticianMethoNameInflector;
+
+interface MethodNameInflectorInterface extends TacticianMethoNameInflector
 {
-    public function getCurrentTimestamp(): int;
 }

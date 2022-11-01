@@ -25,10 +25,10 @@ namespace Ssch\T3Tactician\Tests\Unit\Factory;
  */
 
 use Nimut\TestingFramework\TestCase\UnitTestCase;
-use Ssch\T3Tactician\CommandBus\CommandBusInterface;
-use Ssch\T3Tactician\CommandBusConfigurationInterface;
+use Ssch\T3Tactician\Contract\CommandBusConfigurationInterface;
+use Ssch\T3Tactician\Contract\CommandBusInterface;
+use Ssch\T3Tactician\Contract\MiddlewareHandlerResolverInterface;
 use Ssch\T3Tactician\Factory\CommandBusFactory;
-use Ssch\T3Tactician\Middleware\MiddlewareHandlerResolverInterface;
 use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
 
 class CommandBusFactoryTest extends UnitTestCase
@@ -38,9 +38,9 @@ class CommandBusFactoryTest extends UnitTestCase
      */
     protected $subject;
 
-    private \Ssch\T3Tactician\Middleware\MiddlewareHandlerResolverInterface $middlewareHandlerResolverMock;
+    private \Ssch\T3Tactician\Contract\MiddlewareHandlerResolverInterface $middlewareHandlerResolverMock;
 
-    private \Ssch\T3Tactician\CommandBusConfigurationInterface $commandBusConfiguration;
+    private \Ssch\T3Tactician\Contract\CommandBusConfigurationInterface $commandBusConfiguration;
 
     protected function setUp(): void
     {

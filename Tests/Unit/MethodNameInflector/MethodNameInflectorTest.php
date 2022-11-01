@@ -27,7 +27,7 @@ namespace Ssch\T3Tactician\Tests\Unit\MethodNameInflector;
 use League\Tactician\Handler\MethodNameInflector\HandleInflector;
 use League\Tactician\Handler\MethodNameInflector\InvokeInflector;
 use Nimut\TestingFramework\TestCase\UnitTestCase;
-use Ssch\T3Tactician\CommandBusConfigurationInterface;
+use Ssch\T3Tactician\Contract\CommandBusConfigurationInterface;
 use Ssch\T3Tactician\MethodNameInflector\MethodNameInflector;
 use Ssch\T3Tactician\Tests\Unit\Fixtures\Command\AddTaskCommand;
 use Ssch\T3Tactician\Tests\Unit\Fixtures\Command\AnotherTaskCommand;
@@ -42,7 +42,7 @@ class MethodNameInflectorTest extends UnitTestCase
      */
     protected $objectManager;
 
-    private \Ssch\T3Tactician\CommandBusConfigurationInterface $commandBusConfiguration;
+    private \Ssch\T3Tactician\Contract\CommandBusConfigurationInterface $commandBusConfiguration;
 
     protected function setUp()
     {

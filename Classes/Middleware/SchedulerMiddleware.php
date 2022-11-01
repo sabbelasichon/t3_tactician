@@ -26,9 +26,9 @@ namespace Ssch\T3Tactician\Middleware;
 
 use League\Tactician\Middleware;
 use Ssch\T3Tactician\Command\ExecuteScheduledCommandsCommand;
-use Ssch\T3Tactician\Command\ScheduledCommandInterface;
-use Ssch\T3Tactician\Integration\ClockInterface;
-use Ssch\T3Tactician\Scheduler\SchedulerInterface;
+use Ssch\T3Tactician\Contract\ClockInterface;
+use Ssch\T3Tactician\Contract\ScheduledCommandInterface;
+use Ssch\T3Tactician\Contract\SchedulerInterface;
 
 final class SchedulerMiddleware implements Middleware
 {
