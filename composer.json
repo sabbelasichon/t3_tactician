@@ -22,7 +22,9 @@
     "typo3/cms-extbase": "^11.5 || ^12.0",
     "league/tactician": "^1.0",
     "typo3/cms-scheduler": "^11.5 || ^12.0",
-    "ergebnis/clock": "^2.4"
+    "ergebnis/clock": "^2.4",
+    "league/tactician-container": "^2.0",
+    "league/tactician-logger": "^0.11.0"
   },
   "require-dev": {
     "nimut/testing-framework": "^6.0.1",
@@ -32,7 +34,10 @@
     "phpstan/phpstan": "^1.8",
     "phpstan/phpstan-phpunit": "^1.2",
     "phpstan/phpstan-strict-rules": "^1.4",
-    "saschaegerer/phpstan-typo3": "^1.8"
+    "saschaegerer/phpstan-typo3": "^1.8",
+    "jangregor/phpstan-prophecy": "^1.0",
+    "phpspec/prophecy-phpunit": "^2.0",
+    "phpstan/extension-installer": "^1.2"
   },
   "replace": {
     "typo3-ter/t3-tactician": "self.version"
@@ -57,7 +62,8 @@
     },
     "allow-plugins": {
       "typo3/class-alias-loader": true,
-      "typo3/cms-composer-installers": true
+      "typo3/cms-composer-installers": true,
+      "phpstan/extension-installer": true
     }
   },
   "scripts": {

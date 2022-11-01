@@ -5,3 +5,4 @@
 composer.lock
 phpunit.xml
 var
+.old

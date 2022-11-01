@@ -25,12 +25,12 @@ namespace Ssch\T3Tactician\Middleware;
  */
 
 use League\Tactician\Middleware;
-use Ssch\T3Tactician\Contract\ValidatorResolverInterface;
 use Ssch\T3Tactician\Validator\NoValidatorFoundException;
+use TYPO3\CMS\Extbase\Validation\ValidatorResolver;
 
 final class ValidatorMiddleware implements Middleware
 {
-    public function __construct(private ValidatorResolverInterface $validatorResolver)
+    public function __construct(private ValidatorResolver $validatorResolver)
     {
     }
 
