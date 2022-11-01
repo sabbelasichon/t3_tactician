@@ -35,20 +35,8 @@ final class Scheduler implements SchedulerInterface
 {
     public const TASK_DESCRIPTION_IDENTIFIER = 'scheduler_tactician_commands';
 
-    /**
-     * @var TYPO3Scheduler
-     */
-    private $scheduler;
-
-    /**
-     * @var ClockInterface
-     */
-    private $clock;
-
-    public function __construct(TYPO3Scheduler $scheduler, ClockInterface $clock)
+    public function __construct(private TYPO3Scheduler $scheduler, private ClockInterface $clock)
     {
-        $this->scheduler = $scheduler;
-        $this->clock = $clock;
     }
 
     public function schedule(ScheduledCommandInterface $command, int $id = null): string
@@ -68,9 +56,7 @@ final class Scheduler implements SchedulerInterface
 
     public function getCommands(): array
     {
-        return array_map(static function (CommandTask $commandTask) {
-            return $commandTask->getCommand();
-        }, $this->fetchCommandTasks());
+        return array_map(static fn(CommandTask $commandTask) => $commandTask->getCommand(), $this->fetchCommandTasks());
     }
 
     public function removeCommand(ScheduledCommandInterface $command)

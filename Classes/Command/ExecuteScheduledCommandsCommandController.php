@@ -33,10 +33,7 @@ use TYPO3\CMS\Extbase\Mvc\Controller\CommandController;
  */
 final class ExecuteScheduledCommandsCommandController extends CommandController
 {
-    /**
-     * @var CommandBus
-     */
-    private $commandBus;
+    private \League\Tactician\CommandBus $commandBus;
 
     public function __construct(CommandBusFactoryInterface $commandBusFactory)
     {

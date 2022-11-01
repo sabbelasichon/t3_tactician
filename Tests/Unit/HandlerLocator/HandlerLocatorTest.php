@@ -45,10 +45,7 @@ class HandlerLocatorTest extends TestCase
      */
     protected $objectManager;
 
-    /**
-     * @var CommandBusConfiguration
-     */
-    private $commandBusConfiguration;
+    private \Ssch\T3Tactician\CommandBusConfiguration $commandBusConfiguration;
 
     protected function setUp()
     {

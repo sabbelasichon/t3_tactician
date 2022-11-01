@@ -42,10 +42,7 @@ class MethodNameInflectorTest extends UnitTestCase
      */
     protected $objectManager;
 
-    /**
-     * @var CommandBusConfigurationInterface
-     */
-    private $commandBusConfiguration;
+    private \Ssch\T3Tactician\CommandBusConfigurationInterface $commandBusConfiguration;
 
     protected function setUp()
     {
@@ -70,7 +67,7 @@ class MethodNameInflectorTest extends UnitTestCase
 
         $defaultInflector->inflect($command, $commandHandler)
             ->willReturn('handle');
-        $this->assertEquals('handle', $subject->inflect($command, $commandHandler));
+        $this->assertSame('handle', $subject->inflect($command, $commandHandler));
     }
 
 
@@ -89,6 +86,6 @@ class MethodNameInflectorTest extends UnitTestCase
         $this->objectManager->get(InvokeInflector::class)->willReturn($invokeInflector->reveal());
         $subject = new MethodNameInflector($this->commandBusConfiguration->reveal(), $this->objectManager->reveal());
 
-        $this->assertEquals('__invoke', $subject->inflect($command, $commandHandler));
+        $this->assertSame('__invoke', $subject->inflect($command, $commandHandler));
     }
 }

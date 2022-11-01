@@ -112,6 +112,6 @@ class SchedulerMiddlewareTest extends UnitTestCase
 
             return 'foobar';
         };
-        $this->assertEquals('foobar', $this->subject->execute($command, $nextClosure));
+        $this->assertSame('foobar', $this->subject->execute($command, $nextClosure));
     }
 }

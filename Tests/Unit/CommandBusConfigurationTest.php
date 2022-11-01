@@ -37,15 +37,9 @@ use TYPO3\CMS\Core\Package\PackageManager;
 
 class CommandBusConfigurationTest extends UnitTestCase
 {
-    /**
-     * @var FilesystemInterface
-     */
-    private $filesystem;
+    private \Ssch\T3Tactician\Integration\FilesystemInterface $filesystem;
 
-    /**
-     * @var PackageManager
-     */
-    private $packageManager;
+    private \TYPO3\CMS\Core\Package\PackageManager $packageManager;
 
     protected function setUp()
     {

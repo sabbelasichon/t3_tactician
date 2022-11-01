@@ -28,14 +28,8 @@ use League\Tactician\Handler\CommandNameExtractor\ClassNameExtractor;
 
 final class HandlerExtractor implements HandlerExtractorInterface
 {
-    /**
-     * @var ClassNameExtractor
-     */
-    private $extractor;
-
-    public function __construct(ClassNameExtractor $extractor)
+    public function __construct(private ClassNameExtractor $extractor)
     {
-        $this->extractor = $extractor;
     }
 
     /**

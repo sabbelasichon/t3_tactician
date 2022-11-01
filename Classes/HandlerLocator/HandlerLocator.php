@@ -31,22 +31,8 @@ use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
 
 final class HandlerLocator implements HandlerLocatorInterface
 {
-    /**
-     * @var ObjectManagerInterface
-     */
-    private $objectManager;
-
-    /**
-     * @var CommandBusConfigurationInterface
-     */
-    private $commandBusConfiguration;
-
-    public function __construct(
-        CommandBusConfigurationInterface $commandBusConfiguration,
-        ObjectManagerInterface $objectManager
-    ) {
-        $this->objectManager = $objectManager;
-        $this->commandBusConfiguration = $commandBusConfiguration;
+    public function __construct(private CommandBusConfigurationInterface $commandBusConfiguration, private ObjectManagerInterface $objectManager)
+    {
     }
 
     /**

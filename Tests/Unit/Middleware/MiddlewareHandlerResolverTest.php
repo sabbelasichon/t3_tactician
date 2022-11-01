@@ -42,15 +42,9 @@ class MiddlewareHandlerResolverTest extends UnitTestCase
      */
     protected $subject;
 
-    /**
-     * @var ObjectManagerInterface
-     */
-    private $objectManager;
+    private \TYPO3\CMS\Extbase\Object\ObjectManagerInterface $objectManager;
 
-    /**
-     * @var CommandBusConfigurationInterface
-     */
-    private $commandBusConfiguration;
+    private \Ssch\T3Tactician\CommandBusConfigurationInterface $commandBusConfiguration;
 
     protected function setUp()
     {

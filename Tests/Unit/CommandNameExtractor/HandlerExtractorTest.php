@@ -52,7 +52,7 @@ class HandlerExtractorTest extends UnitTestCase
     {
         $command = new AddTaskCommand();
         $this->classNameExtractor->extract($command)
-            ->willReturn(\get_class($command));
-        $this->assertEquals(\get_class($command), $this->subject->extract($command));
+            ->willReturn($command::class);
+        $this->assertInstanceOf($this->subject->extract($command), $command);
     }
 }

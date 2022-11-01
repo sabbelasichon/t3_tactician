@@ -19,14 +19,8 @@ use TYPO3\CMS\Scheduler\Task\AbstractTask;
  */
 class CommandTask extends AbstractTask
 {
-    /**
-     * @var ScheduledCommandInterface
-     */
-    private $command;
-
-    public function __construct(ScheduledCommandInterface $command)
+    public function __construct(private ScheduledCommandInterface $command)
     {
-        $this->command = $command;
         parent::__construct();
     }
 

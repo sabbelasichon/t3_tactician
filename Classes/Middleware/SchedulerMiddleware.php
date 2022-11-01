@@ -32,20 +32,8 @@ use Ssch\T3Tactician\Scheduler\SchedulerInterface;
 
 final class SchedulerMiddleware implements Middleware
 {
-    /**
-     * @var SchedulerInterface
-     */
-    private $scheduler;
-
-    /**
-     * @var ClockInterface
-     */
-    private $clock;
-
-    public function __construct(SchedulerInterface $scheduler, ClockInterface $clock)
+    public function __construct(private SchedulerInterface $scheduler, private ClockInterface $clock)
     {
-        $this->scheduler = $scheduler;
-        $this->clock = $clock;
     }
 
     public function execute($command, callable $next)

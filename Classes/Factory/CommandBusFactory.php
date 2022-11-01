@@ -21,22 +21,8 @@ use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
 
 final class CommandBusFactory implements SingletonInterface, CommandBusFactoryInterface
 {
-    /**
-     * @var MiddlewareHandlerResolverInterface
-     */
-    private $middlewareHandlerResolver;
-
-    /**
-     * @var ObjectManagerInterface
-     */
-    private $objectManager;
-
-    public function __construct(
-        MiddlewareHandlerResolverInterface $middlewareHandlerResolver,
-        ObjectManagerInterface $objectManager
-    ) {
-        $this->middlewareHandlerResolver = $middlewareHandlerResolver;
-        $this->objectManager = $objectManager;
+    public function __construct(private MiddlewareHandlerResolverInterface $middlewareHandlerResolver, private ObjectManagerInterface $objectManager)
+    {
     }
 
     public function create(string $commandBusName = 'default'): CommandBusInterface

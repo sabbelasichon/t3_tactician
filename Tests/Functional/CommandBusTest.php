@@ -86,7 +86,7 @@ class CommandBusTest extends FunctionalTestCase
         $commandBus = $this->createCommandBus('testingScheduler');
         $commandBus->handle($command);
 
-        $this->assertEquals(
+        $this->assertSame(
             1,
             $this->getDatabaseConnection()->selectCount('*', 'tx_scheduler_task', sprintf(
                 'description = "%s"',

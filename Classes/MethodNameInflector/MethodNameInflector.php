@@ -30,10 +30,7 @@ use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
 
 final class MethodNameInflector implements MethodNameInflectorInterface
 {
-    /**
-     * @var TacticianMethoNameInflector
-     */
-    private $inflector;
+    private TacticianMethoNameInflector $inflector;
 
     public function __construct(
         CommandBusConfigurationInterface $commandBusConfiguration,

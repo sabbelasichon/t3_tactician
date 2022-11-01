@@ -30,19 +30,16 @@ use TYPO3\CMS\Core\Log\LogManagerInterface;
 
 final class LoggingMiddleware implements Middleware
 {
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
+    private \Psr\Log\LoggerInterface $logger;
 
     public function __construct(LogManagerInterface $logManager)
     {
-        $this->logger = $logManager->getLogger(__CLASS__);
+        $this->logger = $logManager->getLogger(self::class);
     }
 
     public function execute($command, callable $next)
     {
-        $commandClass = \get_class($command);
+        $commandClass = $command::class;
 
         $this->logger->info(sprintf('Starting %s', $commandClass));
         $returnValue = $next($command);

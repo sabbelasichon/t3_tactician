@@ -30,14 +30,8 @@ use Ssch\T3Tactician\Validator\ValidatorResolverInterface;
 
 final class ValidatorMiddleware implements Middleware
 {
-    /**
-     * @var ValidatorResolverInterface
-     */
-    private $validatorResolver;
-
-    public function __construct(ValidatorResolverInterface $validatorResolver)
+    public function __construct(private ValidatorResolverInterface $validatorResolver)
     {
-        $this->validatorResolver = $validatorResolver;
     }
 
     /**
@@ -48,14 +42,14 @@ final class ValidatorMiddleware implements Middleware
     public function execute($command, callable $next)
     {
         try {
-            $validator = $this->validatorResolver->getBaseValidatorConjunction(\get_class($command));
+            $validator = $this->validatorResolver->getBaseValidatorConjunction($command::class);
 
             $errorResult = $validator->validate($command);
 
             if (\count($errorResult->getFlattenedErrors()) > 0) {
                 throw InvalidCommandException::onCommand($command, $errorResult);
             }
-        } catch (NoValidatorFoundException $e) {
+        } catch (NoValidatorFoundException) {
         }
 
         return $next($command);

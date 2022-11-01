@@ -28,14 +28,8 @@ use League\Tactician\CommandBus;
 
 final class TacticianCommandBus implements CommandBusInterface
 {
-    /**
-     * @var CommandBus
-     */
-    private $commandBus;
-
-    public function __construct(CommandBus $commandBus)
+    public function __construct(private CommandBus $commandBus)
     {
-        $this->commandBus = $commandBus;
     }
 
     public function handle($command)

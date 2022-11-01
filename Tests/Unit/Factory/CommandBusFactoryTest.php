@@ -38,15 +38,9 @@ class CommandBusFactoryTest extends UnitTestCase
      */
     protected $subject;
 
-    /**
-     * @var MiddlewareHandlerResolverInterface
-     */
-    private $middlewareHandlerResolverMock;
+    private \Ssch\T3Tactician\Middleware\MiddlewareHandlerResolverInterface $middlewareHandlerResolverMock;
 
-    /**
-     * @var CommandBusConfigurationInterface
-     */
-    private $commandBusConfiguration;
+    private \Ssch\T3Tactician\CommandBusConfigurationInterface $commandBusConfiguration;
 
     protected function setUp(): void
     {

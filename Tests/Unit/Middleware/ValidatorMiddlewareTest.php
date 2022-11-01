@@ -84,7 +84,7 @@ class ValidatorMiddlewareTest extends UnitTestCase
 
         $validator = $this->prophesize(ValidatorInterface::class);
         $errorResult = $this->prophesize(Result::class);
-        $errors = [new Error('Some error message', 1547051759)];
+        $errors = [new Error('Some error message', 1_547_051_759)];
         $errorResult->getFlattenedErrors()
             ->willReturn($errors);
         $validator->validate(Argument::any())->willReturn($errorResult);
@@ -107,6 +107,6 @@ class ValidatorMiddlewareTest extends UnitTestCase
 
             return 'foobar';
         };
-        $this->assertEquals('foobar', $this->subject->execute($command, $nextClosure));
+        $this->assertSame('foobar', $this->subject->execute($command, $nextClosure));
     }
 }

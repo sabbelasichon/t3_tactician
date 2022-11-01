@@ -39,15 +39,9 @@ class SchedulerTest extends UnitTestCase
      */
     protected $subject;
 
-    /**
-     * @var \TYPO3\CMS\Scheduler\Scheduler
-     */
-    private $scheduler;
+    private \TYPO3\CMS\Scheduler\Scheduler $scheduler;
 
-    /**
-     * @var ClockInterface
-     */
-    private $clock;
+    private \Ssch\T3Tactician\Integration\ClockInterface $clock;
 
     protected function setUp()
     {

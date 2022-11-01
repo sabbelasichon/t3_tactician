@@ -20,7 +20,7 @@ final class InvalidCommandException extends \Exception implements Exception
     public static function onCommand($command, Result $result): self
     {
         return new static(
-            'Validation failed for ' . \get_class($command) .
+            'Validation failed for ' . $command::class .
             ' with ' . count($result->getFlattenedErrors()) . ' violation(s).'
         );
     }

@@ -20,14 +20,8 @@ use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
 
 class MiddlewareHandlerResolver implements MiddlewareHandlerResolverInterface
 {
-    /**
-     * @var ObjectManagerInterface
-     */
-    private $objectManager;
-
-    public function __construct(ObjectManagerInterface $objectManager)
+    public function __construct(private ObjectManagerInterface $objectManager)
     {
-        $this->objectManager = $objectManager;
     }
 
     public function resolveMiddlewareHandler(CommandBusConfigurationInterface $commandBusConfiguration): array

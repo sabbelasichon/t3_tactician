@@ -31,14 +31,8 @@ use League\Tactician\CommandBus;
  */
 final class ExecuteScheduledCommandsCommand
 {
-    /**
-     * @var CommandBus
-     */
-    private $commandBus;
-
-    public function __construct(CommandBus $commandBus)
+    public function __construct(private CommandBus $commandBus)
     {
-        $this->commandBus = $commandBus;
     }
 
     public function getCommandBus(): CommandBus
