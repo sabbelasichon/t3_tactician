@@ -1,5 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
+/*
+ * This file is part of the "t3_tactician" Extension for TYPO3 CMS.
+ *
+ * For the full copyright and license information, please read the
+ * LICENSE.txt file that was distributed with this source code.
+ */
+
 namespace Ssch\T3Tactician\Tests\Unit\Scheduler;
 
 /*
@@ -21,12 +30,10 @@ use Ssch\T3Tactician\Integration\ClockInterface;
 use Ssch\T3Tactician\Scheduler\Scheduler;
 use Ssch\T3Tactician\Scheduler\Task\CommandTask;
 
-/**
- * @covers \Ssch\T3Tactician\Scheduler\Scheduler
- */
 class SchedulerTest extends UnitTestCase
 {
-    const CURRENT_TIMESTAMP = 1;
+    public const CURRENT_TIMESTAMP = 1;
+
     /**
      * @var Scheduler
      */
@@ -45,48 +52,56 @@ class SchedulerTest extends UnitTestCase
     protected function setUp()
     {
         $this->clock = $this->prophesize(ClockInterface::class);
-        $this->clock->getCurrentTimestamp()->willReturn(self::CURRENT_TIMESTAMP);
+        $this->clock->getCurrentTimestamp()
+            ->willReturn(self::CURRENT_TIMESTAMP);
         $this->scheduler = $this->prophesize(\TYPO3\CMS\Scheduler\Scheduler::class);
         $this->subject = new Scheduler($this->scheduler->reveal(), $this->clock->reveal());
     }
 
-    /**
-     * @test
-     */
-    public function getCommands()
+
+    public function testGetCommands()
     {
         $commandTask = $this->prophesize(CommandTask::class);
         $scheduledCommand = $this->prophesize(ScheduledCommandInterface::class);
 
-        $commandTask->getCommand()->willReturn($scheduledCommand->reveal());
+        $commandTask->getCommand()
+            ->willReturn($scheduledCommand->reveal());
 
-        $commands = [
-            $commandTask->reveal(),
-        ];
+        $commands = [$commandTask->reveal()];
 
-        $where = sprintf('nextexecution <= %d AND description = "%s"', self::CURRENT_TIMESTAMP, Scheduler::TASK_DESCRIPTION_IDENTIFIER);
-        $this->scheduler->fetchTasksWithCondition($where, true)->shouldBeCalledOnce()->willReturn($commands);
+        $where = sprintf(
+            'nextexecution <= %d AND description = "%s"',
+            self::CURRENT_TIMESTAMP,
+            Scheduler::TASK_DESCRIPTION_IDENTIFIER
+        );
+        $this->scheduler->fetchTasksWithCondition($where, true)
+            ->shouldBeCalledOnce()
+            ->willReturn($commands);
         $this->assertCount(1, $this->subject->getCommands());
     }
 
-    /**
-     * @test
-     */
-    public function removeTask()
+
+    public function testRemoveTask()
     {
         $commandTask = $this->prophesize(CommandTask::class);
         $scheduledCommand = $this->prophesize(ScheduledCommandInterface::class);
 
-        $commandTask->getCommand()->willReturn($scheduledCommand->reveal());
+        $commandTask->getCommand()
+            ->willReturn($scheduledCommand->reveal());
 
-        $commands = [
-            $commandTask->reveal(),
-        ];
+        $commands = [$commandTask->reveal()];
 
-        $where = sprintf('nextexecution <= %d AND description = "%s"', self::CURRENT_TIMESTAMP, Scheduler::TASK_DESCRIPTION_IDENTIFIER);
-        $this->scheduler->fetchTasksWithCondition($where, true)->shouldBeCalledOnce()->willReturn($commands);
+        $where = sprintf(
+            'nextexecution <= %d AND description = "%s"',
+            self::CURRENT_TIMESTAMP,
+            Scheduler::TASK_DESCRIPTION_IDENTIFIER
+        );
+        $this->scheduler->fetchTasksWithCondition($where, true)
+            ->shouldBeCalledOnce()
+            ->willReturn($commands);
 
-        $this->scheduler->removeTask($commandTask)->shouldBeCalledOnce();
+        $this->scheduler->removeTask($commandTask)
+            ->shouldBeCalledOnce();
         $this->subject->removeCommand($scheduledCommand->reveal());
     }
 }

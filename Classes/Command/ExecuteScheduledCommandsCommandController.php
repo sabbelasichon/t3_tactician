@@ -9,7 +9,7 @@ declare(strict_types=1);
  * LICENSE.txt file that was distributed with this source code.
  */
 
-namespace Ssch\T3Tactician\CommandNameExtractor;
+namespace Ssch\T3Tactician\Command;
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -24,27 +24,28 @@ namespace Ssch\T3Tactician\CommandNameExtractor;
  * The TYPO3 project - inspiring people to share!
  */
 
-use League\Tactician\Handler\CommandNameExtractor\ClassNameExtractor;
+use League\Tactician\CommandBus;
+use Ssch\T3Tactician\Factory\CommandBusFactoryInterface;
+use TYPO3\CMS\Extbase\Mvc\Controller\CommandController;
 
-final class HandlerExtractor implements HandlerExtractorInterface
+/**
+ * @codeCoverageIgnore
+ */
+final class ExecuteScheduledCommandsCommandController extends CommandController
 {
     /**
-     * @var ClassNameExtractor
+     * @var CommandBus
      */
-    private $extractor;
+    private $commandBus;
 
-    public function __construct(ClassNameExtractor $extractor)
+    public function __construct(CommandBusFactoryInterface $commandBusFactory)
     {
-        $this->extractor = $extractor;
+        $this->commandBus = $commandBusFactory->create();
     }
 
-    /**
-     * Extract the name from a command
-     *
-     * @param object $command
-     */
-    public function extract($command): string
+    public function executeScheduledCommandsCommand()
     {
-        return $this->extractor->extract($command);
+        $executeScheduledCommandsCommand = new ExecuteScheduledCommandsCommand($this->commandBus);
+        $this->commandBus->handle($executeScheduledCommandsCommand);
     }
 }

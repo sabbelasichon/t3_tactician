@@ -1,5 +1,13 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
+
+/*
+ * This file is part of the "t3_tactician" Extension for TYPO3 CMS.
+ *
+ * For the full copyright and license information, please read the
+ * LICENSE.txt file that was distributed with this source code.
+ */
 
 namespace Ssch\T3Tactician\MethodNameInflector;
 
@@ -22,14 +30,15 @@ use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
 
 final class MethodNameInflector implements MethodNameInflectorInterface
 {
-
     /**
      * @var TacticianMethoNameInflector
      */
     private $inflector;
 
-    public function __construct(CommandBusConfigurationInterface $commandBusConfiguration, ObjectManagerInterface $objectManager)
-    {
+    public function __construct(
+        CommandBusConfigurationInterface $commandBusConfiguration,
+        ObjectManagerInterface $objectManager
+    ) {
         $this->inflector = $objectManager->get($commandBusConfiguration->inflector());
     }
 
@@ -38,8 +47,6 @@ final class MethodNameInflector implements MethodNameInflectorInterface
      *
      * @param object $command
      * @param object $commandHandler
-     *
-     * @return string
      */
     public function inflect($command, $commandHandler): string
     {

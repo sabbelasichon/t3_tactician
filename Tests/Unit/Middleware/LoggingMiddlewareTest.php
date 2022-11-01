@@ -1,5 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
+/*
+ * This file is part of the "t3_tactician" Extension for TYPO3 CMS.
+ *
+ * For the full copyright and license information, please read the
+ * LICENSE.txt file that was distributed with this source code.
+ */
+
 namespace Ssch\T3Tactician\Tests\Unit\Middleware;
 
 /*
@@ -23,9 +32,6 @@ use Ssch\T3Tactician\Middleware\LoggingMiddleware;
 use Ssch\T3Tactician\Tests\Unit\Fixtures\Command\AddTaskCommand;
 use TYPO3\CMS\Core\Log\LogManagerInterface;
 
-/**
- * @covers \Ssch\T3Tactician\Middleware\LoggingMiddleware
- */
 class LoggingMiddlewareTest extends UnitTestCase
 {
     /**
@@ -46,10 +52,8 @@ class LoggingMiddlewareTest extends UnitTestCase
         $this->subject = new LoggingMiddleware($logManager->reveal());
     }
 
-    /**
-     * @test
-     */
-    public function innerCommandBusReceivesCommand()
+
+    public function testInnerCommandBusReceivesCommand()
     {
         $command = new AddTaskCommand();
         $nextClosure = function ($command) {
@@ -57,16 +61,11 @@ class LoggingMiddlewareTest extends UnitTestCase
 
             return 'foobar';
         };
-        $this->assertEquals(
-            'foobar',
-            $this->subject->execute($command, $nextClosure)
-        );
+        $this->assertEquals('foobar', $this->subject->execute($command, $nextClosure));
     }
 
-    /**
-     * @test
-     */
-    public function loggingIsDone()
+
+    public function testLoggingIsDone()
     {
         $command = new AddTaskCommand();
         $nextClosure = function ($command) {

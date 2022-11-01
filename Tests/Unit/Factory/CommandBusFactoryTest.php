@@ -1,5 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
+/*
+ * This file is part of the "t3_tactician" Extension for TYPO3 CMS.
+ *
+ * For the full copyright and license information, please read the
+ * LICENSE.txt file that was distributed with this source code.
+ */
+
 namespace Ssch\T3Tactician\Tests\Unit\Factory;
 
 /*
@@ -22,9 +31,6 @@ use Ssch\T3Tactician\Factory\CommandBusFactory;
 use Ssch\T3Tactician\Middleware\MiddlewareHandlerResolverInterface;
 use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
 
-/**
- * @covers \Ssch\T3Tactician\Factory\CommandBusFactory
- */
 class CommandBusFactoryTest extends UnitTestCase
 {
     /**
@@ -47,16 +53,20 @@ class CommandBusFactoryTest extends UnitTestCase
         $this->middlewareHandlerResolverMock = $this->prophesize(MiddlewareHandlerResolverInterface::class);
         $objectManager = $this->prophesize(ObjectManagerInterface::class);
         $this->commandBusConfiguration = $this->prophesize(CommandBusConfigurationInterface::class);
-        $objectManager->get(CommandBusConfigurationInterface::class, 'default')->willReturn($this->commandBusConfiguration->reveal());
-        $this->subject = new CommandBusFactory($this->middlewareHandlerResolverMock->reveal(), $objectManager->reveal());
+        $objectManager->get(CommandBusConfigurationInterface::class, 'default')->willReturn(
+            $this->commandBusConfiguration->reveal()
+        );
+        $this->subject = new CommandBusFactory(
+            $this->middlewareHandlerResolverMock->reveal(),
+            $objectManager->reveal()
+        );
     }
 
-    /**
-     * @test
-     */
-    public function returnsCommandBusInstance(): void
+
+    public function testReturnsCommandBusInstance(): void
     {
-        $this->middlewareHandlerResolverMock->resolveMiddlewareHandler($this->commandBusConfiguration)->willReturn([]);
+        $this->middlewareHandlerResolverMock->resolveMiddlewareHandler($this->commandBusConfiguration)
+            ->willReturn([]);
         $this->assertInstanceOf(CommandBusInterface::class, $this->subject->create());
     }
 }

@@ -1,5 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
+/*
+ * This file is part of the "t3_tactician" Extension for TYPO3 CMS.
+ *
+ * For the full copyright and license information, please read the
+ * LICENSE.txt file that was distributed with this source code.
+ */
+
 namespace Ssch\T3Tactician\Tests\Unit\MethodNameInflector;
 
 /*
@@ -26,9 +35,6 @@ use Ssch\T3Tactician\Tests\Unit\Fixtures\Handler\AddTaskHandler;
 use Ssch\T3Tactician\Tests\Unit\Fixtures\Handler\AnotherTaskHandler;
 use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
 
-/**
- * @covers \Ssch\T3Tactician\MethodNameInflector\MethodNameInflector
- */
 class MethodNameInflectorTest extends UnitTestCase
 {
     /**
@@ -47,37 +53,38 @@ class MethodNameInflectorTest extends UnitTestCase
         $this->commandBusConfiguration = $this->prophesize(CommandBusConfigurationInterface::class);
     }
 
-    /**
-     * @test
-     */
-    public function defaultMehthoNameInflector()
+
+    public function testDefaultMehthoNameInflector()
     {
         $defaultInflectorClass = HandleInflector::class;
 
-        $this->commandBusConfiguration->inflector()->willReturn($defaultInflectorClass);
+        $this->commandBusConfiguration->inflector()
+            ->willReturn($defaultInflectorClass);
         $defaultInflector = $this->prophesize($defaultInflectorClass);
 
-        $this->objectManager->get($defaultInflectorClass)->willReturn($defaultInflector);
+        $this->objectManager->get($defaultInflectorClass)
+            ->willReturn($defaultInflector);
         $subject = new MethodNameInflector($this->commandBusConfiguration->reveal(), $this->objectManager->reveal());
         $command = new AddTaskCommand();
         $commandHandler = new AddTaskHandler();
 
-        $defaultInflector->inflect($command, $commandHandler)->willReturn('handle');
+        $defaultInflector->inflect($command, $commandHandler)
+            ->willReturn('handle');
         $this->assertEquals('handle', $subject->inflect($command, $commandHandler));
     }
 
-    /**
-     * @test
-     */
-    public function differentMethoNameInflector()
+
+    public function testDifferentMethoNameInflector()
     {
-        $this->commandBusConfiguration->inflector()->willReturn(InvokeInflector::class);
+        $this->commandBusConfiguration->inflector()
+            ->willReturn(InvokeInflector::class);
         $invokeInflector = $this->prophesize(InvokeInflector::class);
 
         $command = new AnotherTaskCommand();
         $commandHandler = new AnotherTaskHandler();
 
-        $invokeInflector->inflect($command, $commandHandler)->willReturn('__invoke');
+        $invokeInflector->inflect($command, $commandHandler)
+            ->willReturn('__invoke');
 
         $this->objectManager->get(InvokeInflector::class)->willReturn($invokeInflector->reveal());
         $subject = new MethodNameInflector($this->commandBusConfiguration->reveal(), $this->objectManager->reveal());

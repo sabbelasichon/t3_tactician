@@ -1,5 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
+/*
+ * This file is part of the "t3_tactician" Extension for TYPO3 CMS.
+ *
+ * For the full copyright and license information, please read the
+ * LICENSE.txt file that was distributed with this source code.
+ */
+
 namespace Ssch\T3Tactician\Tests\Unit\Middleware;
 
 /*
@@ -15,6 +24,7 @@ namespace Ssch\T3Tactician\Tests\Unit\Middleware;
  * The TYPO3 project - inspiring people to share!
  */
 
+use function count;
 use League\Tactician\CommandBus;
 use Nimut\TestingFramework\TestCase\UnitTestCase;
 use Prophecy\Argument;
@@ -26,11 +36,7 @@ use Ssch\T3Tactician\Middleware\SchedulerMiddleware;
 use Ssch\T3Tactician\Scheduler\SchedulerInterface;
 use Ssch\T3Tactician\Tests\Unit\Fixtures\Command\AddTaskCommand;
 use Ssch\T3Tactician\Tests\Unit\Fixtures\Command\DummyScheduledCommand;
-use function count;
 
-/**
- * @covers \Ssch\T3Tactician\Middleware\SchedulerMiddleware
- */
 class SchedulerMiddlewareTest extends UnitTestCase
 {
     /**
@@ -55,28 +61,28 @@ class SchedulerMiddlewareTest extends UnitTestCase
         $this->subject = new SchedulerMiddleware($this->scheduler->reveal(), $this->clock->reveal());
     }
 
-    /**
-     * @test
-     */
-    public function scheduleCommand()
+
+    public function testScheduleCommand()
     {
         $command = $this->prophesize(ScheduledCommandInterface::class);
         $timestamp = time();
-        $command->getTimestamp()->willReturn($timestamp);
-        $this->scheduler->schedule($command)->shouldBeCalledOnce();
-        $this->clock->getCurrentTimestamp()->willReturn($timestamp - 1000);
+        $command->getTimestamp()
+            ->willReturn($timestamp);
+        $this->scheduler->schedule($command)
+            ->shouldBeCalledOnce();
+        $this->clock->getCurrentTimestamp()
+            ->willReturn($timestamp - 1000);
         $this->subject->execute($command->reveal(), static function () {
         });
     }
 
-    /**
-     * @test
-     */
-    public function executeCommands()
+
+    public function testExecuteCommands()
     {
         $commandBus = $this->prophesize(CommandBus::class);
         $command = new ExecuteScheduledCommandsCommand($commandBus->reveal());
-        $this->scheduler->schedule(new DummyScheduledCommand('email@domain.com', 'username'))->shouldNotBeCalled();
+        $this->scheduler->schedule(new DummyScheduledCommand('email@domain.com', 'username'))
+            ->shouldNotBeCalled();
 
         $commands = [
             new DummyScheduledCommand('email@domain.com', 'username'),
@@ -84,19 +90,21 @@ class SchedulerMiddlewareTest extends UnitTestCase
             new DummyScheduledCommand('email@domain.com', 'username'),
         ];
 
-        $this->scheduler->getCommands()->shouldBeCalledOnce()->willReturn($commands);
+        $this->scheduler->getCommands()
+            ->shouldBeCalledOnce()
+            ->willReturn($commands);
 
         $this->subject->execute($command, static function () {
         });
 
-        $commandBus->handle(Argument::type(ScheduledCommandInterface::class))->shouldHaveBeenCalledTimes(count($commands));
+        $commandBus->handle(Argument::type(ScheduledCommandInterface::class))->shouldHaveBeenCalledTimes(
+            count($commands)
+        );
         $this->scheduler->removeCommand(Argument::any())->shouldHaveBeenCalledTimes(count($commands));
     }
 
-    /**
-     * @test
-     */
-    public function callNextCallable()
+
+    public function testCallNextCallable()
     {
         $command = new AddTaskCommand();
         $nextClosure = function ($command) {
@@ -104,9 +112,6 @@ class SchedulerMiddlewareTest extends UnitTestCase
 
             return 'foobar';
         };
-        $this->assertEquals(
-            'foobar',
-            $this->subject->execute($command, $nextClosure)
-        );
+        $this->assertEquals('foobar', $this->subject->execute($command, $nextClosure));
     }
 }

@@ -1,5 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
+/*
+ * This file is part of the "t3_tactician" Extension for TYPO3 CMS.
+ *
+ * For the full copyright and license information, please read the
+ * LICENSE.txt file that was distributed with this source code.
+ */
+
 namespace Ssch\T3Tactician\Tests\Unit\HandlerLocator;
 
 /*
@@ -24,9 +33,6 @@ use Ssch\T3Tactician\Tests\Unit\Fixtures\Command\AddTaskCommand;
 use Ssch\T3Tactician\Tests\Unit\Fixtures\Handler\AddTaskHandler;
 use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
 
-/**
- * @covers \Ssch\T3Tactician\HandlerLocator\HandlerLocator
- */
 class HandlerLocatorTest extends TestCase
 {
     /**
@@ -51,36 +57,35 @@ class HandlerLocatorTest extends TestCase
         $this->subject = new HandlerLocator($this->commandBusConfiguration->reveal(), $this->objectManager->reveal());
     }
 
-    /**
-     * @test
-     */
-    public function noHandlerConfiguredForCommandThrowsException()
+
+    public function testNoHandlerConfiguredForCommandThrowsException()
     {
         $this->expectException(MissingHandlerException::class);
-        $this->commandBusConfiguration->commandHandlers()->willReturn([]);
+        $this->commandBusConfiguration->commandHandlers()
+            ->willReturn([]);
         $this->subject->getHandlerForCommand('NotExistingClassNameForSure');
     }
 
-    /**
-     * @test
-     */
-    public function notExistingHandlerClassForCommandThrowsException()
+
+    public function testNotExistingHandlerClassForCommandThrowsException()
     {
         $this->expectException(MissingHandlerException::class);
-        $this->commandBusConfiguration->commandHandlers()->willReturn(['NotExistingClassNameForSure' => 'Handler']);
+        $this->commandBusConfiguration->commandHandlers()
+            ->willReturn([
+                'NotExistingClassNameForSure' => 'Handler',
+            ]);
         $this->subject->getHandlerForCommand('NotExistingClassNameForSure');
     }
 
-    /**
-     * @test
-     */
-    public function returnsNewCommandHandler()
+
+    public function testReturnsNewCommandHandler()
     {
         $commandHandlers = [
             AddTaskCommand::class => AddTaskHandler::class,
         ];
 
-        $this->commandBusConfiguration->commandHandlers()->willReturn($commandHandlers);
+        $this->commandBusConfiguration->commandHandlers()
+            ->willReturn($commandHandlers);
         $this->objectManager->get(AddTaskHandler::class)->willReturn(new AddTaskHandler());
         $this->assertInstanceOf(AddTaskHandler::class, $this->subject->getHandlerForCommand(AddTaskCommand::class));
     }

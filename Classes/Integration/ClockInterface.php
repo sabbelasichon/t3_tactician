@@ -9,7 +9,7 @@ declare(strict_types=1);
  * LICENSE.txt file that was distributed with this source code.
  */
 
-namespace Ssch\T3Tactician\Tests\Unit\Fixtures\Command;
+namespace Ssch\T3Tactician\Integration;
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -24,11 +24,7 @@ namespace Ssch\T3Tactician\Tests\Unit\Fixtures\Command;
  * The TYPO3 project - inspiring people to share!
  */
 
-final class AddTaskCommand
+interface ClockInterface
 {
-    /**
-     * @var string
-     * @validate NotEmpty
-     */
-    public $title = '';
+    public function getCurrentTimestamp(): int;
 }

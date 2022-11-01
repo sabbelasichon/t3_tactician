@@ -1,5 +1,13 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
+
+/*
+ * This file is part of the "t3_tactician" Extension for TYPO3 CMS.
+ *
+ * For the full copyright and license information, please read the
+ * LICENSE.txt file that was distributed with this source code.
+ */
 
 namespace Ssch\T3Tactician\HandlerLocator;
 
@@ -33,8 +41,10 @@ final class HandlerLocator implements HandlerLocatorInterface
      */
     private $commandBusConfiguration;
 
-    public function __construct(CommandBusConfigurationInterface $commandBusConfiguration, ObjectManagerInterface $objectManager)
-    {
+    public function __construct(
+        CommandBusConfigurationInterface $commandBusConfiguration,
+        ObjectManagerInterface $objectManager
+    ) {
         $this->objectManager = $objectManager;
         $this->commandBusConfiguration = $commandBusConfiguration;
     }
@@ -45,8 +55,6 @@ final class HandlerLocator implements HandlerLocatorInterface
      * @param string $commandName
      *
      * @return object
-     *
-     * @throws MissingHandlerException
      */
     public function getHandlerForCommand($commandName)
     {

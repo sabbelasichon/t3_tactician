@@ -1,5 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
+/*
+ * This file is part of the "t3_tactician" Extension for TYPO3 CMS.
+ *
+ * For the full copyright and license information, please read the
+ * LICENSE.txt file that was distributed with this source code.
+ */
+
 namespace Ssch\T3Tactician\Tests\Unit\Middleware;
 
 /*
@@ -27,11 +36,6 @@ use TYPO3\CMS\Extbase\Error\Error;
 use TYPO3\CMS\Extbase\Error\Result;
 use TYPO3\CMS\Extbase\Validation\Validator\ValidatorInterface;
 
-/**
- * @covers \Ssch\T3Tactician\Middleware\ValidatorMiddleware
- * @covers \Ssch\T3Tactician\Validator\NoValidatorFoundException
- * @covers \Ssch\T3Tactician\Middleware\InvalidCommandException
- */
 class ValidatorMiddlewareTest extends UnitTestCase
 {
     /**
@@ -50,14 +54,13 @@ class ValidatorMiddlewareTest extends UnitTestCase
         $this->subject = new ValidatorMiddleware($this->validatorResolver->reveal());
     }
 
-    /**
-     * @test
-     */
-    public function validationIsSuccessfulCallNext()
+
+    public function testValidationIsSuccessfulCallNext()
     {
         $validator = $this->prophesize(ValidatorInterface::class);
         $errorResult = $this->prophesize(Result::class);
-        $errorResult->getFlattenedErrors()->willReturn([]);
+        $errorResult->getFlattenedErrors()
+            ->willReturn([]);
         $validator->validate(Argument::any())->willReturn($errorResult);
 
         $this->validatorResolver->getBaseValidatorConjunction(Argument::any())->willReturn($validator->reveal());
@@ -65,45 +68,25 @@ class ValidatorMiddlewareTest extends UnitTestCase
         $this->assertNextIsCalled();
     }
 
-    /**
-     * @test
-     * @throws NoValidatorFoundException
-     */
-    public function noValidatorFoundSoCallNext()
+
+    public function testNoValidatorFoundSoCallNext()
     {
-        $this->validatorResolver->getBaseValidatorConjunction(Argument::any())->willThrow(NoValidatorFoundException::noValidatorFound(AddTaskCommand::class));
+        $this->validatorResolver->getBaseValidatorConjunction(Argument::any())->willThrow(
+            NoValidatorFoundException::noValidatorFound(AddTaskCommand::class)
+        );
         $this->assertNextIsCalled();
     }
 
-    private function assertNextIsCalled()
-    {
-        $command = new AddTaskCommand();
-        $nextClosure = function ($command) {
-            $this->assertInternalType('object', $command);
 
-            return 'foobar';
-        };
-        $this->assertEquals(
-            'foobar',
-            $this->subject->execute($command, $nextClosure)
-        );
-    }
-
-    /**
-     * @test
-     * @throws NoValidatorFoundException
-     * @throws InvalidCommandException
-     */
-    public function onValidationErrorThrowsException()
+    public function testOnValidationErrorThrowsException()
     {
         $this->expectException(InvalidCommandException::class);
 
         $validator = $this->prophesize(ValidatorInterface::class);
         $errorResult = $this->prophesize(Result::class);
-        $errors = [
-            new Error('Some error message', 1547051759)
-        ];
-        $errorResult->getFlattenedErrors()->willReturn($errors);
+        $errors = [new Error('Some error message', 1547051759)];
+        $errorResult->getFlattenedErrors()
+            ->willReturn($errors);
         $validator->validate(Argument::any())->willReturn($errorResult);
         $this->validatorResolver->getBaseValidatorConjunction(Argument::any())->willReturn($validator->reveal());
 
@@ -114,5 +97,16 @@ class ValidatorMiddlewareTest extends UnitTestCase
             return 'foobar';
         };
         $this->subject->execute($command, $nextClosure);
+    }
+
+    private function assertNextIsCalled()
+    {
+        $command = new AddTaskCommand();
+        $nextClosure = function ($command) {
+            $this->assertInternalType('object', $command);
+
+            return 'foobar';
+        };
+        $this->assertEquals('foobar', $this->subject->execute($command, $nextClosure));
     }
 }

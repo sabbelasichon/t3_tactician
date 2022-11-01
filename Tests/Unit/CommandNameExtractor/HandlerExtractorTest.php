@@ -1,5 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
+/*
+ * This file is part of the "t3_tactician" Extension for TYPO3 CMS.
+ *
+ * For the full copyright and license information, please read the
+ * LICENSE.txt file that was distributed with this source code.
+ */
+
 namespace Ssch\T3Tactician\Tests\Unit\CommandNameExtractor;
 
 /*
@@ -20,9 +29,6 @@ use Nimut\TestingFramework\TestCase\UnitTestCase;
 use Ssch\T3Tactician\CommandNameExtractor\HandlerExtractor;
 use Ssch\T3Tactician\Tests\Unit\Fixtures\Command\AddTaskCommand;
 
-/**
- * @covers \Ssch\T3Tactician\CommandNameExtractor\HandlerExtractor
- */
 class HandlerExtractorTest extends UnitTestCase
 {
     /**
@@ -41,13 +47,12 @@ class HandlerExtractorTest extends UnitTestCase
         $this->subject = new HandlerExtractor($this->classNameExtractor->reveal());
     }
 
-    /**
-     * @test
-     */
-    public function extractMethodsReturnsCorrectString()
+
+    public function testExtractMethodsReturnsCorrectString()
     {
         $command = new AddTaskCommand();
-        $this->classNameExtractor->extract($command)->willReturn(\get_class($command));
+        $this->classNameExtractor->extract($command)
+            ->willReturn(\get_class($command));
         $this->assertEquals(\get_class($command), $this->subject->extract($command));
     }
 }

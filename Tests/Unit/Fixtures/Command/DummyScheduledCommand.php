@@ -1,5 +1,13 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
+
+/*
+ * This file is part of the "t3_tactician" Extension for TYPO3 CMS.
+ *
+ * For the full copyright and license information, please read the
+ * LICENSE.txt file that was distributed with this source code.
+ */
 
 namespace Ssch\T3Tactician\Tests\Unit\Fixtures\Command;
 
@@ -20,7 +28,6 @@ use Ssch\T3Tactician\Command\AbstractScheduledCommand;
 
 final class DummyScheduledCommand extends AbstractScheduledCommand
 {
-
     /**
      * @var string
      */
@@ -33,9 +40,6 @@ final class DummyScheduledCommand extends AbstractScheduledCommand
 
     /**
      * DummyScheduledCommand constructor.
-     *
-     * @param string $email
-     * @param string $username
      */
     public function __construct(string $email, string $username)
     {
@@ -43,17 +47,13 @@ final class DummyScheduledCommand extends AbstractScheduledCommand
         $this->username = $username;
     }
 
-    /**
-     * @return string
-     */
+
     public function getEmail(): string
     {
         return $this->email;
     }
 
-    /**
-     * @return string
-     */
+
     public function getUsername(): string
     {
         return $this->username;

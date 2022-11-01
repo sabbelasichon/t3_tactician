@@ -1,5 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
+/*
+ * This file is part of the "t3_tactician" Extension for TYPO3 CMS.
+ *
+ * For the full copyright and license information, please read the
+ * LICENSE.txt file that was distributed with this source code.
+ */
+
 namespace Ssch\T3Tactician\Tests\Functional;
 
 /*
@@ -35,7 +44,10 @@ class CommandBusTest extends FunctionalTestCase
     /**
      * @var array
      */
-    protected $testExtensionsToLoad = ['typo3conf/ext/t3_tactician', 'typo3conf/ext/t3_tactician/Tests/Functional/Fixtures/Extensions/t3_tactician_test'];
+    protected $testExtensionsToLoad = [
+        'typo3conf/ext/t3_tactician',
+        'typo3conf/ext/t3_tactician/Tests/Functional/Fixtures/Extensions/t3_tactician_test',
+    ];
 
     /**
      * @var object|ObjectManager
@@ -48,10 +60,8 @@ class CommandBusTest extends FunctionalTestCase
         $this->objectManager = GeneralUtility::makeInstance(ObjectManager::class);
     }
 
-    /**
-     * @test
-     */
-    public function correctHandlerIsCalled()
+
+    public function testCorrectHandlerIsCalled()
     {
         $commandBus = $this->createCommandBus();
         $command = new AddTaskCommand();
@@ -59,10 +69,8 @@ class CommandBusTest extends FunctionalTestCase
         $this->assertNull($commandBus->handle($command));
     }
 
-    /**
-     * @test
-     */
-    public function validationErrorOccurredThrowsException()
+
+    public function testValidationErrorOccurredThrowsException()
     {
         $commandBus = $this->createCommandBus();
         $command = new AddTaskCommand();
@@ -70,23 +78,25 @@ class CommandBusTest extends FunctionalTestCase
         $commandBus->handle($command);
     }
 
-    /**
-     * @test
-     */
-    public function scheduleCommandSuccessfully()
+
+    public function testScheduleCommandSuccessfully()
     {
         $command = new DummyScheduledCommand('dummy@domain.com', 'dummy');
         $command->setTimestamp(time() + 1000);
         $commandBus = $this->createCommandBus('testingScheduler');
         $commandBus->handle($command);
 
-        $this->assertEquals(1, $this->getDatabaseConnection()->selectCount('*', 'tx_scheduler_task', sprintf('description = "%s"', Scheduler::TASK_DESCRIPTION_IDENTIFIER)));
+        $this->assertEquals(
+            1,
+            $this->getDatabaseConnection()->selectCount('*', 'tx_scheduler_task', sprintf(
+                'description = "%s"',
+                Scheduler::TASK_DESCRIPTION_IDENTIFIER
+            ))
+        );
     }
 
-    /**
-     * @test
-     */
-    public function differentMethodNameInflector()
+
+    public function testDifferentMethodNameInflector()
     {
         $commandBus = $this->createCommandBus('testingMethodNameInflector');
         $commandBus->handle(new AnotherTaskCommand());

@@ -1,5 +1,13 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
+
+/*
+ * This file is part of the "t3_tactician" Extension for TYPO3 CMS.
+ *
+ * For the full copyright and license information, please read the
+ * LICENSE.txt file that was distributed with this source code.
+ */
 
 namespace Ssch\T3Tactician;
 
@@ -65,6 +73,26 @@ final class CommandBusConfiguration implements CommandBusConfigurationInterface
         }
     }
 
+    public function toString(): string
+    {
+        return $this->name;
+    }
+
+    public function middlewares(): array
+    {
+        return $this->middlewares;
+    }
+
+    public function commandHandlers(): array
+    {
+        return $this->commandHandlers;
+    }
+
+    public function inflector(): string
+    {
+        return $this->inflector ?: HandleInflector::class;
+    }
+
     private function initialize(string $name): void
     {
         foreach ($this->packageManager->getActivePackages() as $package) {
@@ -111,25 +139,5 @@ final class CommandBusConfiguration implements CommandBusConfigurationInterface
     private function hasCommandHandler(string $command): bool
     {
         return array_key_exists($command, $this->commandHandlers);
-    }
-
-    public function toString(): string
-    {
-        return $this->name;
-    }
-
-    public function middlewares(): array
-    {
-        return $this->middlewares;
-    }
-
-    public function commandHandlers(): array
-    {
-        return $this->commandHandlers;
-    }
-
-    public function inflector(): string
-    {
-        return $this->inflector ?: HandleInflector::class;
     }
 }

@@ -1,17 +1,12 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
 
 /*
- * This file is part of the TYPO3 CMS project.
- *
- * It is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License, either version 2
- * of the License, or any later version.
+ * This file is part of the "t3_tactician" Extension for TYPO3 CMS.
  *
  * For the full copyright and license information, please read the
  * LICENSE.txt file that was distributed with this source code.
- *
- * The TYPO3 project - inspiring people to share!
  */
 
 namespace Ssch\T3Tactician\Factory;
@@ -36,8 +31,10 @@ final class CommandBusFactory implements SingletonInterface, CommandBusFactoryIn
      */
     private $objectManager;
 
-    public function __construct(MiddlewareHandlerResolverInterface $middlewareHandlerResolver, ObjectManagerInterface $objectManager)
-    {
+    public function __construct(
+        MiddlewareHandlerResolverInterface $middlewareHandlerResolver,
+        ObjectManagerInterface $objectManager
+    ) {
         $this->middlewareHandlerResolver = $middlewareHandlerResolver;
         $this->objectManager = $objectManager;
     }
@@ -46,6 +43,8 @@ final class CommandBusFactory implements SingletonInterface, CommandBusFactoryIn
     {
         $commandBusConfiguration = $this->objectManager->get(CommandBusConfigurationInterface::class, $commandBusName);
 
-        return new TacticianCommandBus(new CommandBus($this->middlewareHandlerResolver->resolveMiddlewareHandler($commandBusConfiguration)));
+        return new TacticianCommandBus(new CommandBus($this->middlewareHandlerResolver->resolveMiddlewareHandler(
+            $commandBusConfiguration
+        )));
     }
 }

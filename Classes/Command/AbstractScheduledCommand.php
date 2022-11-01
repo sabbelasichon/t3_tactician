@@ -9,7 +9,7 @@ declare(strict_types=1);
  * LICENSE.txt file that was distributed with this source code.
  */
 
-namespace Ssch\T3Tactician\Tests\Unit\Fixtures\Command;
+namespace Ssch\T3Tactician\Command;
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -24,11 +24,25 @@ namespace Ssch\T3Tactician\Tests\Unit\Fixtures\Command;
  * The TYPO3 project - inspiring people to share!
  */
 
-final class AddTaskCommand
+use LogicException;
+
+abstract class AbstractScheduledCommand implements ScheduledCommandInterface
 {
     /**
-     * @var string
-     * @validate NotEmpty
+     * @var int
      */
-    public $title = '';
+    private $timestamp;
+
+    public function setTimestamp(int $timestamp)
+    {
+        if ($timestamp < time()) {
+            throw new LogicException('Scheduling commands in the past is not allowed');
+        }
+        $this->timestamp = $timestamp;
+    }
+
+    public function getTimestamp(): int
+    {
+        return $this->timestamp;
+    }
 }
