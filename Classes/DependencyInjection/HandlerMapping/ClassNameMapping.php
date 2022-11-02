@@ -24,14 +24,14 @@ final class ClassNameMapping extends TagBasedMapping
         );
     }
 
-
     protected function findCommandsForService(
         ContainerBuilder $container,
         Definition $definition,
         array $tagAttributes
     ): array {
         return isset($tagAttributes['command']) ? [
-            $container->getParameterBag() ->resolveValue($tagAttributes['command']),
+            $container->getParameterBag() 
+                ->resolveValue($tagAttributes['command']),
         ] : [];
     }
 }

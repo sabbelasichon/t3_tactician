@@ -34,7 +34,6 @@ final class ValidatorMiddleware implements Middleware
     ) {
     }
 
-
     public function execute($command, callable $next)
     {
         $validator = $this->validatorResolver->getBaseValidatorConjunction($command::class);
