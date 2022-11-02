@@ -33,9 +33,7 @@ final class LoggingMiddleware implements Middleware, LoggerAwareInterface
 {
     use LoggerAwareTrait;
 
-    /**
-     * @inheritDoc
-     */
+
     public function execute($command, callable $next)
     {
         $commandClass = $command::class;

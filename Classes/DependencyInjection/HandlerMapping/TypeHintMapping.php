@@ -41,9 +41,7 @@ final class TypeHintMapping extends TagBasedMapping
         return isset($tagAttributes['typehints']) && $tagAttributes['typehints'] === true;
     }
 
-    /**
-     * @inheritDoc
-     */
+
     protected function findCommandsForService(
         ContainerBuilder $container,
         Definition $definition,

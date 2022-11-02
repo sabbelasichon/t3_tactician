@@ -17,7 +17,7 @@ use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 final class BusBuildersFromConfigTest extends UnitTestCase
 {
-    public function test_config_leads_to_builder_with_default_for_each_command_bus(): void
+    public function testConfigLeadsToBuilderWithDefaultForEachCommandBus(): void
     {
         $builders = BusBuildersFromConfig::convert([
             'commandbus' => [
@@ -40,7 +40,7 @@ final class BusBuildersFromConfigTest extends UnitTestCase
         );
     }
 
-    public function test_default_method_inflector_can_be_overridden(): void
+    public function testDefaultMethodInflectorCanBeOverridden(): void
     {
         $builders = BusBuildersFromConfig::convert([
             'method_inflector' => 'other.inflector',
@@ -60,7 +60,7 @@ final class BusBuildersFromConfigTest extends UnitTestCase
         );
     }
 
-    public function test_method_inflector_of_each_bus_can_be_overridden(): void
+    public function testMethodInflectorOfEachBusCanBeOverridden(): void
     {
         $builders = BusBuildersFromConfig::convert([
             'method_inflector' => 'other.inflector',
@@ -81,7 +81,7 @@ final class BusBuildersFromConfigTest extends UnitTestCase
         );
     }
 
-    public function test_default_bus_is_set(): void
+    public function testDefaultBusIsSet(): void
     {
         $builders = BusBuildersFromConfig::convert([
             'commandbus' => [
@@ -100,7 +100,7 @@ final class BusBuildersFromConfigTest extends UnitTestCase
         );
     }
 
-    public function test_default_bus_can_be_overridden(): void
+    public function testDefaultBusCanBeOverridden(): void
     {
         $builders = BusBuildersFromConfig::convert([
             'default_bus' => 'other',

@@ -20,7 +20,7 @@ use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 final class BusBuilderTest extends UnitTestCase
 {
-    public function test_default_name_generates_expected_ids(): void
+    public function testDefaultNameGeneratesExpectedIds(): void
     {
         $builder = new BusBuilder('default', 'some.method.inflector', ['middleware1', 'middleware2']);
 
@@ -33,7 +33,7 @@ final class BusBuilderTest extends UnitTestCase
         );
     }
 
-    public function test_alternate_name_generates_expected_ids(): void
+    public function testAlternateNameGeneratesExpectedIds(): void
     {
         $builder = new BusBuilder('foobar', 'some.method.inflector', ['middleware1', 'middleware2']);
 
@@ -46,7 +46,7 @@ final class BusBuilderTest extends UnitTestCase
         );
     }
 
-    public function test_process(): void
+    public function testProcess(): void
     {
         $builder = new BusBuilder('default', 'some.method.inflector', ['middleware1', 'middleware2']);
 
