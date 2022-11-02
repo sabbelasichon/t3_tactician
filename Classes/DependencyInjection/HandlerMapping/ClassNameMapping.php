@@ -30,7 +30,7 @@ final class ClassNameMapping extends TagBasedMapping
         array $tagAttributes
     ): array {
         return isset($tagAttributes['command']) ? [
-            $container->getParameterBag() 
+            $container->getParameterBag()
                 ->resolveValue($tagAttributes['command']),
         ] : [];
     }
