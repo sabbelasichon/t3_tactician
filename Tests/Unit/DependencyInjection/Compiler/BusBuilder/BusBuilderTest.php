@@ -13,10 +13,10 @@ namespace Ssch\T3Tactician\Tests\Unit\DependencyInjection\Compiler\BusBuilder;
 
 use League\Tactician\CommandBus;
 use League\Tactician\Container\ContainerLocator;
-use Nimut\TestingFramework\TestCase\UnitTestCase;
 use Ssch\T3Tactician\DependencyInjection\Compiler\BusBuilder\BusBuilder;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ServiceLocator;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 final class BusBuilderTest extends UnitTestCase
 {

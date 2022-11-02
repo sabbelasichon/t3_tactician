@@ -11,9 +11,9 @@ declare(strict_types=1);
 
 namespace Ssch\T3Tactician\Tests\Unit\DependencyInjection\Compiler\BusBuilder;
 
-use Nimut\TestingFramework\TestCase\UnitTestCase;
 use Ssch\T3Tactician\DependencyInjection\Compiler\BusBuilder\BusBuilder;
 use Ssch\T3Tactician\DependencyInjection\Compiler\BusBuilder\BusBuildersFromConfig;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 final class BusBuildersFromConfigTest extends UnitTestCase
 {

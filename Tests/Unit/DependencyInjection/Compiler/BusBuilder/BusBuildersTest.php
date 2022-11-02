@@ -11,12 +11,12 @@ declare(strict_types=1);
 
 namespace Ssch\T3Tactician\Tests\Unit\DependencyInjection\Compiler\BusBuilder;
 
-use Nimut\TestingFramework\TestCase\UnitTestCase;
 use Ssch\T3Tactician\DependencyInjection\Compiler\BusBuilder\BusBuilder;
 use Ssch\T3Tactician\DependencyInjection\Compiler\BusBuilder\BusBuilders;
 use Ssch\T3Tactician\DependencyInjection\Exception\DuplicatedCommandBusId;
 use Ssch\T3Tactician\DependencyInjection\Exception\InvalidCommandBusId;
 use Ssch\T3Tactician\DependencyInjection\HandlerMapping\Routing;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 final class BusBuildersTest extends UnitTestCase
 {

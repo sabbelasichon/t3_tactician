@@ -8,6 +8,7 @@ use League\Tactician\Handler\MethodNameInflector\HandleInflector;
 use League\Tactician\Handler\MethodNameInflector\InvokeInflector;
 use League\Tactician\Plugins\LockingMiddleware;
 use League\Tactician\Plugins\NamedCommand\NamedCommandExtractor;
+use Ssch\T3Tactician\Command\DebugCommand;
 use Ssch\T3Tactician\DependencyInjection\Compiler\CommandHandlerPass;
 use Ssch\T3Tactician\DependencyInjection\Compiler\ValidatorMiddlewarePass;
 use Ssch\T3Tactician\DependencyInjection\HandlerMapping\ClassNameMapping;
@@ -19,11 +20,14 @@ use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigura
 return static function (ContainerConfigurator $containerConfigurator, ContainerBuilder $containerBuilder): void {
     $services = $containerConfigurator->services();
     $services->defaults()
-        ->public()
-        ->autowire()
-        ->autoconfigure();
+             ->private()
+             ->autowire()
+             ->autoconfigure();
 
-    $services->load('Ssch\\T3Tactician\\', __DIR__ . '/../Classes/');
+    $services->load('Ssch\\T3Tactician\\', __DIR__.'/../Classes/')
+    ->exclude([
+        __DIR__ . '/../Classes/DependencyInjection'
+    ]);
 
     $services->set(LockingMiddleware::class);
     $services->set(HandleInflector::class);
@@ -35,5 +39,12 @@ return static function (ContainerConfigurator $containerConfigurator, ContainerB
     $services->set(NamedCommandExtractor::class);
 
     $containerBuilder->addCompilerPass(new ValidatorMiddlewarePass());
-    $containerBuilder->addCompilerPass(new CommandHandlerPass(new CompositeMapping(new TypeHintMapping(), new ClassNameMapping())));
+    $containerBuilder->addCompilerPass(new CommandHandlerPass(
+            new CompositeMapping(new TypeHintMapping(), new ClassNameMapping()),
+        )
+    );
+
+    $services->set(DebugCommand::class)->tag('console.command', [
+        'command' => 't3_tactician:debug',
+    ]);
 };

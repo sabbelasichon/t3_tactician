@@ -11,7 +11,6 @@ declare(strict_types=1);
 
 namespace Ssch\T3Tactician\Tests\Unit\Middleware;
 
-use Nimut\TestingFramework\TestCase\UnitTestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use Ssch\T3Tactician\Middleware\InvalidCommandException;
@@ -21,6 +20,7 @@ use TYPO3\CMS\Extbase\Error\Error;
 use TYPO3\CMS\Extbase\Error\Result;
 use TYPO3\CMS\Extbase\Validation\Validator\NotEmptyValidator;
 use TYPO3\CMS\Extbase\Validation\ValidatorResolver;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 final class ValidatorMiddlewareTest extends UnitTestCase
 {
