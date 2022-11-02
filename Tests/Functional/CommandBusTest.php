@@ -40,13 +40,18 @@ final class CommandBusTest extends FunctionalTestCase
         'typo3conf/ext/t3_tactician/Tests/Functional/Fixtures/Extensions/t3_tactician_test',
     ];
 
-    public function test_that_command_bus_foo_exists(): void
+    public function testThatCommandBusFooExists(): void
     {
         self::assertInstanceOf(CommandBus::class, $this->get('tactician.commandbus.foo'));
     }
 
-    public function test_that_command_can_be_handled(): void
+    public function testThatCommandBusBarExists(): void
     {
-        self::assertSame('command.executed', $this->get(MyService::class)->handleCommand());
+        self::assertInstanceOf(CommandBus::class, $this->get('tactician.commandbus.bar'));
+    }
+
+    public function testThatCommandCanBeHandled(): void
+    {
+        self::assertSame('command.executed', $this->get(MyService::class)->handleFakeCommand());
     }
 }

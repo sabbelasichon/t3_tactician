@@ -83,10 +83,7 @@ final class BusBuilder
     {
         $definition = new Definition(
             ContainerLocator::class,
-            [
-                new Reference($this->registerHandlerServiceLocator($container, $commandsToAccept)),
-                $commandsToAccept,
-            ]
+            [new Reference($this->registerHandlerServiceLocator($container, $commandsToAccept)), $commandsToAccept]
         );
 
         $container->setDefinition($this->locatorServiceId(), $definition);
@@ -103,10 +100,9 @@ final class BusBuilder
             ->setPublic(false)
             ->addTag('container.service_locator');
 
-        $container->setDefinition(
-            $handlerId = "tactician.commandbus.{$this->busId}.handler.service_locator",
-            $handlerServiceLocator
-        );
+        $handlerId = "tactician.commandbus.{$this->busId}.handler.service_locator";
+
+        $container->setDefinition($handlerId, $handlerServiceLocator);
 
         return $handlerId;
     }

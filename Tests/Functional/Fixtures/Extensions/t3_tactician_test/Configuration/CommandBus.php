@@ -9,6 +9,7 @@ declare(strict_types=1);
  * LICENSE.txt file that was distributed with this source code.
  */
 
+use League\Tactician\Handler\CommandHandlerMiddleware;
 use League\Tactician\Handler\MethodNameInflector\ClassNameInflector;
 use League\Tactician\Handler\MethodNameInflector\InvokeInflector;
 use Ssch\T3Tactician\Middleware\ValidatorMiddleware;
@@ -17,15 +18,14 @@ return [
     'method_inflector' => InvokeInflector::class,
     'commandbus' => [
         'default' => [
-            'middleware' => [
-                ValidatorMiddleware::class,
-            ],
+            'middleware' => [ValidatorMiddleware::class, CommandHandlerMiddleware::class],
         ],
         'foo' => [
             'method_inflector' => ClassNameInflector::class,
-            'middleware' => [
-                ValidatorMiddleware::class,
-            ],
+            'middleware' => [ValidatorMiddleware::class, CommandHandlerMiddleware::class],
+        ],
+        'bar' => [
+            'middleware' => [ValidatorMiddleware::class, CommandHandlerMiddleware::class],
         ],
     ],
 ];

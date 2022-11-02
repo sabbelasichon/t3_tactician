@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace Ssch\T3Tactician\DependencyInjection\Compiler;
 
 use League\Tactician\CommandBus;
+use League\Tactician\Handler\CommandHandlerMiddleware;
 use Ssch\T3Tactician\Command\DebugCommand;
 use Ssch\T3Tactician\DependencyInjection\Compiler\BusBuilder\BusBuildersFromConfig;
 use Ssch\T3Tactician\DependencyInjection\Contract\HandlerMapping;
@@ -19,7 +20,6 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use TYPO3\CMS\Core\Core\Bootstrap;
 use TYPO3\CMS\Core\Package\FailsafePackageManager;
-use TYPO3\CMS\Core\Package\PackageManager;
 
 final class CommandHandlerPass implements CompilerPassInterface
 {
@@ -29,6 +29,44 @@ final class CommandHandlerPass implements CompilerPassInterface
     }
 
     public function process(ContainerBuilder $container)
+    {
+        $config = $this->createCommandBusConfigurationFromPackages();
+
+        if ($config->count() === 0) {
+            return;
+        }
+
+        $builders = BusBuildersFromConfig::convert($config->getArrayCopy());
+        $routing = $this->handlerMapping->build($container, $builders->createBlankRouting());
+
+        $mappings = [];
+
+        // Register the completed builders in our container
+        foreach ($builders as $builder) {
+            $commandToServiceMapping = $routing->commandToServiceMapping($builder->id());
+            $mappings[$builder->id()] = $commandToServiceMapping;
+            $builder->registerInContainer($container, $commandToServiceMapping);
+        }
+
+        // Setup default aliases
+        $container->setAlias('tactician.commandbus', $builders->defaultBus()->serviceId());
+        $container->setAlias(CommandBus::class, 'tactician.commandbus');
+        $container->setAlias('tactician.handler.locator.symfony', $builders->defaultBus()->locatorServiceId());
+        $container->setAlias(CommandHandlerMiddleware::class, $builders->defaultBus()->commandHandlerMiddlewareId());
+        $container->setAlias(
+            'tactician.middleware.command_handler',
+            $builders->defaultBus()
+                ->commandHandlerMiddlewareId()
+        );
+
+        // Wire debug command
+        if ($container->hasDefinition(DebugCommand::class)) {
+            $container->getDefinition(DebugCommand::class)
+                ->addArgument($mappings);
+        }
+    }
+
+    private function createCommandBusConfigurationFromPackages(): \ArrayObject
     {
         /** @var FailsafePackageManager $packageManager */
         $coreCache = Bootstrap::createCache('core');
@@ -42,40 +80,11 @@ final class CommandHandlerPass implements CompilerPassInterface
             if (file_exists($commandBusConfigurationFile)) {
                 $commandBusInPackage = require $commandBusConfigurationFile;
                 if (is_array($commandBusInPackage)) {
-                    $config->exchangeArray(
-                        array_replace_recursive($config->getArrayCopy(), $commandBusInPackage)
-                    );
+                    $config->exchangeArray(array_replace_recursive($config->getArrayCopy(), $commandBusInPackage));
                 }
             }
         }
 
-        if($config->count() > 0) {
-            $builders = BusBuildersFromConfig::convert($config->getArrayCopy());
-            $routing = $this->handlerMapping->build($container, $builders->createBlankRouting());
-
-            $mappings = [];
-
-            // Register the completed builders in our container
-            foreach ($builders as $builder) {
-                $commandToServiceMapping = $routing->commandToServiceMapping($builder->id());
-                $mappings[$builder->id()] = $commandToServiceMapping;
-                $builder->registerInContainer($container, $commandToServiceMapping);
-            }
-
-            // Setup default aliases
-            $container->setAlias('tactician.commandbus', $builders->defaultBus()->serviceId());
-            $container->setAlias(CommandBus::class, 'tactician.commandbus');
-            $container->setAlias('tactician.handler.locator.symfony', $builders->defaultBus()->locatorServiceId());
-            $container->setAlias(
-                'tactician.middleware.command_handler',
-                $builders->defaultBus()->commandHandlerMiddlewareId()
-            );
-
-            // Wire debug command
-            if ($container->hasDefinition(DebugCommand::class)) {
-                $container->getDefinition(DebugCommand::class)
-                          ->addArgument($mappings);
-            }
-        }
+        return $config;
     }
 }

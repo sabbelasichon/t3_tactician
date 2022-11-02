@@ -28,7 +28,6 @@ use League\Tactician\Middleware;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LoggerInterface;
-use TYPO3\CMS\Core\Log\LogManagerInterface;
 
 final class LoggingMiddleware implements Middleware, LoggerAwareInterface
 {
@@ -38,13 +37,13 @@ final class LoggingMiddleware implements Middleware, LoggerAwareInterface
     {
         $commandClass = $command::class;
 
-        if($this->logger instanceof LoggerInterface) {
+        if ($this->logger instanceof LoggerInterface) {
             $this->logger->info(sprintf('Starting %s', $commandClass));
         }
 
         $returnValue = $next($command);
 
-        if($this->logger instanceof LoggerInterface) {
+        if ($this->logger instanceof LoggerInterface) {
             $this->logger->info(sprintf('%s finished', $commandClass));
         }
 

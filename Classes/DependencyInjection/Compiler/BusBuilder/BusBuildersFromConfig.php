@@ -19,6 +19,9 @@ final class BusBuildersFromConfig
 
     private const DEFAULT_BUS_ID = 'default';
 
+    /**
+     * @return BusBuilders<BusBuilder>
+     */
     public static function convert(array $config): BusBuilders
     {
         $defaultInflector = $config['method_inflector'] ?? self::DEFAULT_METHOD_INFLECTOR;

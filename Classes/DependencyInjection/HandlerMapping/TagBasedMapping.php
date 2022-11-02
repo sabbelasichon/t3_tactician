@@ -42,7 +42,6 @@ abstract class TagBasedMapping implements HandlerMapping
         array $tagAttributes
     ): array;
 
-
     private function mapServiceByTag(ContainerBuilder $container, Routing $routing, $serviceId, $attributes)
     {
         $definition = $container->getDefinition($serviceId);

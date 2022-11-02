@@ -1,9 +1,15 @@
 <?php
+
 declare(strict_types=1);
 
+/*
+ * This file is part of the "t3_tactician" Extension for TYPO3 CMS.
+ *
+ * For the full copyright and license information, please read the
+ * LICENSE.txt file that was distributed with this source code.
+ */
 
 namespace Ssch\T3Tactician\Command;
-
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -21,11 +27,6 @@ final class DebugCommand extends Command
         $this->mappings = $mappings;
     }
 
-    protected function configure(): void
-    {
-        $this->setName('t3_tactician:debug');
-    }
-
     public function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
@@ -40,11 +41,16 @@ final class DebugCommand extends Command
             if (count($map) > 0) {
                 $io->table($headers, $this->mappingToRows($map));
             } else {
-                $io->warning("No registered commands for bus $busId");
+                $io->warning("No registered commands for bus {$busId}");
             }
         }
 
         return Command::SUCCESS;
+    }
+
+    protected function configure(): void
+    {
+        $this->setName('t3_tactician:debug');
     }
 
     private function mappingToRows(array $map): array

@@ -50,6 +50,9 @@ final class BusBuilders implements \IteratorAggregate
         return $this->get($this->defaultBusId);
     }
 
+    /**
+     * @return \ArrayIterator<BusBuilder>
+     */
     public function getIterator(): \ArrayIterator
     {
         return new \ArrayIterator($this->busBuilders);

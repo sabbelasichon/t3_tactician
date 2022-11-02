@@ -19,7 +19,8 @@ final class ClassNameMapping extends TagBasedMapping
     protected function isSupported(ContainerBuilder $container, Definition $definition, array $tagAttributes): bool
     {
         return isset($tagAttributes['command']) && class_exists(
-            $container->getParameterBag()->resolveValue($tagAttributes['command'])
+            $container->getParameterBag()
+                ->resolveValue($tagAttributes['command'])
         );
     }
 
