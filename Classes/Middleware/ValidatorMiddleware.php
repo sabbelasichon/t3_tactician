@@ -26,6 +26,7 @@ namespace Ssch\T3Tactician\Middleware;
 
 use League\Tactician\Middleware;
 use Ssch\T3Tactician\Validator\NoValidatorFoundException;
+use TYPO3\CMS\Extbase\Validation\Exception\NoSuchValidatorException;
 use TYPO3\CMS\Extbase\Validation\ValidatorResolver;
 
 final class ValidatorMiddleware implements Middleware
@@ -36,21 +37,16 @@ final class ValidatorMiddleware implements Middleware
     }
 
     /**
-     * @param object $command
-     *
-     * @return mixed
+     * @inheritDoc
      */
     public function execute($command, callable $next)
     {
-        try {
-            $validator = $this->validatorResolver->getBaseValidatorConjunction($command::class);
+        $validator = $this->validatorResolver->getBaseValidatorConjunction($command::class);
 
-            $errorResult = $validator->validate($command);
+        $errorResult = $validator->validate($command);
 
-            if (\count($errorResult->getFlattenedErrors()) > 0) {
-                throw InvalidCommandException::onCommand($command, $errorResult);
-            }
-        } catch (NoValidatorFoundException) {
+        if (\count($errorResult->getFlattenedErrors()) > 0) {
+            throw InvalidCommandException::onCommand($command, $errorResult);
         }
 
         return $next($command);

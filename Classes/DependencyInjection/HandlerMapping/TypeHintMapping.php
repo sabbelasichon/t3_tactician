@@ -33,11 +33,17 @@ use Symfony\Component\DependencyInjection\Definition;
  */
 final class TypeHintMapping extends TagBasedMapping
 {
+    /**
+     * @param array{typehints?: boolean} $tagAttributes
+     */
     protected function isSupported(ContainerBuilder $container, Definition $definition, array $tagAttributes): bool
     {
         return isset($tagAttributes['typehints']) && $tagAttributes['typehints'] === true;
     }
 
+    /**
+     * @inheritDoc
+     */
     protected function findCommandsForService(
         ContainerBuilder $container,
         Definition $definition,
@@ -45,9 +51,9 @@ final class TypeHintMapping extends TagBasedMapping
     ): array {
         $results = [];
 
-        $reflClass = new ReflectionClass($container->getParameterBag()->resolveValue($definition->getClass()));
+        $reflectionClass = new ReflectionClass($container->getParameterBag()->resolveValue($definition->getClass()));
 
-        foreach ($reflClass->getMethods() as $method) {
+        foreach ($reflectionClass->getMethods() as $method) {
             if (! $method->isPublic()
                 || $method->isConstructor()
                 || $method->isStatic()

@@ -28,7 +28,7 @@ final class CommandHandlerPass implements CompilerPassInterface
     ) {
     }
 
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         $config = $this->createCommandBusConfigurationFromPackages();
 
@@ -68,9 +68,9 @@ final class CommandHandlerPass implements CompilerPassInterface
 
     private function createCommandBusConfigurationFromPackages(): \ArrayObject
     {
-        /** @var FailsafePackageManager $packageManager */
         $coreCache = Bootstrap::createCache('core');
         $packageCache = Bootstrap::createPackageCache($coreCache);
+        /** @var FailsafePackageManager $packageManager */
         $packageManager = Bootstrap::createPackageManager(FailsafePackageManager::class, $packageCache);
         $packageManager->initialize();
 

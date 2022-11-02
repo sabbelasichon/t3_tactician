@@ -79,7 +79,7 @@ final class BusBuilder
         $container->registerAliasForArgument($this->serviceId(), CommandBus::class, "{$this->busId}Bus");
     }
 
-    private function registerLocatorService(ContainerBuilder $container, $commandsToAccept): void
+    private function registerLocatorService(ContainerBuilder $container, array $commandsToAccept): void
     {
         $definition = new Definition(
             ContainerLocator::class,

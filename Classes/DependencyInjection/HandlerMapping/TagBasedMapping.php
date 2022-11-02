@@ -30,19 +30,30 @@ abstract class TagBasedMapping implements HandlerMapping
         return $routing;
     }
 
+    /**
+     * @param array{typehints?: boolean, bus?: string, command?: string} $tagAttributes
+     */
     abstract protected function isSupported(
         ContainerBuilder $container,
         Definition $definition,
         array $tagAttributes
     ): bool;
 
+    /**
+     * @param array{typehints?: boolean, bus?: string, command?: string} $tagAttributes
+     *
+     * @return string[]
+     */
     abstract protected function findCommandsForService(
         ContainerBuilder $container,
         Definition $definition,
         array $tagAttributes
     ): array;
 
-    private function mapServiceByTag(ContainerBuilder $container, Routing $routing, $serviceId, $attributes)
+    /**
+     * @param array{typehints?: boolean, bus?: string, command?: string} $attributes
+     */
+    private function mapServiceByTag(ContainerBuilder $container, Routing $routing, string $serviceId, array $attributes): void
     {
         $definition = $container->getDefinition($serviceId);
 

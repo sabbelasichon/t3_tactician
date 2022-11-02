@@ -71,7 +71,7 @@
       "mkdir -p .Build/Web/typo3conf/ext/",
       "[ -L .Build/Web/typo3conf/ext/t3_tactician ] || ln -snvf ../../../../. .Build/Web/typo3conf/ext/t3_tactician"
     ],
-    "analyze": "phpstan analyse --ansi --error-format symplify --memory-limit=-1",
+    "analyze": "phpstan analyse --ansi --memory-limit=-1",
     "test-php-lint": [
       ".Build/bin/parallel-lint ./Classes/",
       ".Build/bin/parallel-lint ./Configuration/TCA/",

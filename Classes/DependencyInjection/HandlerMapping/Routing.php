@@ -16,8 +16,14 @@ use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 
 final class Routing
 {
+    /**
+     * @var array<array<string, string>>
+     */
     private array $mapping;
 
+    /**
+     * @param string[] $validBusIds
+     */
     public function __construct(array $validBusIds)
     {
         foreach ($validBusIds as $validBusId) {
@@ -25,7 +31,7 @@ final class Routing
         }
     }
 
-    public function routeToBus($busId, $commandClassName, $serviceId): void
+    public function routeToBus(string $busId, string $commandClassName, string $serviceId): void
     {
         $this->assertValidBusId($busId);
         $this->assertValidCommandFQCN($commandClassName, $serviceId);
@@ -33,7 +39,7 @@ final class Routing
         $this->mapping[$busId][$commandClassName] = $serviceId;
     }
 
-    public function routeToAllBuses($commandClassName, $serviceId): void
+    public function routeToAllBuses(string $commandClassName, string $serviceId): void
     {
         $this->assertValidCommandFQCN($commandClassName, $serviceId);
 
@@ -42,6 +48,9 @@ final class Routing
         }
     }
 
+    /**
+     * @return array<string, string>
+     */
     public function commandToServiceMapping(string $busId): array
     {
         $this->assertValidBusId($busId);

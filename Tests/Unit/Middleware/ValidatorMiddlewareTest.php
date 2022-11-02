@@ -28,7 +28,10 @@ final class ValidatorMiddlewareTest extends UnitTestCase
 
     private ValidatorMiddleware $subject;
 
-    private ObjectProphecy|ValidatorResolver $validatorResolver;
+    /**
+     * @var ObjectProphecy|ValidatorResolver
+     */
+    private ObjectProphecy $validatorResolver;
 
     protected function setUp(): void
     {

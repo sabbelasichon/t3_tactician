@@ -20,33 +20,33 @@ use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 final class BusBuilderTest extends UnitTestCase
 {
-    public function testDefaultNameGeneratesExpectedIds()
+    public function test_default_name_generates_expected_ids(): void
     {
         $builder = new BusBuilder('default', 'some.method.inflector', ['middleware1', 'middleware2']);
 
-        $this->assertSame('default', $builder->id());
-        $this->assertSame('tactician.commandbus.default', $builder->serviceId());
-        $this->assertSame('tactician.commandbus.default.handler.locator', $builder->locatorServiceId());
-        $this->assertSame(
+        self::assertSame('default', $builder->id());
+        self::assertSame('tactician.commandbus.default', $builder->serviceId());
+        self::assertSame('tactician.commandbus.default.handler.locator', $builder->locatorServiceId());
+        self::assertSame(
             'tactician.commandbus.default.middleware.command_handler',
             $builder->commandHandlerMiddlewareId()
         );
     }
 
-    public function testAlternateNameGeneratesExpectedIds()
+    public function test_alternate_name_generates_expected_ids(): void
     {
         $builder = new BusBuilder('foobar', 'some.method.inflector', ['middleware1', 'middleware2']);
 
-        $this->assertSame('foobar', $builder->id());
-        $this->assertSame('tactician.commandbus.foobar', $builder->serviceId());
-        $this->assertSame('tactician.commandbus.foobar.handler.locator', $builder->locatorServiceId());
-        $this->assertSame(
+        self::assertSame('foobar', $builder->id());
+        self::assertSame('tactician.commandbus.foobar', $builder->serviceId());
+        self::assertSame('tactician.commandbus.foobar.handler.locator', $builder->locatorServiceId());
+        self::assertSame(
             'tactician.commandbus.foobar.middleware.command_handler',
             $builder->commandHandlerMiddlewareId()
         );
     }
 
-    public function testProcess()
+    public function test_process(): void
     {
         $builder = new BusBuilder('default', 'some.method.inflector', ['middleware1', 'middleware2']);
 
@@ -55,7 +55,7 @@ final class BusBuilderTest extends UnitTestCase
         $this->busShouldBeCorrectlyRegisteredInContainer($container);
     }
 
-    private function busShouldBeCorrectlyRegisteredInContainer(ContainerBuilder $container)
+    private function busShouldBeCorrectlyRegisteredInContainer(ContainerBuilder $container): void
     {
         $handlerLocatorId = 'tactician.commandbus.default.handler.locator';
         $handlerId = 'tactician.commandbus.default.middleware.command_handler';
@@ -70,6 +70,6 @@ final class BusBuilderTest extends UnitTestCase
 
         self::assertSame('some.method.inflector', (string) $container ->getDefinition($handlerId) ->getArgument(2));
 
-        $this->assertTrue($container->hasAlias(CommandBus::class . ' $defaultBus'));
+        self::assertTrue($container->hasAlias(CommandBus::class . ' $defaultBus'));
     }
 }

@@ -20,42 +20,50 @@ use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 final class BusBuildersTest extends UnitTestCase
 {
-    public function testCanIterateOverBuilders()
+    public function testCanIterateOverBuilders(): void
     {
         $builders = new BusBuilders([$a, $b] = $this->buildersNamed('foo', 'bar'), 'foo');
 
-        $this->assertSame([
+        self::assertSame([
             'foo' => $a,
             'bar' => $b,
         ], iterator_to_array($builders));
     }
 
-    public function testDefaultBuilderMustBeAnIdThatActuallyExists()
+    public function testDefaultBuilderMustBeAnIdThatActuallyExists(): void
     {
         $this->expectException(InvalidCommandBusId::class);
 
         $this->builders(['bus1'], 'some_bus_that_does_not_exist');
     }
 
-    public function testTwoBusesCanNotHaveTheSameId()
+    public function testTwoBusesCanNotHaveTheSameId(): void
     {
         $this->expectException(DuplicatedCommandBusId::class);
 
         $this->builders(['bus1', 'bus1']);
     }
 
-    public function testBlankRoutingHasIds()
+    public function testBlankRoutingHasIds(): void
     {
         $builders = $this->builders(['bus1', 'bus2']);
 
-        $this->assertEquals(new Routing(['bus1', 'bus2']), $builders->createBlankRouting());
+        self::assertEquals(new Routing(['bus1', 'bus2']), $builders->createBlankRouting());
     }
 
-    private function builders($ids, $default = 'bus1'): BusBuilders
+    /**
+     * @param string[] $ids
+     *
+     * @return BusBuilders<BusBuilder>
+     */
+    private function builders(array $ids, string $default = 'bus1'): BusBuilders
     {
         return new BusBuilders($this->buildersNamed(...$ids), $default);
     }
 
+    /**
+     * @return BusBuilder[]
+     */
     private function buildersNamed(string ...$ids): array
     {
         return array_map(fn (string $id) => new BusBuilder($id, 'some.inflector', []), $ids);

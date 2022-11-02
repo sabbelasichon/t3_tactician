@@ -16,6 +16,9 @@ use Symfony\Component\DependencyInjection\Definition;
 
 final class ClassNameMapping extends TagBasedMapping
 {
+    /**
+     * @inheritDoc
+     */
     protected function isSupported(ContainerBuilder $container, Definition $definition, array $tagAttributes): bool
     {
         return isset($tagAttributes['command']) && class_exists(
@@ -24,11 +27,14 @@ final class ClassNameMapping extends TagBasedMapping
         );
     }
 
+    /**
+     * @inheritDoc
+     */
     protected function findCommandsForService(
         ContainerBuilder $container,
         Definition $definition,
         array $tagAttributes
     ): array {
-        return [$container->getParameterBag() ->resolveValue($tagAttributes['command'])];
+        return isset($tagAttributes['command']) ? [$container->getParameterBag() ->resolveValue($tagAttributes['command'])] : [];
     }
 }

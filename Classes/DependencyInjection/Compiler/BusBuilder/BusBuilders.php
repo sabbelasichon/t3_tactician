@@ -16,7 +16,7 @@ use Ssch\T3Tactician\DependencyInjection\Exception\InvalidCommandBusId;
 use Ssch\T3Tactician\DependencyInjection\HandlerMapping\Routing;
 
 /**
- * @phpstan-template \IteratorAggregate<BusBuilder>
+ * @implements \IteratorAggregate<int, BusBuilder>
  */
 final class BusBuilders implements \IteratorAggregate
 {
@@ -65,14 +65,14 @@ final class BusBuilders implements \IteratorAggregate
         return $this->busBuilders[$busId];
     }
 
-    private function assertValidBusId($busId)
+    private function assertValidBusId(string $busId): void
     {
         if (! isset($this->busBuilders[$busId])) {
             throw InvalidCommandBusId::ofName($busId, array_keys($this->busBuilders));
         }
     }
 
-    private function add(BusBuilder $builder)
+    private function add(BusBuilder $builder): void
     {
         $id = $builder->id();
 

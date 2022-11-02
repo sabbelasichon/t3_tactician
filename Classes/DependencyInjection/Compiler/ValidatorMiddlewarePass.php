@@ -22,7 +22,7 @@ final class ValidatorMiddlewarePass implements CompilerPassInterface
 {
     private const SERVICE_ID = 'tactician.middleware.validator';
 
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         if ($container->hasDefinition(ValidatorResolver::class) === false) {
             return;

@@ -32,9 +32,6 @@ final class CommandBusTest extends FunctionalTestCase
 {
     protected $initializeDatabase = false;
 
-    /**
-     * @var string[]
-     */
     protected $testExtensionsToLoad = [
         'typo3conf/ext/t3_tactician',
         'typo3conf/ext/t3_tactician/Tests/Functional/Fixtures/Extensions/t3_tactician_test',
