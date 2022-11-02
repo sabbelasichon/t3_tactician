@@ -23,8 +23,7 @@
     "league/tactician": "^1.0",
     "typo3/cms-scheduler": "^11.5 || ^12.0",
     "ergebnis/clock": "^2.4",
-    "league/tactician-container": "^2.0",
-    "league/tactician-logger": "^0.11.0"
+    "league/tactician-container": "^2.0"
   },
   "require-dev": {
     "symplify/easy-coding-standard": "^11.1",
