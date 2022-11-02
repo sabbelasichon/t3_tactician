@@ -14,6 +14,7 @@ use Ssch\T3Tactician\DependencyInjection\Compiler\ValidatorMiddlewarePass;
 use Ssch\T3Tactician\DependencyInjection\HandlerMapping\ClassNameMapping;
 use Ssch\T3Tactician\DependencyInjection\HandlerMapping\CompositeMapping;
 use Ssch\T3Tactician\DependencyInjection\HandlerMapping\TypeHintMapping;
+use Ssch\T3Tactician\Middleware\LoggingMiddleware;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
@@ -37,6 +38,7 @@ return static function (ContainerConfigurator $containerConfigurator, ContainerB
     $services->set(InvokeInflector::class);
     $services->set(ClassNameExtractor::class);
     $services->set(NamedCommandExtractor::class);
+    $services->set(LoggingMiddleware::class);
 
     $containerBuilder->addCompilerPass(new ValidatorMiddlewarePass());
     $containerBuilder->addCompilerPass(new CommandHandlerPass(
