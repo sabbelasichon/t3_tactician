@@ -29,13 +29,7 @@ For the full copyright and license information, please read the
 LICENSE.txt file that was distributed with this source code.
 CODE_SAMPLE;
 
-    $ecsConfig->paths([
-        __DIR__ . '/Classes',
-        __DIR__ . '/Tests',
-        __DIR__ . '/ext_localconf.php',
-        __DIR__ . '/ecs.php',
-        __DIR__ . '/rector.php',
-    ]);
+    $ecsConfig->paths([__DIR__ . '/Classes', __DIR__ . '/Tests', __DIR__ . '/ecs.php', __DIR__ . '/rector.php']);
 
     $ecsConfig->ruleWithConfiguration(ArraySyntaxFixer::class, [
         'syntax' => 'short',

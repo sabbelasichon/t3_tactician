@@ -35,7 +35,7 @@ final class LoggingMiddleware implements Middleware, LoggerAwareInterface
 
     public function execute($command, callable $next)
     {
-        $commandClass = $command::class;
+        $commandClass = get_class($command);
 
         if ($this->logger instanceof LoggerInterface) {
             $this->logger->info(sprintf('Starting %s', $commandClass));

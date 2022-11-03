@@ -17,9 +17,9 @@
     }
   ],
   "require": {
-    "php": "^8.0",
-    "typo3/cms-core": "^11.5 || ^12.0",
-    "typo3/cms-extbase": "^11.5 || ^12.0",
+    "php": "^7.4 || ^8.0",
+    "typo3/cms-core": "^10.4 || ^11.5 || ^12.0",
+    "typo3/cms-extbase": "^10.4 || ^11.5 || ^12.0",
     "league/tactician": "^1.0",
     "league/tactician-container": "^2.0"
   },

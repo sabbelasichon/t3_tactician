@@ -19,11 +19,11 @@ use Rector\Set\ValueObject\LevelSetList;
 return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->paths([__DIR__ . '/Classes', __DIR__ . '/Tests']);
 
-    $rectorConfig->phpVersion(PhpVersion::PHP_80);
+    $rectorConfig->phpVersion(PhpVersion::PHP_74);
     $rectorConfig->rule(AddProphecyTraitRector::class);
     $rectorConfig->rule(TypedPropertyRector::class);
     $rectorConfig->sets([
-        LevelSetList::UP_TO_PHP_80,
+        LevelSetList::UP_TO_PHP_74,
         PHPUnitSetList::PHPUNIT_CODE_QUALITY,
         PHPUnitSetList::PHPUNIT_91,
         PHPUnitSetList::PHPUNIT_YIELD_DATA_PROVIDER,

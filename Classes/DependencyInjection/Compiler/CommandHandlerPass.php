@@ -23,9 +23,11 @@ use TYPO3\CMS\Core\Package\FailsafePackageManager;
 
 final class CommandHandlerPass implements CompilerPassInterface
 {
-    public function __construct(
-        private HandlerMapping $handlerMapping
-    ) {
+    private HandlerMapping $handlerMapping;
+
+    public function __construct(HandlerMapping $handlerMapping)
+    {
+        $this->handlerMapping = $handlerMapping;
     }
 
     public function process(ContainerBuilder $container): void

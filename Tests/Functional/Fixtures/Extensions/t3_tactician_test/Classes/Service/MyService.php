@@ -16,9 +16,11 @@ use Ssch\T3Tactician\Tests\Unit\Fixtures\FakeCommand;
 
 final class MyService
 {
-    public function __construct(
-        private CommandBus $barBus
-    ) {
+    private CommandBus $barBus;
+
+    public function __construct(CommandBus $barBus)
+    {
+        $this->barBus = $barBus;
     }
 
     public function handleFakeCommand(): string

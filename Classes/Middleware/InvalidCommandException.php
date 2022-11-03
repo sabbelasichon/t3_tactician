@@ -24,7 +24,7 @@ final class InvalidCommandException extends \RuntimeException implements Excepti
     public static function onCommand(object $command, Result $result): self
     {
         $exception = new self(
-            'Validation failed for ' . $command::class .
+            'Validation failed for ' . get_class($command) .
             ' with ' . count($result->getFlattenedErrors()) . ' violation(s).'
         );
 

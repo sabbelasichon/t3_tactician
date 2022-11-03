@@ -23,11 +23,17 @@ use Symfony\Component\DependencyInjection\ServiceLocator;
 
 final class BusBuilder
 {
-    public function __construct(
-        private string $busId,
-        private string $methodInflectorId,
-        private array $middlewareIds
-    ) {
+    private string $busId;
+
+    private string $methodInflectorId;
+
+    private array $middlewareIds;
+
+    public function __construct(string $busId, string $methodInflectorId, array $middlewareIds)
+    {
+        $this->busId = $busId;
+        $this->methodInflectorId = $methodInflectorId;
+        $this->middlewareIds = $middlewareIds;
     }
 
     public function id(): string
