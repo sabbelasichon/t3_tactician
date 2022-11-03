@@ -10,7 +10,7 @@ return static function (ContainerConfigurator $containerConfigurator, ContainerB
         ->autowire()
         ->autoconfigure();
 
-    $services->load('', __DIR__ . '/../Classes/')->exclude([
+    $services->load('Ssch\\T3Tactician\\', __DIR__ . '/../Classes/')->exclude([
         __DIR__ . '/../Classes/Command/ExecuteScheduledCommandsCommand.php',
         __DIR__ . '/../Classes/Middleware/InvalidCommandException.php',
         __DIR__ . '/../Classes/Scheduler/Task',
