@@ -17,6 +17,7 @@ namespace Ssch\T3Tactician\Command;
  */
 
 use League\Tactician\CommandBus;
+use Ssch\T3Tactician\CommandBus\CommandBusInterface;
 
 /**
  * @codeCoverageIgnore
@@ -25,16 +26,16 @@ final class ExecuteScheduledCommandsCommand
 {
 
     /**
-     * @var CommandBus
+     * @var CommandBusInterface
      */
     private $commandBus;
 
-    public function __construct(CommandBus $commandBus)
+    public function __construct(CommandBusInterface $commandBus)
     {
         $this->commandBus = $commandBus;
     }
 
-    public function getCommandBus(): CommandBus
+    public function getCommandBus(): CommandBusInterface
     {
         return $this->commandBus;
     }
