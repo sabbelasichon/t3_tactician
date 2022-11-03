@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace Ssch\T3Tactician\DependencyInjection\HandlerMapping;
 
 use ReflectionClass;
+use ReflectionNamedType;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 
@@ -62,16 +63,30 @@ final class TypeHintMapping extends TagBasedMapping
             }
 
             $parameter = $method->getParameters()[0];
-            if (! $parameter->hasType()
-                || $parameter->getType() instanceof \ReflectionUnionType
-                || $parameter->getType()
-                    ->isBuiltin()
-                || (new ReflectionClass($parameter->getType()->getName()))->isInterface()
+
+            if (! $parameter->hasType()) {
+                continue;
+            }
+            $type = $parameter->getType();
+
+            if (! $type instanceof ReflectionNamedType) {
+                continue;
+            }
+
+            $possibleCommandClassName = $type->getName();
+
+            if (! class_exists($possibleCommandClassName)) {
+                continue;
+            }
+
+            if ($parameter->getType() instanceof \ReflectionUnionType
+                || $type->isBuiltin()
+                || (new ReflectionClass($possibleCommandClassName))->isInterface()
             ) {
                 continue;
             }
 
-            $results[] = $parameter->getType()->getName();
+            $results[] = $possibleCommandClassName;
         }
 
         return $results;
