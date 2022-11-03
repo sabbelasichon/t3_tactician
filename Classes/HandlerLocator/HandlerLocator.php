@@ -29,7 +29,7 @@ final class HandlerLocator implements HandlerLocatorInterface
     private $objectManager;
 
     /**
-     * @var CommandBusConfiguration
+     * @var CommandBusConfigurationInterface
      */
     private $commandBusConfiguration;
 
