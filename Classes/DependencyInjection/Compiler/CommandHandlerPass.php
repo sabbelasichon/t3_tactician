@@ -19,7 +19,7 @@ use Ssch\T3Tactician\DependencyInjection\Contract\HandlerMapping;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use TYPO3\CMS\Core\Core\Bootstrap;
-use TYPO3\CMS\Core\Package\FailsafePackageManager;
+use TYPO3\CMS\Core\Package\PackageManager;
 
 final class CommandHandlerPass implements CompilerPassInterface
 {
@@ -72,9 +72,7 @@ final class CommandHandlerPass implements CompilerPassInterface
     {
         $coreCache = Bootstrap::createCache('core');
         $packageCache = Bootstrap::createPackageCache($coreCache);
-        /** @var FailsafePackageManager $packageManager */
-        $packageManager = Bootstrap::createPackageManager(FailsafePackageManager::class, $packageCache);
-        $packageManager->initialize();
+        $packageManager = Bootstrap::createPackageManager(PackageManager::class, $packageCache);
 
         $config = new \ArrayObject();
         foreach ($packageManager->getAvailablePackages() as $package) {
