@@ -68,7 +68,7 @@ final class BusBuilderTest extends UnitTestCase
 
         self::assertSame(ContainerLocator::class, $container->getDefinition($handlerLocatorId)->getClass());
 
-        self::assertSame('some.method.inflector', (string) $container ->getDefinition($handlerId) ->getArgument(2));
+        self::assertSame('some.method.inflector', (string) $container->getDefinition($handlerId)->getArgument(2));
 
         self::assertTrue($container->hasAlias(CommandBus::class . ' $defaultBus'));
     }
