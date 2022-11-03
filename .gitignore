@@ -3,6 +3,6 @@
 .php_cs
 .php_cs.cache
 composer.lock
-phpunit.xml
 var
-.old
+Tests/Build/.phpunit.result.cache
+config

@@ -25,27 +25,27 @@ namespace Ssch\T3Tactician\Middleware;
  */
 
 use League\Tactician\Middleware;
-use Psr\Log\LoggerAwareInterface;
-use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LoggerInterface;
+use TYPO3\CMS\Core\Log\LogManagerInterface;
 
-final class LoggingMiddleware implements Middleware, LoggerAwareInterface
+final class LoggingMiddleware implements Middleware
 {
-    use LoggerAwareTrait;
+    private LoggerInterface $logger;
+
+    public function __construct(LogManagerInterface $logManager)
+    {
+        $this->logger = $logManager->getLogger(__CLASS__);
+    }
 
     public function execute($command, callable $next)
     {
         $commandClass = get_class($command);
 
-        if ($this->logger instanceof LoggerInterface) {
-            $this->logger->info(sprintf('Starting %s', $commandClass));
-        }
+        $this->logger->info(sprintf('Starting %s', $commandClass));
 
         $returnValue = $next($command);
 
-        if ($this->logger instanceof LoggerInterface) {
-            $this->logger->info(sprintf('%s finished', $commandClass));
-        }
+        $this->logger->info(sprintf('%s finished', $commandClass));
 
         return $returnValue;
     }
