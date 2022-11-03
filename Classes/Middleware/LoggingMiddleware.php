@@ -1,5 +1,13 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
+
+/*
+ * This file is part of the "t3_tactician" Extension for TYPO3 CMS.
+ *
+ * For the full copyright and license information, please read the
+ * LICENSE.txt file that was distributed with this source code.
+ */
 
 namespace Ssch\T3Tactician\Middleware;
 
@@ -17,28 +25,27 @@ namespace Ssch\T3Tactician\Middleware;
  */
 
 use League\Tactician\Middleware;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LoggerInterface;
-use TYPO3\CMS\Core\Log\LogManagerInterface;
 
-final class LoggingMiddleware implements Middleware
+final class LoggingMiddleware implements Middleware, LoggerAwareInterface
 {
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
-
-    public function __construct(LogManagerInterface $logManager)
-    {
-        $this->logger = $logManager->getLogger(__CLASS__);
-    }
+    use LoggerAwareTrait;
 
     public function execute($command, callable $next)
     {
-        $commandClass = \get_class($command);
+        $commandClass = get_class($command);
 
-        $this->logger->info(sprintf('Starting %s', $commandClass));
+        if ($this->logger instanceof LoggerInterface) {
+            $this->logger->info(sprintf('Starting %s', $commandClass));
+        }
+
         $returnValue = $next($command);
-        $this->logger->info(sprintf('%s finished', $commandClass));
+
+        if ($this->logger instanceof LoggerInterface) {
+            $this->logger->info(sprintf('%s finished', $commandClass));
+        }
 
         return $returnValue;
     }

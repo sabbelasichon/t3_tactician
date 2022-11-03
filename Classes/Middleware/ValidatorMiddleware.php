@@ -1,5 +1,13 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
+
+/*
+ * This file is part of the "t3_tactician" Extension for TYPO3 CMS.
+ *
+ * For the full copyright and license information, please read the
+ * LICENSE.txt file that was distributed with this source code.
+ */
 
 namespace Ssch\T3Tactician\Middleware;
 
@@ -17,39 +25,25 @@ namespace Ssch\T3Tactician\Middleware;
  */
 
 use League\Tactician\Middleware;
-use Ssch\T3Tactician\Validator\NoValidatorFoundException;
-use Ssch\T3Tactician\Validator\ValidatorResolverInterface;
+use TYPO3\CMS\Extbase\Validation\ValidatorResolver;
 
 final class ValidatorMiddleware implements Middleware
 {
-    /**
-     * @var ValidatorResolverInterface
-     */
-    private $validatorResolver;
+    private ValidatorResolver $validatorResolver;
 
-    public function __construct(ValidatorResolverInterface $validatorResolver)
+    public function __construct(ValidatorResolver $validatorResolver)
     {
         $this->validatorResolver = $validatorResolver;
     }
 
-    /**
-     * @param object $command
-     * @param callable $next
-     *
-     * @return mixed
-     * @throws InvalidCommandException
-     */
     public function execute($command, callable $next)
     {
-        try {
-            $validator = $this->validatorResolver->getBaseValidatorConjunction(\get_class($command));
+        $validator = $this->validatorResolver->getBaseValidatorConjunction(get_class($command));
 
-            $errorResult = $validator->validate($command);
+        $errorResult = $validator->validate($command);
 
-            if (\count($errorResult->getFlattenedErrors()) > 0) {
-                throw InvalidCommandException::onCommand($command, $errorResult);
-            }
-        } catch (NoValidatorFoundException $e) {
+        if (\count($errorResult->getFlattenedErrors()) > 0) {
+            throw InvalidCommandException::onCommand($command, $errorResult);
         }
 
         return $next($command);

@@ -1,118 +1,80 @@
 <?php
 
-namespace Ssch\T3Tactician\Tests\Unit\Middleware;
+declare(strict_types=1);
 
 /*
- * This file is part of the TYPO3 CMS project.
- *
- * It is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License, either version 2
- * of the License, or any later version.
+ * This file is part of the "t3_tactician" Extension for TYPO3 CMS.
  *
  * For the full copyright and license information, please read the
  * LICENSE.txt file that was distributed with this source code.
- *
- * The TYPO3 project - inspiring people to share!
  */
 
-use Nimut\TestingFramework\TestCase\UnitTestCase;
-use Prophecy\Argument;
+namespace Ssch\T3Tactician\Tests\Unit\Middleware;
+
+use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use Ssch\T3Tactician\Middleware\InvalidCommandException;
 use Ssch\T3Tactician\Middleware\ValidatorMiddleware;
-use Ssch\T3Tactician\Tests\Unit\Fixtures\Command\AddTaskCommand;
-use Ssch\T3Tactician\Validator\NoValidatorFoundException;
-use Ssch\T3Tactician\Validator\ValidatorResolverInterface;
+use Ssch\T3Tactician\Tests\Unit\Fixtures\FakeCommand;
 use TYPO3\CMS\Extbase\Error\Error;
 use TYPO3\CMS\Extbase\Error\Result;
-use TYPO3\CMS\Extbase\Validation\Validator\ValidatorInterface;
+use TYPO3\CMS\Extbase\Validation\Validator\NotEmptyValidator;
+use TYPO3\CMS\Extbase\Validation\ValidatorResolver;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
-/**
- * @covers \Ssch\T3Tactician\Middleware\ValidatorMiddleware
- * @covers \Ssch\T3Tactician\Validator\NoValidatorFoundException
- * @covers \Ssch\T3Tactician\Middleware\InvalidCommandException
- */
-class ValidatorMiddlewareTest extends UnitTestCase
+final class ValidatorMiddlewareTest extends UnitTestCase
 {
-    /**
-     * @var ValidatorMiddleware
-     */
-    protected $subject;
+    use ProphecyTrait;
+
+    private ValidatorMiddleware $subject;
 
     /**
-     * @var ObjectProphecy|ValidatorResolverInterface
+     * @var ObjectProphecy|ValidatorResolver
      */
-    protected $validatorResolver;
+    private ObjectProphecy $validatorResolver;
 
-    protected function setUp()
+    protected function setUp(): void
     {
-        $this->validatorResolver = $this->prophesize(ValidatorResolverInterface::class);
+        parent::setUp();
+        $this->validatorResolver = $this->prophesize(ValidatorResolver::class);
         $this->subject = new ValidatorMiddleware($this->validatorResolver->reveal());
     }
 
-    /**
-     * @test
-     */
-    public function validationIsSuccessfulCallNext()
+    public function testExecuteWithErrors(): void
     {
-        $validator = $this->prophesize(ValidatorInterface::class);
-        $errorResult = $this->prophesize(Result::class);
-        $errorResult->getFlattenedErrors()->willReturn([]);
-        $validator->validate(Argument::any())->willReturn($errorResult);
+        // Arrange
+        $result = new Result();
+        $result->addError(new Error('error', 1_667_333_210));
 
-        $this->validatorResolver->getBaseValidatorConjunction(Argument::any())->willReturn($validator->reveal());
+        $command = new FakeCommand();
+        $notEmptyValidator = $this->prophesize(NotEmptyValidator::class);
+        $notEmptyValidator->validate($command)
+            ->willReturn($result);
+        $this->validatorResolver->getBaseValidatorConjunction(FakeCommand::class)->willReturn($notEmptyValidator);
 
-        $this->assertNextIsCalled();
+        // Act
+        try {
+            $this->subject->execute($command, function () {
+            });
+        } catch (InvalidCommandException $e) {
+            // Assert
+            self::assertEquals($result, $e->getResult());
+            self::assertSame($command, $e->getCommand());
+        }
     }
 
-    /**
-     * @test
-     * @throws NoValidatorFoundException
-     */
-    public function noValidatorFoundSoCallNext()
+    public function testExecuteWithoutErrors(): void
     {
-        $this->validatorResolver->getBaseValidatorConjunction(Argument::any())->willThrow(NoValidatorFoundException::noValidatorFound(AddTaskCommand::class));
-        $this->assertNextIsCalled();
-    }
+        $result = new Result();
+        $command = new FakeCommand();
+        $notEmptyValidator = $this->prophesize(NotEmptyValidator::class);
+        $notEmptyValidator->validate($command)
+            ->willReturn($result);
+        $this->validatorResolver->getBaseValidatorConjunction(FakeCommand::class)->willReturn($notEmptyValidator);
 
-    private function assertNextIsCalled()
-    {
-        $command = new AddTaskCommand();
-        $nextClosure = function ($command) {
-            $this->assertInternalType('object', $command);
+        $next = fn () => 'executed';
 
-            return 'foobar';
-        };
-        $this->assertEquals(
-            'foobar',
-            $this->subject->execute($command, $nextClosure)
-        );
-    }
-
-    /**
-     * @test
-     * @throws NoValidatorFoundException
-     * @throws InvalidCommandException
-     */
-    public function onValidationErrorThrowsException()
-    {
-        $this->expectException(InvalidCommandException::class);
-
-        $validator = $this->prophesize(ValidatorInterface::class);
-        $errorResult = $this->prophesize(Result::class);
-        $errors = [
-            new Error('Some error message', 1547051759)
-        ];
-        $errorResult->getFlattenedErrors()->willReturn($errors);
-        $validator->validate(Argument::any())->willReturn($errorResult);
-        $this->validatorResolver->getBaseValidatorConjunction(Argument::any())->willReturn($validator->reveal());
-
-        $command = new AddTaskCommand();
-        $nextClosure = function ($command) {
-            $this->assertInternalType('object', $command);
-
-            return 'foobar';
-        };
-        $this->subject->execute($command, $nextClosure);
+        $actual = $this->subject->execute($command, $next);
+        self::assertSame('executed', $actual);
     }
 }

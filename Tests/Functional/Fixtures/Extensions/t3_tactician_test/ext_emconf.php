@@ -1,6 +1,15 @@
 <?php
 
-$EM_CONF[$_EXTKEY] = [
+declare(strict_types=1);
+
+/*
+ * This file is part of the "t3_tactician" Extension for TYPO3 CMS.
+ *
+ * For the full copyright and license information, please read the
+ * LICENSE.txt file that was distributed with this source code.
+ */
+
+$EM_CONF['t3_tactician_test'] = [
     'title' => 'Test extension for Tactician command bus wrapper',
     'description' => 'Test extension for Tactician command bus wrapper',
     'category' => 'misc',
@@ -19,11 +28,9 @@ $EM_CONF[$_EXTKEY] = [
     ],
     'constraints' => [
         'depends' => [
-            'typo3' => '8.7.0-9.5.99',
+            'typo3' => '11.5.0-12.9.99',
         ],
-        'conflicts' => [
-        ],
-        'suggests' => [
-        ],
+        'conflicts' => [],
+        'suggests' => [],
     ],
 ];
