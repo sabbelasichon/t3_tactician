@@ -6,6 +6,7 @@ parameters:
   paths:
     - Classes
     - Tests
+    - Configuration
   excludePaths:
     analyse:
       -  Tests/Functional/Fixtures/Extensions/*
