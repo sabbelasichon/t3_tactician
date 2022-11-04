@@ -12,6 +12,7 @@ declare(strict_types=1);
 use League\Tactician\Handler\CommandHandlerMiddleware;
 use League\Tactician\Handler\MethodNameInflector\ClassNameInflector;
 use League\Tactician\Handler\MethodNameInflector\InvokeInflector;
+use Ssch\T3Tactician\Middleware\EventMiddleware;
 use Ssch\T3Tactician\Middleware\ValidatorMiddleware;
 
 return [
@@ -22,7 +23,11 @@ return [
         ],
         'foo' => [
             'method_inflector' => ClassNameInflector::class,
-            'middleware' => [ValidatorMiddleware::class, 'tactician.commandbus.foo.middleware.command_handler'],
+            'middleware' => [
+                EventMiddleware::class,
+                ValidatorMiddleware::class,
+                'tactician.commandbus.foo.middleware.command_handler',
+            ],
         ],
         'bar' => [
             'middleware' => [ValidatorMiddleware::class, CommandHandlerMiddleware::class],
