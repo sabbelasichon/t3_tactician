@@ -35,7 +35,7 @@ return static function (ContainerConfigurator $containerConfigurator, ContainerB
         ->autoconfigure();
 
     $services->load('Ssch\\T3Tactician\\', __DIR__ . '/../Classes/')
-        ->exclude([__DIR__ . '/../Classes/DependencyInjection']);
+        ->exclude([__DIR__ . '/../Classes/DependencyInjection', __DIR__ . '/../Classes/Exception']);
 
     $services->set(LockingMiddleware::class);
     $services->set(HandleInflector::class);

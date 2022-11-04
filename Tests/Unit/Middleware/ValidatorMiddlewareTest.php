@@ -13,7 +13,7 @@ namespace Ssch\T3Tactician\Tests\Unit\Middleware;
 
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
-use Ssch\T3Tactician\Middleware\InvalidCommandException;
+use Ssch\T3Tactician\Exception\InvalidCommandException;
 use Ssch\T3Tactician\Middleware\ValidatorMiddleware;
 use Ssch\T3Tactician\Tests\Unit\Fixtures\FakeCommand;
 use TYPO3\CMS\Extbase\Error\Error;

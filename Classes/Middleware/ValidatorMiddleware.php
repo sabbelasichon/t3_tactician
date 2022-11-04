@@ -25,6 +25,7 @@ namespace Ssch\T3Tactician\Middleware;
  */
 
 use League\Tactician\Middleware;
+use Ssch\T3Tactician\Exception\InvalidCommandException;
 use TYPO3\CMS\Extbase\Validation\ValidatorResolver;
 
 final class ValidatorMiddleware implements Middleware
@@ -38,7 +39,7 @@ final class ValidatorMiddleware implements Middleware
 
     public function execute($command, callable $next)
     {
-        $validator = $this->validatorResolver->getBaseValidatorConjunction(get_class($command));
+        $validator = $this->validatorResolver->getBaseValidatorConjunction(\get_class($command));
 
         $errorResult = $validator->validate($command);
 

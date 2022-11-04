@@ -39,7 +39,7 @@ final class LoggingMiddleware implements Middleware
 
     public function execute($command, callable $next)
     {
-        $commandClass = get_class($command);
+        $commandClass = \get_class($command);
 
         $this->logger->info(sprintf('Starting %s', $commandClass));
 

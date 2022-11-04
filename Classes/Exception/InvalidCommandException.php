@@ -9,7 +9,7 @@ declare(strict_types=1);
  * LICENSE.txt file that was distributed with this source code.
  */
 
-namespace Ssch\T3Tactician\Middleware;
+namespace Ssch\T3Tactician\Exception;
 
 use function count;
 use League\Tactician\Exception\Exception;
@@ -24,7 +24,7 @@ final class InvalidCommandException extends \RuntimeException implements Excepti
     public static function onCommand(object $command, Result $result): self
     {
         $exception = new self(
-            'Validation failed for ' . get_class($command) .
+            'Validation failed for ' . \get_class($command) .
             ' with ' . count($result->getFlattenedErrors()) . ' violation(s).'
         );
 
