@@ -13,7 +13,7 @@ namespace Ssch\T3Tactician\Tests\Unit\Fixtures;
 
 final class FakeCommandHandler
 {
-    public function __invoke(FakeCommand $registerUserCommand): string
+    public function __invoke(FakeCommand $command): string
     {
         return 'command.executed';
     }

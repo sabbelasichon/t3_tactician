@@ -22,7 +22,7 @@ return [
         ],
         'foo' => [
             'method_inflector' => ClassNameInflector::class,
-            'middleware' => [ValidatorMiddleware::class, CommandHandlerMiddleware::class],
+            'middleware' => [ValidatorMiddleware::class, 'tactician.commandbus.foo.middleware.command_handler'],
         ],
         'bar' => [
             'middleware' => [ValidatorMiddleware::class, CommandHandlerMiddleware::class],

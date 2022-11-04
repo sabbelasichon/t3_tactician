@@ -17,20 +17,20 @@ use Ssch\T3Tactician\Tests\Unit\Fixtures\NonHandledFakeCommand;
 
 final class MyService
 {
-    private CommandBus $barBus;
+    private CommandBus $bus;
 
-    public function __construct(CommandBus $barBus)
+    public function __construct(CommandBus $bus)
     {
-        $this->barBus = $barBus;
+        $this->bus = $bus;
     }
 
     public function handleFakeCommand(): string
     {
-        return $this->barBus->handle(new FakeCommand());
+        return $this->bus->handle(new FakeCommand());
     }
 
     public function failToHandleCommand(): void
     {
-        $this->barBus->handle(new NonHandledFakeCommand());
+        $this->bus->handle(new NonHandledFakeCommand());
     }
 }

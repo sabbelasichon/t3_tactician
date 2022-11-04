@@ -13,4 +13,8 @@ namespace Ssch\T3Tactician\Tests\Unit\Fixtures;
 
 final class OtherFakeCommandHandler
 {
+    public function otherFakeCommand(OtherFakeCommand $command): string
+    {
+        return 'command.executed';
+    }
 }

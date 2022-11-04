@@ -27,6 +27,9 @@ namespace Ssch\T3Tactician\Tests\Functional;
 use League\Tactician\CommandBus;
 use League\Tactician\Exception\MissingHandlerException;
 use Ssch\T3TacticianTest\Service\MyService;
+use Ssch\T3TacticianTest\Service\MyServiceUsingCommandBusBar;
+use Ssch\T3TacticianTest\Service\MyServiceUsingCommandBusFoo;
+use Ssch\T3TacticianTest\Service\MyServiceWithAutowiredCommandBusFoo;
 use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
 
 final class CommandBusTest extends FunctionalTestCase
@@ -60,5 +63,27 @@ final class CommandBusTest extends FunctionalTestCase
 
         // Act
         $this->get(MyService::class)->failToHandleCommand();
+    }
+
+    public function testThatOtherCommandCannotBeHandledByCommandBusBar(): void
+    {
+        // Assert
+        $this->expectException(MissingHandlerException::class);
+
+        // Act
+        $this->get(MyServiceUsingCommandBusBar::class)->commandBusCannotHandleCommand();
+    }
+
+    public function testThatOtherCommandCanBeHandledByCommandBusFoo(): void
+    {
+        self::assertSame('command.executed', $this->get(MyServiceUsingCommandBusFoo::class)->handleOtherFakeCommand());
+    }
+
+    public function testThatOtherCommandBusFooIsCorrectlyAutowiredAndCanHandleOtherCommand(): void
+    {
+        self::assertSame(
+            'command.executed',
+            $this->get(MyServiceWithAutowiredCommandBusFoo::class)->handleOtherFakeCommand()
+        );
     }
 }
