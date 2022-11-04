@@ -25,6 +25,7 @@ namespace Ssch\T3Tactician\Tests\Functional;
  */
 
 use League\Tactician\CommandBus;
+use League\Tactician\Exception\MissingHandlerException;
 use Ssch\T3TacticianTest\Service\MyService;
 use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
 
@@ -50,5 +51,14 @@ final class CommandBusTest extends FunctionalTestCase
     public function testThatCommandCanBeHandled(): void
     {
         self::assertSame('command.executed', $this->get(MyService::class)->handleFakeCommand());
+    }
+
+    public function testThatCommandCannotBeHandled(): void
+    {
+        // Assert
+        $this->expectException(MissingHandlerException::class);
+
+        // Act
+        $this->get(MyService::class)->failToHandleCommand();
     }
 }

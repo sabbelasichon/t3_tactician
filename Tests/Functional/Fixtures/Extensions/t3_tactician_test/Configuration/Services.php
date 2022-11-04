@@ -24,4 +24,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(FakeCommandHandler::class)->tag('tactician.handler', [
         'command' => FakeCommand::class,
     ]);
+
+    $services->set(FakeCommandHandler::class)->tag('tactician.handler', [
+        'command' => FakeCommand::class,
+    ]);
 };

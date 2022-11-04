@@ -13,6 +13,7 @@ namespace Ssch\T3TacticianTest\Service;
 
 use League\Tactician\CommandBus;
 use Ssch\T3Tactician\Tests\Unit\Fixtures\FakeCommand;
+use Ssch\T3Tactician\Tests\Unit\Fixtures\NonHandledFakeCommand;
 
 final class MyService
 {
@@ -26,5 +27,10 @@ final class MyService
     public function handleFakeCommand(): string
     {
         return $this->barBus->handle(new FakeCommand());
+    }
+
+    public function failToHandleCommand(): void
+    {
+        $this->barBus->handle(new NonHandledFakeCommand());
     }
 }
