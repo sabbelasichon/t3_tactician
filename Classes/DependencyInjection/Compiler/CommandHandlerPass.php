@@ -19,7 +19,9 @@ use Ssch\T3Tactician\DependencyInjection\Contract\HandlerMapping;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use TYPO3\CMS\Core\Core\Bootstrap;
+use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\Package\PackageManager;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 final class CommandHandlerPass implements CompilerPassInterface
 {
@@ -70,9 +72,15 @@ final class CommandHandlerPass implements CompilerPassInterface
 
     private function createCommandBusConfigurationFromPackages(): \ArrayObject
     {
-        $coreCache = Bootstrap::createCache('core');
-        $packageCache = Bootstrap::createPackageCache($coreCache);
-        $packageManager = Bootstrap::createPackageManager(PackageManager::class, $packageCache);
+        $versionInformation = GeneralUtility::makeInstance(Typo3Version::class);
+        if ($versionInformation->getMajorVersion() >= 11) {
+            $coreCache = Bootstrap::createCache('core');
+            $packageCache = Bootstrap::createPackageCache($coreCache);
+            $packageManager = Bootstrap::createPackageManager(PackageManager::class, $packageCache);
+        } else {
+            $coreCache = Bootstrap::createCache('core');
+            $packageManager = Bootstrap::createPackageManager(PackageManager::class, $coreCache);
+        }
 
         $config = new \ArrayObject();
         foreach ($packageManager->getAvailablePackages() as $package) {
