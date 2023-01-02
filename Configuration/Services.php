@@ -49,7 +49,7 @@ return static function (ContainerConfigurator $containerConfigurator, ContainerB
     $services->set(ValidatorMiddleware::class);
 
     $containerBuilder->addCompilerPass(
-        new CommandHandlerPass(new CompositeMapping(new TypeHintMapping(), new ClassNameMapping()),)
+        new CommandHandlerPass(new CompositeMapping(new TypeHintMapping(), new ClassNameMapping()))
     );
 
     $services->set(DebugCommand::class)->tag('console.command', [
