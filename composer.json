@@ -34,7 +34,7 @@
     "jangregor/phpstan-prophecy": "^1.0",
     "phpspec/prophecy-phpunit": "^2.0",
     "phpstan/extension-installer": "^1.2",
-    "typo3/testing-framework": "^6.16",
+    "typo3/testing-framework": "^7.0",
     "helhum/typo3-console": "^7.1"
   },
   "replace": {
