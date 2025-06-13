@@ -19,11 +19,9 @@ use Ssch\T3Tactician\Middleware\Event\CommandReceived;
 
 final class EventMiddleware implements Middleware
 {
-    private EventDispatcherInterface $eventDispatcher;
-
-    public function __construct(EventDispatcherInterface $eventDispatcher)
-    {
-        $this->eventDispatcher = $eventDispatcher;
+    public function __construct(
+        private readonly EventDispatcherInterface $eventDispatcher
+    ) {
     }
 
     public function execute($command, callable $next)

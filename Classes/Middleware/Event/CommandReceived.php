@@ -13,11 +13,9 @@ namespace Ssch\T3Tactician\Middleware\Event;
 
 final class CommandReceived implements CommandEventInterface
 {
-    private object $command;
-
-    public function __construct(object $command)
-    {
-        $this->command = $command;
+    public function __construct(
+        private readonly object $command
+    ) {
     }
 
     public function getCommand(): object

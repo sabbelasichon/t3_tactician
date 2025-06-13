@@ -16,11 +16,9 @@ use Ssch\T3Tactician\Tests\Unit\Fixtures\OtherFakeCommand;
 
 final class MyServiceUsingCommandBusBar
 {
-    private CommandBus $commandBus;
-
-    public function __construct(CommandBus $commandBus)
-    {
-        $this->commandBus = $commandBus;
+    public function __construct(
+        private readonly CommandBus $commandBus
+    ) {
     }
 
     public function commandBusCannotHandleCommand(): void

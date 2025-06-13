@@ -19,7 +19,7 @@ final class CompositeMapping implements HandlerMapping
     /**
      * @var HandlerMapping[]
      */
-    private array $strategies;
+    private readonly array $strategies;
 
     public function __construct(HandlerMapping ...$strategies)
     {

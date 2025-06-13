@@ -11,9 +11,9 @@ declare(strict_types=1);
 
 namespace Ssch\T3Tactician\Exception;
 
-use function count;
 use League\Tactician\Exception\Exception;
 use TYPO3\CMS\Extbase\Error\Result;
+use function count;
 
 final class InvalidCommandException extends \RuntimeException implements Exception
 {
@@ -24,7 +24,7 @@ final class InvalidCommandException extends \RuntimeException implements Excepti
     public static function onCommand(object $command, Result $result): self
     {
         $exception = new self(
-            'Validation failed for ' . \get_class($command) .
+            'Validation failed for ' . $command::class .
             ' with ' . count($result->getFlattenedErrors()) . ' violation(s).'
         );
 

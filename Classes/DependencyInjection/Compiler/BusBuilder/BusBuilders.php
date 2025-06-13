@@ -25,7 +25,7 @@ final class BusBuilders implements \IteratorAggregate
      */
     private array $busBuilders = [];
 
-    private string $defaultBusId;
+    private readonly string $defaultBusId;
 
     /**
      * @param BusBuilder[] $busBuilders
