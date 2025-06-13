@@ -17,11 +17,9 @@ use Ssch\T3Tactician\Tests\Unit\Fixtures\NonHandledFakeCommand;
 
 final class MyService
 {
-    private CommandBus $bus;
-
-    public function __construct(CommandBus $bus)
-    {
-        $this->bus = $bus;
+    public function __construct(
+        private readonly CommandBus $bus
+    ) {
     }
 
     public function handleFakeCommand(): string

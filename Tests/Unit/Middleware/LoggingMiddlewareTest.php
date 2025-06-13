@@ -24,7 +24,7 @@ final class LoggingMiddlewareTest extends UnitTestCase
     use ProphecyTrait;
 
     /**
-     * @var ObjectProphecy|LoggerInterface
+     * @var ObjectProphecy<LoggerInterface>
      */
     private ObjectProphecy $logger;
 

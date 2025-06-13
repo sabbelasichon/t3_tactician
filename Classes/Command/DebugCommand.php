@@ -18,13 +18,10 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 final class DebugCommand extends Command
 {
-    private array $mappings;
-
-    public function __construct(array $mappings = [])
-    {
+    public function __construct(
+        private readonly array $mappings = []
+    ) {
         parent::__construct();
-
-        $this->mappings = $mappings;
     }
 
     public function execute(InputInterface $input, OutputInterface $output): int

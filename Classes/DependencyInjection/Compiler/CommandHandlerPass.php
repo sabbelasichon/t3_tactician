@@ -25,11 +25,9 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 final class CommandHandlerPass implements CompilerPassInterface
 {
-    private HandlerMapping $handlerMapping;
-
-    public function __construct(HandlerMapping $handlerMapping)
-    {
-        $this->handlerMapping = $handlerMapping;
+    public function __construct(
+        private readonly HandlerMapping $handlerMapping
+    ) {
     }
 
     public function process(ContainerBuilder $container): void
@@ -73,14 +71,9 @@ final class CommandHandlerPass implements CompilerPassInterface
     private function createCommandBusConfigurationFromPackages(): \ArrayObject
     {
         $versionInformation = GeneralUtility::makeInstance(Typo3Version::class);
-        if ($versionInformation->getMajorVersion() >= 11) {
-            $coreCache = Bootstrap::createCache('core');
-            $packageCache = Bootstrap::createPackageCache($coreCache);
-            $packageManager = Bootstrap::createPackageManager(PackageManager::class, $packageCache);
-        } else {
-            $coreCache = Bootstrap::createCache('core');
-            $packageManager = Bootstrap::createPackageManager(PackageManager::class, $coreCache);
-        }
+        $coreCache = Bootstrap::createCache('core');
+        $packageCache = Bootstrap::createPackageCache($coreCache);
+        $packageManager = Bootstrap::createPackageManager(PackageManager::class, $packageCache);
 
         $config = new \ArrayObject();
         foreach ($packageManager->getAvailablePackages() as $package) {

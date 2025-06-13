@@ -30,16 +30,14 @@ use TYPO3\CMS\Extbase\Validation\ValidatorResolver;
 
 final class ValidatorMiddleware implements Middleware
 {
-    private ValidatorResolver $validatorResolver;
-
-    public function __construct(ValidatorResolver $validatorResolver)
-    {
-        $this->validatorResolver = $validatorResolver;
+    public function __construct(
+        private readonly ValidatorResolver $validatorResolver
+    ) {
     }
 
     public function execute($command, callable $next)
     {
-        $validator = $this->validatorResolver->getBaseValidatorConjunction(\get_class($command));
+        $validator = $this->validatorResolver->getBaseValidatorConjunction($command::class);
 
         $errorResult = $validator->validate($command);
 

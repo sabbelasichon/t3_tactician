@@ -13,16 +13,12 @@ namespace Ssch\T3Tactician\Middleware\Event;
 
 final class CommandFailed implements CommandEventInterface
 {
-    private object $command;
-
-    private \Exception $exception;
-
     private bool $exceptionCaught = false;
 
-    public function __construct(object $command, \Exception $exception)
-    {
-        $this->command = $command;
-        $this->exception = $exception;
+    public function __construct(
+        private readonly object $command,
+        private readonly \Exception $exception
+    ) {
     }
 
     public function getException(): \Exception

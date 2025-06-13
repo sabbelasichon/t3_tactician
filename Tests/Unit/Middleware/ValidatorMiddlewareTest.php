@@ -18,7 +18,8 @@ use Ssch\T3Tactician\Middleware\ValidatorMiddleware;
 use Ssch\T3Tactician\Tests\Unit\Fixtures\FakeCommand;
 use TYPO3\CMS\Extbase\Error\Error;
 use TYPO3\CMS\Extbase\Error\Result;
-use TYPO3\CMS\Extbase\Validation\Validator\NotEmptyValidator;
+use TYPO3\CMS\Extbase\Validation\Validator\ConjunctionValidator;
+use TYPO3\CMS\Extbase\Validation\Validator\ValidatorInterface;
 use TYPO3\CMS\Extbase\Validation\ValidatorResolver;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
@@ -29,7 +30,7 @@ final class ValidatorMiddlewareTest extends UnitTestCase
     private ValidatorMiddleware $subject;
 
     /**
-     * @var ObjectProphecy|ValidatorResolver
+     * @var ObjectProphecy<ValidatorResolver>
      */
     private ObjectProphecy $validatorResolver;
 
@@ -47,10 +48,13 @@ final class ValidatorMiddlewareTest extends UnitTestCase
         $result->addError(new Error('error', 1_667_333_210));
 
         $command = new FakeCommand();
-        $notEmptyValidator = $this->prophesize(NotEmptyValidator::class);
-        $notEmptyValidator->validate($command)
+        $validator = $this->prophesize(ValidatorInterface::class);
+        $validator->validate($command)
             ->willReturn($result);
-        $this->validatorResolver->getBaseValidatorConjunction(FakeCommand::class)->willReturn($notEmptyValidator);
+
+        $conjunctionValidator = new ConjunctionValidator();
+        $conjunctionValidator->addValidator($validator->reveal());
+        $this->validatorResolver->getBaseValidatorConjunction(FakeCommand::class)->willReturn($conjunctionValidator);
 
         // Act
         try {
@@ -67,10 +71,12 @@ final class ValidatorMiddlewareTest extends UnitTestCase
     {
         $result = new Result();
         $command = new FakeCommand();
-        $notEmptyValidator = $this->prophesize(NotEmptyValidator::class);
-        $notEmptyValidator->validate($command)
+        $validator = $this->prophesize(ValidatorInterface::class);
+        $validator->validate($command)
             ->willReturn($result);
-        $this->validatorResolver->getBaseValidatorConjunction(FakeCommand::class)->willReturn($notEmptyValidator);
+        $conjunctionValidator = new ConjunctionValidator();
+        $conjunctionValidator->addValidator($validator->reveal());
+        $this->validatorResolver->getBaseValidatorConjunction(FakeCommand::class)->willReturn($conjunctionValidator);
 
         $next = fn () => 'executed';
 

@@ -16,11 +16,9 @@ use Ssch\T3Tactician\Tests\Unit\Fixtures\OtherFakeCommand;
 
 final class MyServiceWithAutowiredCommandBusFoo
 {
-    private CommandBus $fooBus;
-
-    public function __construct(CommandBus $fooBus)
-    {
-        $this->fooBus = $fooBus;
+    public function __construct(
+        private readonly CommandBus $fooBus
+    ) {
     }
 
     public function handleOtherFakeCommand(): string
