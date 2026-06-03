@@ -35,7 +35,7 @@
     "phpspec/prophecy-phpunit": "^2.0",
     "phpstan/extension-installer": "^1.4",
     "typo3/testing-framework": "^9.5.0",
-    "helhum/typo3-console": "^8.1.1"
+    "helhum/typo3-console": "^9.0.0"
   },
   "replace": {
     "typo3-ter/t3-tactician": "self.version"
